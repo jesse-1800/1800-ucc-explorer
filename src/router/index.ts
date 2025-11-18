@@ -16,15 +16,9 @@ const protected_routes = [
   '/',
   '/dashboard',
   '/partners',
-  '/pricing',
   '/providers',
-  '/proposals',
   '/users',
-  '/templates',
-  '/templates/build',
-  '/paperwork',
   '/settings',
-  '/it-services',
 ]
 
 // Patch the routes that are to be protected

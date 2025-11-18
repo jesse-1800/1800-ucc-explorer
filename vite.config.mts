@@ -75,7 +75,7 @@ export default defineConfig({
     ],
   },
   server: {
-    port: 7000,
+    port: 6000,
     cors: true,
   },
   css: {
