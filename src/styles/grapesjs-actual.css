@@ -1,0 +1,131 @@
+/* This css is meant for View Proposal ONLY */
+#view-proposal .pdf-page {
+  width: 8.5in;
+  height: 11in;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  margin: 50px auto;
+  color: #333;
+  /* For Playwright PDF Conversion */
+  page-break-after: always;
+}
+#view-proposal .pdf-page ol, #view-proposal .pdf-page ul {
+  margin-left: 15px;
+}
+@media (max-width: 1024px) {
+  #view-proposal .pdf-page {
+    width: auto;
+    height: unset;
+  }
+}
+@media (max-width: 768px) {
+  #view-proposal .pdf-page {
+    width: auto;
+    height: unset;
+  }
+}
+#view-proposal .pdf-title {
+  font-size: 35px;
+  font-weight: bold;
+  text-align: center;
+}
+#view-proposal table {
+  border-collapse: collapse;
+}
+#view-proposal .equipments-page table.product-details {
+  width: 100%;
+  border-collapse: collapse;
+}
+#view-proposal .equipments-page table.product-details tr td {
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+}
+#view-proposal .equipments-page div.product-description {
+  margin-top: 50px;
+}
+#view-proposal .demo-product-page div.product-specs table.product-details {
+  width: 100%;
+  border-collapse: collapse;
+}
+#view-proposal .demo-product-page div.product-specs table.product-details tr td {
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+}
+#view-proposal .summary-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  overflow: hidden;
+}
+#view-proposal .summary-table th {
+  padding: 10px 10px;
+  border: 1px solid #e0e0e0;
+}
+#view-proposal .summary-table td {
+  padding: 10px 10px;
+  border: 1px solid #e0e0e0;
+  vertical-align: middle;
+}
+#view-proposal .summary-table td .mdi {
+  font-size: 16px;
+  margin-right: 2px;
+}
+#view-proposal .summary-table td ul {
+  padding-left: 15px;
+}
+#view-proposal .summary-table td.cost-column {
+  text-transform: capitalize;
+  text-align: right;
+  padding: 5px;
+}
+#view-proposal .summary-table td.cost-column p {
+  font-size: 14px;
+  margin: 0;
+}
+#view-proposal .summary-table td.cost-column small {
+  font-weight: normal;
+  margin: 0;
+}
+#view-proposal .summary-table thead {
+  background-color: #f5f5f5;
+  color: #424242;
+  font-weight: 500;
+}
+#view-proposal .summary-table tfoot {
+  border-top: 1px solid #e0e0e0;
+}
+#view-proposal .summary-table tfoot tr.selected {
+  background: #f5f5f5;
+}
+#view-proposal .summary-table tbody tr:hover {
+  background-color: #f0f0f0;
+  transition: background-color 0.2s ease;
+}
+#view-proposal .summary-table tbody tr:last-child td {
+  border-bottom: none;
+}
+#view-proposal .accepted-proposal-table {
+  min-width: 400px;
+  border-collapse: collapse;
+  font-size: 14px;
+  overflow: hidden;
+}
+@media (max-width: 500px) {
+  #view-proposal .accepted-proposal-table {
+    min-width: unset;
+    width: 100%;
+  }
+}
+#view-proposal .accepted-proposal-table th,
+#view-proposal .accepted-proposal-table td {
+  padding: 10px 10px;
+  background: rgba(0, 131, 71, 0.1);
+  border: 1px solid rgba(0, 76, 43, 0.15);
+}
+#view-proposal .accept-proposal-btn {
+  background: var(--partner-brand-color);
+  font-weight: normal !important;
+}
+
+/*# sourceMappingURL=grapesjs-actual.css.map */

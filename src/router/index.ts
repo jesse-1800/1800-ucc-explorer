@@ -1,0 +1,82 @@
+/**
+ * router/index.ts
+ *
+ * Automatic routes for `./src/pages/*.vue`
+ */
+
+// Composables
+import { useAuth0 } from "@auth0/auth0-vue";
+import { GlobalStore } from "@/stores/globals";
+import { routes } from 'vue-router/auto-routes';
+import type { ProfileType } from "@/types/StoreTypes";
+import { createRouter, createWebHistory } from 'vue-router/auto';
+
+// List of routes to protect
+const protected_routes = [
+  '/',
+  '/dashboard',
+  '/partners',
+  '/pricing',
+  '/providers',
+  '/proposals',
+  '/users',
+  '/templates',
+  '/templates/build',
+  '/paperwork',
+  '/settings',
+  '/it-services',
+]
+
+// Patch the routes that are to be protected
+routes.forEach(route => {
+  if (protected_routes.includes(route.path.toLowerCase())) {
+    route.meta = { ...(route.meta || {}), requiresAuth: true }
+  }
+})
+
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes,
+});
+
+// Validate with Auth0 and set "profile" in pinia
+router.beforeEach(async (to, from, next) => {
+  const store = GlobalStore()
+  const { isAuthenticated, user, isLoading } = useAuth0()
+  const { SetProfile } = store
+
+  while (isLoading.value) {
+    await new Promise(resolve => setTimeout(resolve, 50))
+  }
+  if (isAuthenticated.value && user.value) {
+    const role = user.value["https://dummy-url-here-is-fine-no-need-to-change-it.com/roles"][0] || null;
+    SetProfile({...user.value,role} as ProfileType);
+  } else {
+    SetProfile(null)
+  }
+  if (to.meta.requiresAuth && !isAuthenticated.value) {
+    return next('/login')
+  }
+  next()
+})
+
+// Workaround for https://github.com/vitejs/vite/issues/11804
+router.onError((err, to) => {
+  if (err?.message?.includes?.('Failed to fetch dynamically imported module')) {
+    if (localStorage.getItem('vuetify:dynamic-reload')) {
+      console.error('Dynamic import error, reloading page did not fix it', err)
+    } else {
+      console.log('Reloading page to fix dynamic import error')
+      localStorage.setItem('vuetify:dynamic-reload', 'true')
+      location.assign(to.fullPath)
+    }
+  } else {
+    console.error(err)
+  }
+})
+
+router.isReady().then(() => {
+  localStorage.removeItem('vuetify:dynamic-reload')
+})
+
+export default router;

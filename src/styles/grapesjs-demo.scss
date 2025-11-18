@@ -1,0 +1,62 @@
+@use './mixins' as *;
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+
+.gjs-dashed {
+  font-family: 'Outfit', Roboto, sans-serif;
+
+  .pdf-page {
+    @include pdf_page;
+  }
+  .pdf-title {
+    @include pdf_title;
+  }
+  table {
+    @include pdf_table;
+  }
+
+  /* DEMOS (FOR THE SAKE OF VISUALS FOR PARTNER USERS) */
+  .demo-cover-letter {
+    width: 100%;
+    height: 600px;
+    @include middle_center;
+  }
+  .demo-equipments-page {
+    @include pdf_page;
+    @include middle_center;
+  }
+  .demo-product-page {
+    .product-title {
+    }
+    .product-image {
+      background-image:url('https://products-server.1800officesolutions.com/storage/uploads/products/product-img/54dbc65564c611aefcf34c88985b1796.jpeg');
+      background-size: 100% 100%;
+      position: relative;
+      @include remove_content;
+      @include middle_center;
+      @include placeholder('{product_image}');
+    }
+    .product-specs {
+      position: relative;
+      @include middle_center;
+    }
+    .product-description {
+      height: 150px;
+      @include middle_center;
+    }
+  }
+  .demo-summary-table {
+    height: 400px;
+    /*background-image: url('/assets/img/demos/summary.png');*/
+    background-size: 100% 100%;
+    @include remove_content;
+    @include middle_center;
+    @include placeholder('{summary_table}');
+  }
+  .demo-summary-button {
+    color: transparent;
+    width: 270px;
+    height: 54px;
+    background-image: url('/assets/img/demos/summary-btn.png');
+    background-size: 100% 100%;
+  }
+}

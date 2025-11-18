@@ -1,0 +1,146 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
+.gjs-dashed {
+  font-family: "Outfit", Roboto, sans-serif;
+  /* DEMOS (FOR THE SAKE OF VISUALS FOR PARTNER USERS) */
+}
+.gjs-dashed .pdf-page {
+  width: 8.5in;
+  height: 11in;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  margin: 50px auto;
+  color: #333;
+  /* For Playwright PDF Conversion */
+  page-break-after: always;
+}
+.gjs-dashed .pdf-page ol, .gjs-dashed .pdf-page ul {
+  margin-left: 15px;
+}
+@media (max-width: 1024px) {
+  .gjs-dashed .pdf-page {
+    width: auto;
+    height: unset;
+  }
+}
+@media (max-width: 768px) {
+  .gjs-dashed .pdf-page {
+    width: auto;
+    height: unset;
+  }
+}
+.gjs-dashed .pdf-title {
+  font-size: 35px;
+  font-weight: bold;
+  text-align: center;
+}
+.gjs-dashed table {
+  border-collapse: collapse;
+}
+.gjs-dashed .demo-cover-letter {
+  width: 100%;
+  height: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.gjs-dashed .demo-equipments-page {
+  width: 8.5in;
+  height: 11in;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  margin: 50px auto;
+  color: #333;
+  /* For Playwright PDF Conversion */
+  page-break-after: always;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.gjs-dashed .demo-equipments-page ol, .gjs-dashed .demo-equipments-page ul {
+  margin-left: 15px;
+}
+@media (max-width: 1024px) {
+  .gjs-dashed .demo-equipments-page {
+    width: auto;
+    height: unset;
+  }
+}
+@media (max-width: 768px) {
+  .gjs-dashed .demo-equipments-page {
+    width: auto;
+    height: unset;
+  }
+}
+.gjs-dashed .demo-product-page .product-image {
+  background-image: url("https://products-server.1800officesolutions.com/storage/uploads/products/product-img/54dbc65564c611aefcf34c88985b1796.jpeg");
+  background-size: 100% 100%;
+  position: relative;
+  content: none;
+  color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.gjs-dashed .demo-product-page .product-image::before {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  color: white;
+  content: "{product_image}";
+  display: flex;
+  font-weight: bold;
+  position: absolute;
+  align-items: center;
+  pointer-events: none;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+.gjs-dashed .demo-product-page .product-specs {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.gjs-dashed .demo-product-page .product-description {
+  height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.gjs-dashed .demo-summary-table {
+  height: 400px;
+  /*background-image: url('/assets/img/demos/summary.png');*/
+  background-size: 100% 100%;
+  content: none;
+  color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.gjs-dashed .demo-summary-table::before {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  color: white;
+  content: "{summary_table}";
+  display: flex;
+  font-weight: bold;
+  position: absolute;
+  align-items: center;
+  pointer-events: none;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+.gjs-dashed .demo-summary-button {
+  color: transparent;
+  width: 270px;
+  height: 54px;
+  background-image: url("/assets/img/demos/summary-btn.png");
+  background-size: 100% 100%;
+}
+
+/*# sourceMappingURL=grapesjs-demo.css.map */
