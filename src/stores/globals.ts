@@ -164,11 +164,11 @@ export const GlobalStore = defineStore('globals', {
     // Fetches all data reduce overhead
     async FetchAllData(token:string) {
       return await ProposalServer(token).get(`/data/fetch/${this.FindPartnerId()}`).then(res=>{
-        this.auth0_users       = res.data.users;
-        this.ucc_files         = res.data.files;
+        this.auth0_users       = res.data.auth0_users;
         this.auth0_roles       = res.data.auth0_roles;
-        this.idp_partners      = res.data.partners;
-        this.idp_partner_users = res.data.partner_users;
+        this.ucc_files         = res.data.ucc_files;
+        this.idp_partners      = res.data.idp_partners;
+        this.idp_partner_users = res.data.idp_partner_users;
         this.is_data_loaded    = true;
       });
     },

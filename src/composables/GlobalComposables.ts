@@ -22,15 +22,11 @@ export const my_user_id = computed(() => {
   return profile.value?.sub
 });
 export const my_partner_id = computed(() => {
-  if (!profile.value) return ("");
+  if (!profile.value) return null;
   const partner = idp_partner_users.value?.find((pu:any) => {
     return pu.user_id == profile.value?.sub;
   });
-  if (partner != undefined) {
-    return partner.partner_id;
-  } else {
-    return ("");
-  }
+  return partner ? partner.partner_id : null;
 });
 export const my_partner_object = computed(() => {
   if (!profile.value) return null;
@@ -40,11 +36,12 @@ export const my_partner_object = computed(() => {
   return idp_partners.value.find((p:any) => p.id == partner?.partner_id);
 });
 export const my_company_name = computed(() => {
-  if (!idp_partners.value) return "";
+  if (!idp_partners.value) return null;
+  if (!my_partner_id.value) return null;
   const partner = idp_partners.value?.find((p:any) => {
     return p.id == my_partner_id.value
   });
-  return partner? partner.name : "";
+  return partner? partner.name : null;
 });
 export const my_files = computed(() => {
   return ucc_files.value.filter(f => f.partner_id == my_partner_id.value);

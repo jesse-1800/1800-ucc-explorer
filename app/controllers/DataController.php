@@ -13,6 +13,7 @@ class DataController {
         $data = array(
             'auth0_roles'       => $auth->fetch_roles(),
             'auth0_users'       => $auth->fetch_users(true,true),
+            'ucc_files'         => [],
             'idp_partners'      => (new IDProviderPartners)::get(),
             'idp_partner_users' => (new IDProviderPartnerUsers)::get(),
         );

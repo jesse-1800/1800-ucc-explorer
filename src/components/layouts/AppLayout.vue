@@ -10,7 +10,7 @@
           <div>Fetching data...</div>
         </div>
         <div v-else>
-          <span>{{my_company_name?my_company_name:'Loading'}} &mdash; </span>
+          <span>{{my_company_name ?? 'Loading'}} &mdash; </span>
           <slot name="title"/>
         </div>
 
@@ -71,9 +71,8 @@
 <script lang="ts" setup>
 import {storeToRefs} from 'pinia';
 import {GlobalStore} from "@/stores/globals";
-import {is_admin} from "@/composables/GlobalComposables";
+import {is_admin, my_partner_id} from "@/composables/GlobalComposables";
 import {
-  is_manager,
   my_company_name,
   theme_table_style,
   theme_drawer_style,
