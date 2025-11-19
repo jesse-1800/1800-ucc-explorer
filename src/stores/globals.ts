@@ -130,6 +130,7 @@ export const GlobalStore = defineStore('globals', {
     async FetchPartnerUsers(token:any) {
       return await ProposalServer(token).get('/partnerusers/fetch').then(response => {
         this.partner_users = response.data;
+        console.log("FetchPartnerUsers: " , response.data)
       });
     },
     async FetchFiles(token:any) {

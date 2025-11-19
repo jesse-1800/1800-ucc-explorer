@@ -23,10 +23,9 @@ export const my_user_id = computed(() => {
 });
 export const my_partner_id = computed(() => {
   if (!profile.value) return ("");
-  const partner = partner_users.value.find((pu:any) => {
+  const partner = partner_users.value?.find((pu:any) => {
     return pu.user_id == profile.value?.sub;
   });
-
   if (partner != undefined) {
     return partner.partner_id;
   } else {
@@ -41,7 +40,7 @@ export const my_partner_object = computed(() => {
   return partners.value.find((p:any) => p.id == partner?.partner_id);
 });
 export const my_company_name = computed(() => {
-  const partner = partners.value.find((p:any) => {
+  const partner = partners.value?.find((p:any) => {
     return p.id == my_partner_id.value
   });
 
