@@ -20,11 +20,14 @@ class PartnersController
     {
         (new Auth)->isLoggedIn();
         $form = json_decode($_POST['partner']);
+        $form->smtp_password = Encryption::encode($form->smtp_password);
+        $form->supported_brands = json_encode($form->supported_brands);
         $form->is_active  = 1;
         $form->created_at = date('Y-m-d');
         $form->updated_at = date('Y-m-d');
-        $is_inserted = (new IDProviderPartners)::insert($form);
-        json(['result' => $is_inserted]);
+        echo json_encode(
+            ['result' => (new IDProviderPartners)::insert($form)]
+        );
     }
 
     public function update()

@@ -1,6 +1,6 @@
 <template>
   <!--SMTP Settings-->
-  <v-expansion-panels model-value="0">
+  <v-expansion-panels model-value="0" class="mt-5">
     <panel class="border" icon="mdi-email-multiple-outline" title="SMTP Settings">
       <v-card-text>
         <v-row>
