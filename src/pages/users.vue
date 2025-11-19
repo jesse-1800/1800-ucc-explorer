@@ -16,10 +16,10 @@
       </div>
 
       <!--Table-->
-      <v-data-table :loading="is_loading" :style="theme_table_style" :items="users" :headers="headers" class="elevation-1 border">
+      <v-data-table :loading="is_loading" :style="theme_table_style" :items="auth0_users" :headers="headers" class="elevation-1 border">
         <template v-slot:item="{item}">
           <tr>
-<!--            <td>{{item.user_id}}</td>-->
+        <!--<td>{{item.user_id}}</td>-->
             <td>
               <div class="d-flex align-center text-left">
                 <img width="30" height="30" class="rounded-circle" :src="item.picture" alt="">
@@ -36,7 +36,7 @@
                 hide-details
                 max-width="300"
                 item-title="name"
-                :items="partners"
+                :items="idp_partners"
                 density="compact"
                 variant="outlined"
                 :disabled="is_loading"
@@ -121,7 +121,7 @@
   ];
   const {getAccessTokenSilently} = useAuth0();
   const {FetchUsers,FetchPartners,FetchPartnerUsers} = store;
-  const {users,partners,partner_users,new_user_modal} = storeToRefs(store);
+  const {auth0_users,idp_partners,idp_partner_users,new_user_modal} = storeToRefs(store);
 
   const SetGroup = async (partner_id, user_id) => {
     const token = await getAccessTokenSilently();
@@ -144,7 +144,7 @@
     });
   };
   const EditUser = async (user_id) => {
-    edit_user.value = users.value.find(u => u.user_id === user_id);
+    edit_user.value = auth0_users.value.find(u => u.user_id === user_id);
     edit_modal.value = true;
   }
   const DeleteUser = async (user_id) => {
@@ -177,8 +177,8 @@
   const RebindPartnerData = () => {
     selectedPartners.value = {};
     // For preselecting the partners dropdown menu
-    users.value.forEach(user => {
-      const match = partner_users.value.find(pu => pu.user_id === user.user_id)
+    auth0_users.value.forEach(user => {
+      const match = idp_partner_users.value.find(pu => pu.user_id === user.user_id)
       if (match) selectedPartners.value[user.user_id] = Number(match.partner_id)
     })
   }
@@ -193,7 +193,7 @@
     RebindPartnerData();
   }
 
-  watch(() => users.value,() => {
+  watch(() => auth0_users.value,() => {
     RebindPartnerData();
   },{immediate:true});
 
