@@ -62,6 +62,9 @@ export const GlobalStore = defineStore('globals', {
 
     // Ucc Explorer Data
     ucc_files: [],
+
+    // Catalog Server (Only for brands)
+    cat_manufacturers: [],
   }),
   persist: {
     pick: [
@@ -169,6 +172,7 @@ export const GlobalStore = defineStore('globals', {
         this.ucc_files         = res.data.ucc_files;
         this.idp_partners      = res.data.idp_partners;
         this.idp_partner_users = res.data.idp_partner_users;
+        this.cat_manufacturers = res.data.cat_manufacturers;
         this.is_data_loaded    = true;
       });
     },
