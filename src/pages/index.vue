@@ -7,22 +7,13 @@
         <v-col cols="12" lg="8" md="8" offset-lg="2" offset-md="2">
           <v-row>
             <v-col cols="12" lg="4" md="4" sm="12">
-              <LinkCard title="Create a Proposal" href="/proposals/create" icon="new-proposal"/>
+              <LinkCard title="UCC Files" href="/ucc-files" icon="providers"/>
             </v-col>
             <v-col cols="12" lg="4" md="4" sm="12">
-              <LinkCard title="View All Proposals" href="/proposals" icon="all-proposals"/>
+              <LinkCard title="Equipments" href="/equipments" icon="providers"/>
             </v-col>
             <v-col cols="12" lg="4" md="4" sm="12">
-              <LinkCard title="Inventory" href="/pricing" icon="inventory"/>
-            </v-col>
-            <v-col cols="12" lg="4" md="4" sm="12">
-              <LinkCard title="Financing Providers" href="/providers" icon="providers"/>
-            </v-col>
-            <v-col cols="12" lg="4" md="4" sm="12">
-              <LinkCard title="Proposal Templates" href="/templates" icon="templates"/>
-            </v-col>
-            <v-col cols="12" lg="4" md="4" sm="12">
-              <LinkCard title="IT Services" href="/it-services" icon="it-services"/>
+              <LinkCard title="Providers" href="/providers" icon="providers"/>
             </v-col>
           </v-row>
         </v-col>

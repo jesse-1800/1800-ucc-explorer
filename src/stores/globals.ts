@@ -57,12 +57,16 @@ export const GlobalStore = defineStore('globals', {
     new_user_modal: false,
     user_added_modal: false,
 
-    // Data arrays
-    users: [],
-    files: [],
-    partners: [],
+    // Auth0 Data
+    auth0_users: [],
     auth0_roles: [],
-    partner_users: [],
+
+    // Identities
+    idp_partners: [],
+    idp_partner_users: [],
+
+    // Ucc Explorer Data
+    ucc_files: [],
   }),
   persist: {
     pick: [
@@ -119,23 +123,22 @@ export const GlobalStore = defineStore('globals', {
     // API Calls
     async FetchUsers(token:any) {
       return await ProposalServer(token).get('/users/fetch').then(response => {
-        this.users = response.data;
+        this.auth0_users = response.data;
       });
     },
     async FetchPartners(token:any) {
       return await ProposalServer(token).get('/partners/fetch').then(response => {
-        this.partners = response.data;
+        this.idp_partners = response.data;
       });
     },
     async FetchPartnerUsers(token:any) {
       return await ProposalServer(token).get('/partnerusers/fetch').then(response => {
-        this.partner_users = response.data;
-        console.log("FetchPartnerUsers: " , response.data)
+        this.idp_partner_users = response.data;
       });
     },
     async FetchFiles(token:any) {
       return await ProposalServer(token).get(`/files/fetch/${this.FindPartnerId()}`).then(response => {
-        this.files = response.data;
+        this.ucc_files = response.data;
       });
     },
     async SubmitPartnerForm(token:any,my_user_id:string) {
@@ -166,12 +169,12 @@ export const GlobalStore = defineStore('globals', {
     // Fetches all data reduce overhead
     async FetchAllData(token:string) {
       return await ProposalServer(token).get(`/data/fetch/${this.FindPartnerId()}`).then(res=>{
-        this.users            = res.data.users;
-        this.files            = res.data.files;
-        this.auth0_roles      = res.data.auth0_roles;
-        this.partners         = res.data.partners;
-        this.partner_users    = res.data.partner_users;
-        this.is_data_loaded  = true;
+        this.auth0_users       = res.data.users;
+        this.ucc_files         = res.data.files;
+        this.auth0_roles       = res.data.auth0_roles;
+        this.idp_partners      = res.data.partners;
+        this.idp_partner_users = res.data.partner_users;
+        this.is_data_loaded    = true;
       });
     },
 
@@ -199,7 +202,7 @@ export const GlobalStore = defineStore('globals', {
 
     // For recovering Partner ID
     FindPartnerId() {
-      const find_pu = this.partner_users.find((p:any) => p.user_id == this.profile?.sub);
+      const find_pu = this.idp_partner_users.find((p:any) => p.user_id == this.profile?.sub);
       return find_pu ? find_pu.partner_id : null;
     }
   }

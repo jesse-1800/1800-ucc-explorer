@@ -4,13 +4,13 @@ import {GlobalStore} from "@/stores/globals";
 
 const store = GlobalStore();
 const {
-  users,
-  files,
   modals,
   profile,
-  partners,
-  partner_users,
+  ucc_files,
+  auth0_users,
+  idp_partners,
   backend_theme,
+  idp_partner_users,
 } = storeToRefs(store);
 
 // Computed properties
@@ -23,7 +23,7 @@ export const my_user_id = computed(() => {
 });
 export const my_partner_id = computed(() => {
   if (!profile.value) return ("");
-  const partner = partner_users.value?.find((pu:any) => {
+  const partner = idp_partner_users.value?.find((pu:any) => {
     return pu.user_id == profile.value?.sub;
   });
   if (partner != undefined) {
@@ -34,32 +34,28 @@ export const my_partner_id = computed(() => {
 });
 export const my_partner_object = computed(() => {
   if (!profile.value) return null;
-  const partner = partner_users.value.find((pu:any) => {
+  const partner = idp_partner_users.value.find((pu:any) => {
     return pu.user_id == profile.value?.sub;
   });
-  return partners.value.find((p:any) => p.id == partner?.partner_id);
+  return idp_partners.value.find((p:any) => p.id == partner?.partner_id);
 });
 export const my_company_name = computed(() => {
-  const partner = partners.value?.find((p:any) => {
+  if (!idp_partners.value) return "";
+  const partner = idp_partners.value?.find((p:any) => {
     return p.id == my_partner_id.value
   });
-
-  if (partner != undefined) {
-    return partner.name;
-  } else {
-    return ("");
-  }
+  return partner? partner.name : "";
 });
 export const my_files = computed(() => {
-  return files.value.filter(f => f.partner_id == my_partner_id.value);
+  return ucc_files.value.filter(f => f.partner_id == my_partner_id.value);
 });
 export const my_users = computed(() => {
-  return users.value.filter((u:any) => {
+  return auth0_users.value.filter((u:any) => {
     return IsUserInMyTeam(u.user_id) && u.role != "Admin";
   });
 });
 export const my_partner_user_profile = computed(() => {
-  return partner_users.value.find((pu:any) => {
+  return idp_partner_users.value.find((pu:any) => {
     return pu.user_id == my_user_id.value;
   });
 });
@@ -69,7 +65,7 @@ export const ToggleModal = (name: string,value:boolean) => {
   modals.value[name] = value;
 };
 export const IsUserInMyTeam = (user_id:string) => {
-  const matches = partner_users.value.filter((pu:any) => {
+  const matches = idp_partner_users.value.filter((pu:any) => {
     return pu.user_id == user_id && pu.partner_id == my_partner_id.value;
   });
   return matches.length > 0;
@@ -84,7 +80,7 @@ export const ParseValidName = (name:string) => {
   return { firstname, lastname };
 }
 export const FindPartnerUser = (user_id:string) => {
-  return partner_users.value.find((pu:any) => pu.user_id == user_id);
+  return idp_partner_users.value.find((pu:any) => pu.user_id == user_id);
 }
 export const IsMyself = (user_id:string) => {
   return user_id == my_user_id.value;

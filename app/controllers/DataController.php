@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\IDProviderPartners;
+use App\Models\IDProviderPartnerUsers;
 use Auth as PropAuth;
 
 class DataController {
@@ -10,9 +11,10 @@ class DataController {
         $auth = new PropAuth();
         $auth->isLoggedIn();
         $data = array(
-            'users'        => $auth->fetch_users(true,true),
-            'idp_partners' => IDProviderPartners::fetch(),
-            'auth0_roles'  => $auth->fetch_roles(),
+            'auth0_roles'       => $auth->fetch_roles(),
+            'auth0_users'       => $auth->fetch_users(true,true),
+            'idp_partners'      => (new IDProviderPartners)::get(),
+            'idp_partner_users' => (new IDProviderPartnerUsers)::get(),
         );
         return json($data);
     }

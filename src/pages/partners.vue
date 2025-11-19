@@ -100,12 +100,12 @@
   const {getAccessTokenSilently} = useAuth0();
   const filtered_partners = computed(() => {
     if (!search_model.value) {
-      return partners.value;
+      return idp_partners.value;
     }
     const s = search_model.value.toLowerCase();
-    return partners.value.filter(item => item.name.toLowerCase().includes(s));
+    return idp_partners.value.filter((item:any) => item.name.toLowerCase().includes(s));
   });
-  const {partner_form,partners,partner_modal} = storeToRefs(store);
+  const {partner_form,idp_partners,partner_modal} = storeToRefs(store);
 
   const Edit = (item:any) => {
     partner_form.value = {...item};

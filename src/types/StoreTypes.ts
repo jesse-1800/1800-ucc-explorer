@@ -67,10 +67,14 @@ export interface GlobalStateTypes {
   new_user_modal: boolean;
   user_added_modal: boolean;
 
-  // Data Arrays
-  users: any[];
-  files: any[];
-  partners: PartnerType[];
+  // Auth0 Data
+  auth0_users: any[];
   auth0_roles: any[];
-  partner_users: any[];
+
+  // Identities
+  idp_partners: PartnerType[];
+  idp_partner_users: any[];
+
+  // Ucc Explorer Data
+  ucc_files: any[];
 }
