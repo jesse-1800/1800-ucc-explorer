@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\IDProviderPartners;
+use App\Models\CatalogManufacturers;
 use App\Models\IDProviderPartnerUsers;
 use Auth as PropAuth;
 
@@ -16,6 +17,7 @@ class DataController {
             'ucc_files'         => [],
             'idp_partners'      => (new IDProviderPartners)::get(),
             'idp_partner_users' => (new IDProviderPartnerUsers)::get(),
+            'cat_manufacturers' => (new CatalogManufacturers)::get(),
         );
         return json($data);
     }
