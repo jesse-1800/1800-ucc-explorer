@@ -98,6 +98,9 @@
     {title:'Action', value:'action'}
   ];
   const {getAccessTokenSilently} = useAuth0();
+  const {partner_form} = storeToRefs(store);
+  const {idp_partners} = storeToRefs(store);
+  const {partner_modal} = storeToRefs(store);
   const filtered_partners = computed(() => {
     if (!search_model.value) {
       return idp_partners.value;
@@ -105,7 +108,6 @@
     const s = search_model.value.toLowerCase();
     return idp_partners.value.filter((item:any) => item.name.toLowerCase().includes(s));
   });
-  const {partner_form,idp_partners,partner_modal} = storeToRefs(store);
 
   const Edit = (item:any) => {
     partner_form.value = {...item};
@@ -126,11 +128,7 @@
       website: '',
       logo: '',
       phone_number: '',
-      smtp_host: '',
-      smtp_port: '',
-      smtp_username: '',
-      smtp_password: '',
-      products_price_url: '',
+      brand_color: '',
       supported_brands: [],
       is_active: 1,
     };
