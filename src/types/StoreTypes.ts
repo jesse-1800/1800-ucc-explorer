@@ -20,11 +20,6 @@ export interface PartnerType {
   logo: string;
   phone_number: string;
   brand_color: string;
-  smtp_host: string;
-  smtp_port: string;
-  smtp_username: string;
-  smtp_password: string;
-  products_price_url: string;
   supported_brands: any[];
   is_active: number;
 }
