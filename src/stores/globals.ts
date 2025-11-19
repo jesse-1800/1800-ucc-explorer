@@ -17,6 +17,9 @@ export const GlobalStore = defineStore('globals', {
     global_loading: false,
     is_data_loaded: false,
 
+    // Modals
+    modals: {},
+
     // Theming
     backend_theme: 'dark',
     frontend_theme: 'dark',

@@ -48,6 +48,9 @@ export interface GlobalStateTypes {
   global_loading: boolean;
   is_data_loaded: boolean;
 
+  // Modals
+  modals: any;
+
   // Theming
   backend_theme: string;
   frontend_theme: string;
