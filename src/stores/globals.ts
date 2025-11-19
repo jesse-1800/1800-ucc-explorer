@@ -37,13 +37,17 @@ export const GlobalStore = defineStore('globals', {
     // Partner Form
     partner_loading: false,
     partner_modal: false,
-    partner_form: <PartnerType>{
+    partner_form: {
       id: null,
       name: '',
       website: '',
       logo: '',
       phone_number: '',
       brand_color: '',
+      smtp_host: '',
+      smtp_port: '',
+      smtp_username: '',
+      smtp_password: '',
       supported_brands: [],
       is_active: 1,
     },
