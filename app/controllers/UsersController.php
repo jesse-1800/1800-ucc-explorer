@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\IDProviderPartnerUsers;
 use App\Models\PartnerUsers;
 
 /**
@@ -136,8 +137,9 @@ class UsersController
      */
     public function update_email_signature()
     {
+        $Model = new IDProviderPartnerUsers;
         $user_id = $_POST['user_id'];
-        $partner_user = PartnerUsers::where('user_id',$user_id)->first();
+        $partner_user = $Model::where('user_id',$user_id)->first();
         if ($partner_user) {
             $partner_user->email_signature = $_POST['email_signature'];
             return json([
