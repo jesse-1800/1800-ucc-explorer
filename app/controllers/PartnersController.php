@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Options;
 use App\Models\IDProviderPartners;
 use Kernel\Security\Encryption;
 
@@ -13,7 +12,7 @@ class PartnersController
     public function fetch()
     {
         (new Auth)->isLoggedIn();
-        $partners = (new IDProviderPartners)::get();
+        $partners = (new IDProviderPartners)::fetch();
         return json($partners);
     }
 

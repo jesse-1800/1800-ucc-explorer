@@ -31,6 +31,12 @@ export interface Auth0UserType {
   password:  string,
   role_id:   string,
 }
+export interface ManufacturerType {
+  id: number | null;
+  name: string;
+  created_at: string;
+  updated_at: string;
+}
 
 /**
  * TYPES FOR GLOBAL STATE
@@ -72,4 +78,7 @@ export interface GlobalStateTypes {
 
   // Ucc Explorer Data
   ucc_files: any[];
+
+  // Catalog Server (Only for brands)
+  cat_manufacturers: ManufacturerType[],
 }

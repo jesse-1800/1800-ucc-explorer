@@ -11,4 +11,12 @@ class IDProviderPartners extends Model
         parent::__construct($data);
         Connection::initialize('identities');
     }
+    public static function fetch()
+    {
+        $partners = self::get();
+        foreach ($partners as $partner) {
+            $partner->supported_brands = json_decode($partner->supported_brands);
+        }
+        return $partners;
+    }
 }

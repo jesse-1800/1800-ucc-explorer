@@ -6,7 +6,7 @@
         <v-row>
           <v-col cols="6">
             <v-checkbox-btn
-              v-for="item in manufacturers.slice(0,Math.ceil(manufacturers.length/2))"
+              v-for="item in cat_manufacturers.slice(0,Math.ceil(cat_manufacturers.length/2))"
               :key="item.id"
               :model-value="IsBrandAdded(item)"
               @update:model-value="ToggleBrand($event, item)"
@@ -15,7 +15,7 @@
           </v-col>
           <v-col cols="6">
             <v-checkbox-btn
-              v-for="item in manufacturers.slice(Math.ceil(manufacturers.length/2))"
+              v-for="item in cat_manufacturers.slice(Math.ceil(cat_manufacturers.length/2))"
               :key="item.id"
               :model-value="IsBrandAdded(item)"
               @update:model-value="ToggleBrand($event, item)"
@@ -45,7 +45,7 @@ import {GlobalStore} from "@/stores/globals.ts";
 import {theme_btn_style} from "@/composables/GlobalComposables";
 
 const store = GlobalStore();
-const {partner_form,manufacturers,partner_loading} = storeToRefs(store);
+const {partner_form,cat_manufacturers,partner_loading} = storeToRefs(store);
 
 const IsBrandAdded = computed(() => (brand: any) =>
   partner_form.value?.supported_brands?.includes(brand.id) ?? false

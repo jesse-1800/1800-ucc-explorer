@@ -34,6 +34,15 @@ if (SYSTEM_MODE == 'development') {
         'charset'  => 'utf8',
         'port'     => 3306
     ]);
+    Connection::parameters('catalog',[
+        'driver'   => 'mysql',
+        'hostname' => 'localhost',
+        'database' => '1800-catalog-server',
+        'username' => 'root',
+        'password' => '',
+        'charset'  => 'utf8',
+        'port'     => 3306
+    ]);
 }
 
 # Production

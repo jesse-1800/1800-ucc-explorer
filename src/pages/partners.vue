@@ -60,7 +60,6 @@
         :title="`${partner_form.id?'Edit':'Add'} a Partner`">
 
         <BusinessSettings :is_modal="true"/>
-        <MailSettings :is_modal="true"/>
         <BrandSettings :is_modal="true"/>
 
         <template #footer>
