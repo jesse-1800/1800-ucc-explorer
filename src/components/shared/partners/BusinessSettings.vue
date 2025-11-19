@@ -94,14 +94,6 @@
                 </v-menu>
               </v-col>
             </v-row>
-            <v-text-field
-              hide-details
-              variant="outlined"
-              class="mt-5"
-              v-model="partner_form.products_price_url"
-              label="Products Pricing Sheet Link"
-              required>
-            </v-text-field>
           </v-col>
         </v-row>
 
