@@ -57,9 +57,10 @@
         color="transparent"
         v-model="partner_modal"
         @close="partner_modal=false"
-        :title="`${partner_form.id?'Edit':'Add'} a Partner`">
+        :title="`${partner_form.id?my_company_name+' Profile':'Add a Partner'}`">
 
         <BusinessSettings :is_modal="true"/>
+        <MailSettings :is_modal="true"/>
         <BrandSettings :is_modal="true"/>
 
         <template #footer>
@@ -84,7 +85,7 @@
   import {useAuth0} from "@auth0/auth0-vue";
   import {GlobalStore} from "@/stores/globals";
   import type {PartnerType} from "@/types/StoreTypes";
-  import {my_user_id, theme_btn_style} from "@/composables/GlobalComposables";
+  import {my_company_name, my_user_id, theme_btn_style} from "@/composables/GlobalComposables";
   import {theme_table_style} from "@/composables/GlobalComposables";
   import {theme_border_radius} from "@/composables/GlobalComposables";
 
