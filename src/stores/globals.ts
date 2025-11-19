@@ -1,5 +1,5 @@
 import {defineStore} from 'pinia';
-import type {ProfileType} from '@/types/StoreTypes';
+import type {PartnerType, ProfileType} from '@/types/StoreTypes';
 import type {GlobalStateTypes} from '@/types/StoreTypes';
 import {ProposalServer} from "@/plugins/proposal-server";
 
@@ -37,18 +37,13 @@ export const GlobalStore = defineStore('globals', {
     // Partner Form
     partner_loading: false,
     partner_modal: false,
-    partner_form: {
+    partner_form: <PartnerType>{
       id: null,
       name: '',
       website: '',
       logo: '',
       phone_number: '',
       brand_color: '',
-      smtp_host: '',
-      smtp_port: '',
-      smtp_username: '',
-      smtp_password: '',
-      products_price_url: '',
       supported_brands: [],
       is_active: 1,
     },

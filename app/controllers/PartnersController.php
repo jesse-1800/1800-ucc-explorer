@@ -13,7 +13,7 @@ class PartnersController
     public function fetch()
     {
         (new Auth)->isLoggedIn();
-        $partners = IDProviderPartners::fetch();
+        $partners = (new IDProviderPartners)::get();
         return json($partners);
     }
 
