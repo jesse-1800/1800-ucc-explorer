@@ -145,7 +145,7 @@ const password_valid = computed(() => {
   return auth0Policy.test(password)
 });
 const {getAccessTokenSilently,logout} = useAuth0();
-const {profile,partner_users,users} = storeToRefs(store);
+const {profile,idp_partner_users,auth0_users} = storeToRefs(store);
 
 const TempAvatar = (file:any) => {
   if (!file) {
@@ -229,14 +229,14 @@ const UpdateProfile = async (loading_target:string) => {
 
 onMounted(async () => {
   // Ensure both collections are loaded before reacting
-  if (users.value.length <= 0 || partner_users.value.length <= 0) {
+  if (auth0_users.value.length <= 0 || idp_partner_users.value.length <= 0) {
     const token = await getAccessTokenSilently();
-    if (users.value.length <= 0) await store.FetchUsers(token);
-    if (partner_users.value.length <= 0) await store.FetchPartnerUsers(token);
+    if (auth0_users.value.length <= 0) await store.FetchUsers(token);
+    if (idp_partner_users.value.length <= 0) await store.FetchPartnerUsers(token);
   }
 
   // React when users, partner users, or edit_user changes
-  watch([() => users.value, () => partner_users.value, () => props.edit_user], ([usersVal, partnerUsersVal, editUser]) => {
+  watch([() => auth0_users.value, () => idp_partner_users.value, () => props.edit_user], ([usersVal, partnerUsersVal, editUser]) => {
     if (!usersVal || usersVal.length === 0) return;
 
     const selectedProfile = editUser ?? usersVal.find((u: any) => u.user_id == my_user_id.value);
