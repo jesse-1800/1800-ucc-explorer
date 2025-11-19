@@ -70,9 +70,8 @@
 
 <script lang="ts" setup>
 import {storeToRefs} from 'pinia';
-import {useRoute} from "vue-router";
 import {GlobalStore} from "@/stores/globals";
-import {is_admin,my_partner_id} from "@/composables/GlobalComposables";
+import {is_admin} from "@/composables/GlobalComposables";
 import {
   is_manager,
   my_company_name,
