@@ -15,12 +15,13 @@ class PartnerusersController
     {
         $auth = new Auth();
         $auth->isLoggedIn();
-        $find_record = (new IDProviderPartnerUsers)::where('user_id',$_POST['user_id'])->first();
+        $Partner = new IDProviderPartnerUsers;
+        $find_record = $Partner::where('user_id',$_POST['user_id'])->first();
         if ($find_record) {
             $find_record->partner_id = $_POST['partner_id'];
             $find_record->save();
         } else {
-            (new IDProviderPartnerUsers)::insert([
+            $Partner::insert([
                 'user_id' => $_POST['user_id'],
                 'partner_id' => $_POST['partner_id'],
             ]);
