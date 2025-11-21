@@ -1,10 +1,74 @@
 <?php
 
 use App\Models\UccFiles;
+use App\Models\UccLLM;
+use Kernel\Database\Database;
 use Google\Cloud\Storage\StorageClient;
 
 class ImportController
 {
+
+    /**
+     * Will pull column names from select table
+     * Let's AI generate a label for each.
+     **/
+    public function generate_definitions()
+    {
+        $database = new Database;
+        $savepath = "{$_SERVER['DOCUMENT_ROOT']}/app/config/mapping";
+        $tables   = array(
+            "buyers",
+            "equipments",
+            "lenders",
+            "lessors",
+        );
+
+        foreach ($tables as $table) {
+            # Only generate if table.json doesn't exist
+            if (!file_exists("$savepath/$table.json")) {
+                $column_list = array();
+                $raw_columns = $database->query("
+                    SELECT COLUMN_NAME
+                    FROM INFORMATION_SCHEMA.COLUMNS
+                    WHERE TABLE_SCHEMA = DATABASE()
+                    AND TABLE_NAME = '$table';
+                ");
+                foreach($raw_columns as $column) {
+                    $ai_suggest = explode(",", $this->suggest_labels($column->COLUMN_NAME));
+                    array_push($column_list, [
+                        "column"      => $column->COLUMN_NAME,
+                        "label"       => $ai_suggest[0],
+                        "description" => $ai_suggest[1],
+                        "table"       => $table,
+                        "mapped_to"   => ""
+                    ]);
+                }
+                file_put_contents("$savepath/$table.json", json_encode($column_list));
+            }
+        }
+    }
+
+    /**
+     * We'll use AI to generate label and description
+     **/
+    private function suggest_labels($column)
+    {
+        $llm = new UccLLM();
+        return $llm->completions([
+            [
+                'role' => 'system',
+                'content' => ("
+                    You are a database expert. Return a **very short** label and
+                    a **very short** description that explain the meaning of the
+                    column name '$column'. Respond using ONLY this exact CSV format,
+                    with no code formatting, no explanations, and no reasoning:
+     
+                    <label>,<description>
+                ")
+            ],
+        ]);
+    }
+    
     public function store()
     {
         if (!isset($_FILES['file'])) {
