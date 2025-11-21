@@ -7,7 +7,7 @@ class ImportController
 {
     public function store()
     {
-        if (!isset($_FILES['file']) || $_FILES['file']['error'] !== UPLOAD_ERR_OK) {
+        if (!isset($_FILES['file'])) {
             return json(['result' => false, 'message' => 'Please upload a valid CSV file']);
         }
 
@@ -18,7 +18,7 @@ class ImportController
             $bucket_name = 'ucc-file-explorer-uploads';
             $bucket = $storage->bucket($bucket_name);
             $file_tmp_path = $_FILES['file']['tmp_name'];
-            $file_name = '1800 Office Solutions/'.time().'-'.basename($_FILES['file']['name']);
+            $file_name = "{$_POST['folder_name']}/".time().'-'.basename($_FILES['file']['name']);
 
             // Upload the file to GCS
             $bucket->upload(
@@ -28,8 +28,8 @@ class ImportController
 
             // Store in database
             UccFiles::insert([
-                "user_id"    => 1,
-                "partner_id" => 1,
+                "user_id"    => $_POST['user_id'],
+                "partner_id" => $_POST['partner_id'],
                 "name"       => $file_name,
                 "created_at" => now(),
                 "updated_at" => now(),

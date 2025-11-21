@@ -82,6 +82,16 @@ export const FindPartnerUser = (user_id:string) => {
 export const IsMyself = (user_id:string) => {
   return user_id == my_user_id.value;
 }
+export const SluggifyText = (input_text) => {
+  return input_text
+  .toString()
+  .trim()
+  .toLowerCase()
+  .replace(/[\s\_]+/g, "-")        // replace spaces/underscores with hyphens
+  .replace(/[^a-z0-9\-]/g, "")     // remove non-alphanumeric chars except hyphens
+  .replace(/\-+/g, "-")            // collapse multiple hyphens
+  .replace(/^\-+|\-+$/g, "");      // trim leading/trailing hyphens
+}
 
 // Access Levels
 export const is_admin = computed(() => {

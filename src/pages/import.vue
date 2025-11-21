@@ -31,6 +31,7 @@
 <script lang="ts" setup>
 import {useAuth0} from "@auth0/auth0-vue";
 import {UccServer} from "@/plugins/ucc-server";
+import {my_company_name, my_partner_id, my_user_id, SluggifyText} from "@/composables/GlobalComposables.ts";
 
 const file_input = ref(null);
 const {getAccessTokenSilently} = useAuth0();
@@ -48,8 +49,13 @@ const HandleDrop = (event) => {
 }
 const ProcessFile = async(file_obj) => {
   const form = new FormData;
-  form.append('file', file_obj);
   const token = await getAccessTokenSilently();
+
+  form.append('file', file_obj);
+  form.append('user_id', my_user_id.value);
+  form.append('partner_id', my_partner_id.value);
+  form.append('folder_name', SluggifyText(my_company_name.value));
+
   UccServer(token).post("/import/store",form).then(res => {
     console.log(res.data);
   });
