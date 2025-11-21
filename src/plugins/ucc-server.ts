@@ -1,8 +1,7 @@
 import axios from "axios";
 import {GlobalStore} from "@/stores/globals.ts";
 
-
-export const ProposalServer = (token: any) => {
+export const UccServer = (token: any) => {
   const instance = axios.create({
     baseURL: "/",
     headers: {
