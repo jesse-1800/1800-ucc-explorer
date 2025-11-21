@@ -28,11 +28,12 @@ class ImportController
 
             // Store in database
             UccFiles::insert([
-                "user_id"    => $_POST['user_id'],
-                "partner_id" => $_POST['partner_id'],
-                "name"       => $file_name,
-                "created_at" => now(),
-                "updated_at" => now(),
+                "user_id"     => $_POST['user_id'],
+                "partner_id"  => $_POST['partner_id'],
+                "name"        => $file_name,
+                "is_imported" => 0,
+                "created_at"  => now(),
+                "updated_at"  => now(),
             ]);
 
             // Return response to Vue
