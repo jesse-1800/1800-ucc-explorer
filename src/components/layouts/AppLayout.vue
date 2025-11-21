@@ -31,20 +31,18 @@
         </v-list>
 
         <v-list>
-          <v-list-item to="/">
-            <v-list-item-title>
-              <ThemeIcon icon="dashboard">Dashboard</ThemeIcon>
-            </v-list-item-title>
-          </v-list-item>
+          <v-list-item to="/"           prepend-icon="mdi-view-dashboard" title="Dashboard"/>
+          <v-list-item to="/equipments" prepend-icon="mdi-printer-outline" title="Equipments"/>
+          <v-list-item to="/buyers"     prepend-icon="mdi-account-supervisor-circle" title="Buyers"/>
+          <v-list-item to="/lenders"    prepend-icon="mdi-bank-circle-outline" title="Lenders"/>
+          <v-list-item to="/lessors"    prepend-icon="mdi-domain" title="Lessors"/>
+          <v-list-item to="/ucc-list"   prepend-icon="mdi-format-list-text" title="UCC List"/>
+          <v-list-item to="/import"     prepend-icon="mdi-import" title="Import Data..."/>
 
           <template v-if="is_admin">
             <v-divider/>
-            <v-list-item to="/partners">
-              <ThemeIcon icon="partners">Partners</ThemeIcon>
-            </v-list-item>
-            <v-list-item to="/users">
-              <ThemeIcon icon="users">Users</ThemeIcon>
-            </v-list-item>
+            <v-list-item to="/partners" prepend-icon="mdi-domain" title="Partners"/>
+            <v-list-item to="/users" prepend-icon="mdi-account-group-outline" title="Users"/>
           </template>
         </v-list>
 

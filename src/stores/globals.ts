@@ -1,7 +1,7 @@
 import {defineStore} from 'pinia';
 import type {PartnerType, ProfileType} from '@/types/StoreTypes';
 import type {GlobalStateTypes} from '@/types/StoreTypes';
-import {ProposalServer} from "@/plugins/proposal-server";
+import {UccServer} from "@/plugins/ucc-server.ts";
 
 export const GlobalStore = defineStore('globals', {
   state: (): GlobalStateTypes => ({
@@ -124,22 +124,22 @@ export const GlobalStore = defineStore('globals', {
 
     // API Calls
     async FetchUsers(token:any) {
-      return await ProposalServer(token).get('/users/fetch').then(response => {
+      return await UccServer(token).get('/users/fetch').then(response => {
         this.auth0_users = response.data;
       });
     },
     async FetchPartners(token:any) {
-      return await ProposalServer(token).get('/partners/fetch').then(response => {
+      return await UccServer(token).get('/partners/fetch').then(response => {
         this.idp_partners = response.data;
       });
     },
     async FetchPartnerUsers(token:any) {
-      return await ProposalServer(token).get('/partnerusers/fetch').then(response => {
+      return await UccServer(token).get('/partnerusers/fetch').then(response => {
         this.idp_partner_users = response.data;
       });
     },
     async FetchFiles(token:any) {
-      return await ProposalServer(token).get(`/files/fetch/${this.FindPartnerId()}`).then(response => {
+      return await UccServer(token).get(`/files/fetch/${this.FindPartnerId()}`).then(response => {
         this.ucc_files = response.data;
       });
     },
@@ -149,7 +149,7 @@ export const GlobalStore = defineStore('globals', {
       this.partner_loading = true;
       form.append("user_id", my_user_id);
       form.append("partner", JSON.stringify(this.partner_form));
-      ProposalServer(token).post(route, form).then((res: any) => {
+      UccServer(token).post(route, form).then((res: any) => {
         console.log(res.data);
         this.ShowSuccess(`Form successfully ${this.partner_form.id ? 'updated!' : 'added!'}`);
       }).finally(() => {
@@ -163,14 +163,14 @@ export const GlobalStore = defineStore('globals', {
       if (this.auth0_roles.length) {
         return;
       }
-      return await ProposalServer(token).get('/users/fetch-roles').then(response => {
+      return await UccServer(token).get('/users/fetch-roles').then(response => {
         this.auth0_roles = response.data;
       });
     },
 
     // Fetches all data reduce overhead
     async FetchAllData(token:string) {
-      return await ProposalServer(token).get(`/data/fetch/${this.FindPartnerId()}`).then(res=>{
+      return await UccServer(token).get(`/data/fetch/${this.FindPartnerId()}`).then(res=>{
         this.auth0_users       = res.data.auth0_users;
         this.auth0_roles       = res.data.auth0_roles;
         this.ucc_files         = res.data.ucc_files;

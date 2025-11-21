@@ -81,7 +81,7 @@ import moment from "moment";
 import {useAuth0} from "@auth0/auth0-vue";
 import {GlobalStore} from "@/stores/globals";
 import type {AddonType} from "@/types/StoreTypes";
-import {ProposalServer} from "@/plugins/proposal-server";
+import {UccServer} from "@/plugins/ucc-server.ts";
 import {charge_types} from "@/composables/ProductComposable";
 import {
   my_addons,
@@ -143,7 +143,7 @@ const DeleteAddon = async(addon_id: number | null) => {
   if (is_confirmed) {
     const token = getAccessTokenSilently();
     const endpoint = `/addons/destroy/${addon_id}`;
-    ProposalServer(token).delete(endpoint).then(res => {
+    UccServer(token).delete(endpoint).then(res => {
       if (res.data.result) {
         store.ShowSuccess('Addon deleted successfully!');
         store.FetchAddons(token);
@@ -173,7 +173,7 @@ const SubmitForm = () => {
   const form_data = new FormData;
   const endpoint = form.value.id? '/addons/update':'/addons/store';
   form_data.append('form', JSON.stringify(form.value));
-  ProposalServer(token).post(endpoint,form_data).then(res => {
+  UccServer(token).post(endpoint,form_data).then(res => {
     if(res.data.result) {
       store.ShowSuccess('Addon saved successfully!');
       modals.value.addon = false;

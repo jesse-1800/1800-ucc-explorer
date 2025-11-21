@@ -169,7 +169,7 @@
 <script lang="ts" setup>
   import {useAuth0} from "@auth0/auth0-vue";
   import {GlobalStore} from "@/stores/globals";
-  import {ProposalServer} from "@/plugins/proposal-server";
+  import {UccServer} from "@/plugins/ucc-server.ts";
   import {
     theme_border_radius, my_partner_id, my_providers, theme_btn_style, theme_table_style, ToggleModal
   } from "@/composables/GlobalComposables";
@@ -216,7 +216,7 @@
     form.append('partner_id', my_partner_id.value);
     form.append('provider_id', the_provider.id);
 
-    ProposalServer(token).post(`/providers/toggle-default`,form).then(res=>{
+    UccServer(token).post(`/providers/toggle-default`,form).then(res=>{
       console.log(res.data);
       store.ShowSuccess('Provider default updated successfully!');
       store.FetchProviders(token);
@@ -227,7 +227,7 @@
     const form = new FormData();
     const token = await getAccessTokenSilently();
     const route = provider.value.id ? "/providers/update":"/providers/store";
-    const server = ProposalServer(token);
+    const server = UccServer(token);
 
     if (!provider.value.lease_factors.length) {
       return store.ShowError("Please add at least one lease factor!")
@@ -259,7 +259,7 @@
     delete copy.id;
 
     form.append("provider", JSON.stringify(copy));
-    ProposalServer(token).post('/providers/store', form).then(res => {
+    UccServer(token).post('/providers/store', form).then(res => {
       console.log(res.data);
       FetchProviders(token);
       ShowSuccess(`Item has been duplicated successfully!`);
@@ -275,7 +275,7 @@
       const token = await getAccessTokenSilently();
       form.append('provider_id', the_provider.id);
 
-      ProposalServer(token).post(`/providers/destroy`,form).then(res=>{
+      UccServer(token).post(`/providers/destroy`,form).then(res=>{
         console.log(res.data);
         store.ShowSuccess('Item deleted successfully!');
         store.FetchProviders(token);

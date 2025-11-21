@@ -1,6 +1,6 @@
 import {storeToRefs} from "pinia";
 import {GlobalStore} from "@/stores/globals";
-import {ProposalServer} from "@/plugins/proposal-server";
+import {UccServer} from "@/plugins/ucc-server.ts";
 import {my_company_name} from "@/composables/GlobalComposables";
 import {proposal_view_url} from "@/composables/ProposalComposable";
 import {OfferedMonthlyCost} from "@/composables/ProductComposable";
@@ -22,7 +22,7 @@ export const Prompt = async(token:string, system_prompt:string, user_prompt = ""
   }
   form.append('history', JSON.stringify(messages));
 
-  return ProposalServer(token).post('/prompt/generate',form).then(res => {
+  return UccServer(token).post('/prompt/generate',form).then(res => {
     return res.data;
   }).finally(() => {
     SetState({ llm_fetching: false });

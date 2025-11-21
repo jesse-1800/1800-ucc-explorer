@@ -25,7 +25,7 @@
 <script lang="ts" setup>
 import {useAuth0} from "@auth0/auth0-vue";
 import {GlobalStore} from "@/stores/globals";
-import {ProposalServer} from "@/plugins/proposal-server";
+import {UccServer} from "@/plugins/ucc-server.ts";
 import {my_options} from "@/composables/GlobalComposables";
 import {theme_btn_style} from "@/composables/GlobalComposables";
 import {theme_table_style} from "@/composables/GlobalComposables";
@@ -39,7 +39,7 @@ const SaveChanges = async () => {
   is_options_loading.value = true;
   const form = new FormData;
   form.append('options', JSON.stringify(my_options.value));
-  ProposalServer(token).post("/options/update",form).then(res=>{
+  UccServer(token).post("/options/update",form).then(res=>{
     console.log(res.data);
     store.ShowSuccess("Options updated successfully");
   }).finally(()=>{

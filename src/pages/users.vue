@@ -97,7 +97,7 @@
   import {storeToRefs} from "pinia";
   import {useAuth0} from "@auth0/auth0-vue";
   import {GlobalStore} from "@/stores/globals";
-  import {ProposalServer} from "@/plugins/proposal-server.ts";
+  import {UccServer} from "@/plugins/ucc-server.ts";
   import {
     IsMyself,
     my_company_name,
@@ -125,7 +125,7 @@
 
   const SetGroup = async (partner_id, user_id) => {
     const token = await getAccessTokenSilently();
-    const server = ProposalServer(token);
+    const server = UccServer(token);
     const form = new FormData;
 
     form.append("partner_id", partner_id);
@@ -152,7 +152,7 @@
     const is_confirmed = await store.OpenDialog("Confirm Action","Are you sure you want to delete this user?");
     if (is_confirmed) {
       is_loading.value = true;
-      ProposalServer(token).post(`/users/destroy/${user_id}`).then(res => {
+      UccServer(token).post(`/users/destroy/${user_id}`).then(res => {
         console.log(res.data);
         store.ShowSuccess("User Deleted.");
         Refresh();
@@ -167,7 +167,7 @@
     is_loading.value = true;
     form.append('user_id', item.user_id);
     form.append('block_value', item.blocked ? 0 : 1);
-    ProposalServer(token).post(`/users/toggle-status`,form).then(res => {
+    UccServer(token).post(`/users/toggle-status`,form).then(res => {
       is_loading.value = false;
       store.ShowSuccess("User status updated.");
       Refresh();

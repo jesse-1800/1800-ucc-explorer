@@ -102,7 +102,7 @@ import draggable from 'vuedraggable';
 import {useAuth0} from "@auth0/auth0-vue";
 import {GlobalStore} from "@/stores/globals";
 import type {CustomFieldType} from "@/types/StoreTypes";
-import {ProposalServer} from "@/plugins/proposal-server";
+import {UccServer} from "@/plugins/ucc-server.ts";
 import {my_user_id, theme_border_radius, theme_btn_style, theme_table_style} from "@/composables/GlobalComposables";
 import {my_partner_id} from "@/composables/GlobalComposables";
 import {my_custom_fields} from "@/composables/GlobalComposables";
@@ -153,7 +153,7 @@ const DeleteField = (field_id: number | null) => {
   if (confirm("Are you sure you want to delete this field?")) {
     const token = getAccessTokenSilently();
     const endpoint = `/customfields/destroy/${field_id}`;
-    ProposalServer(token).delete(endpoint).then(res => {
+    UccServer(token).delete(endpoint).then(res => {
       if (res.data.result) {
         store.ShowSuccess('Custom Field deleted successfully!');
         store.FetchCustomFields(token);
@@ -204,7 +204,7 @@ const SubmitForm = () => {
   const form_data = new FormData;
   const endpoint = form.value.id? '/customfields/update':'/customfields/store';
   form_data.append('form', JSON.stringify(form.value));
-  ProposalServer(token).post(endpoint,form_data).then(res => {
+  UccServer(token).post(endpoint,form_data).then(res => {
     console.log(res.data);
     store.ShowSuccess(res.data.message);
     modal.value = false;

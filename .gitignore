@@ -3,6 +3,7 @@ node_modules
 /dist
 /vendor/
 /storage/
+/app/config/*.json
 
 # local env files
 .env.production

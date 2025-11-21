@@ -58,7 +58,7 @@ import {storeToRefs} from "pinia";
 import {useAuth0} from "@auth0/auth0-vue";
 import {GlobalStore} from "@/stores/globals";
 import type {Auth0UserType} from "@/types/StoreTypes";
-import {ProposalServer} from "@/plugins/proposal-server";
+import {UccServer} from "@/plugins/ucc-server.ts";
 import {my_partner_id} from "@/composables/GlobalComposables";
 import {theme_btn_style} from "@/composables/GlobalComposables";
 
@@ -101,7 +101,7 @@ const SubmitUser = async () => {
   is_loading.value = true;
   form.append('partner_id', my_partner_id.value);
   form.append('form', JSON.stringify(user_info.value));
-  ProposalServer(token).post('/users/store',form).then(res => {
+  UccServer(token).post('/users/store',form).then(res => {
     console.log(res.data);
     store.ShowSuccess(res.data.message);
     store.FetchUsers(token);

@@ -114,7 +114,7 @@
 import {storeToRefs} from "pinia";
 import {useAuth0} from "@auth0/auth0-vue";
 import {GlobalStore} from "@/stores/globals";
-import {ProposalServer} from "@/plugins/proposal-server";
+import {UccServer} from "@/plugins/ucc-server.ts";
 import {FindPartnerUser, my_user_id, ParseValidName} from "@/composables/GlobalComposables";
 import {theme_btn_style} from "@/composables/GlobalComposables";
 import {theme_card_style} from "@/composables/GlobalComposables";
@@ -167,7 +167,7 @@ const UpdateSignature = async()=>{
   const endpoint = '/users/update-email-signature';
   form.append('user_id', editable.value.user_id);
   form.append('email_signature', editable.value.email_signature);
-  ProposalServer(token).post(endpoint,form).then(()=>{
+  UccServer(token).post(endpoint,form).then(()=>{
     // Refetch and Reset signature model
     store.FetchPartnerUsers(token).then(()=>{
       if (my_partner_user_profile.value) {
@@ -203,7 +203,7 @@ const UpdateProfile = async (loading_target:string) => {
 
   is_loading.value = loading_target;
   form.append('profile', JSON.stringify(data));
-  ProposalServer(token).post('/users/update-profile',form).then(async res => {
+  UccServer(token).post('/users/update-profile',form).then(async res => {
     console.log(res.data);
     file_input.value = null;
     profile.value = res.data.profile;

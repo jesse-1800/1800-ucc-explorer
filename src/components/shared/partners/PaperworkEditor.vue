@@ -18,7 +18,7 @@
 import {storeToRefs} from "pinia";
 import {useAuth0} from "@auth0/auth0-vue";
 import {GlobalStore} from "@/stores/globals";
-import {ProposalServer} from "@/plugins/proposal-server";
+import {UccServer} from "@/plugins/ucc-server.ts";
 import {ToggleModal} from "@/composables/GlobalComposables";
 import {my_providers} from "@/composables/GlobalComposables";
 import FloatingBtns from "@/components/shared/templates/floating-btns.vue";
@@ -59,7 +59,7 @@ const CloseAndSave = async () => {
     form.append('provider_id', provider.id);
     form.append('paperwork_css', (window as any).gjs_instance.getCss());
     form.append('paperwork_html', (window as any).gjs_instance.getHtml());
-    ProposalServer(token).post('/providers/update-paperwork',form).then(res => {
+    UccServer(token).post('/providers/update-paperwork',form).then(res => {
       console.log(res.data);
       store.ShowSuccess("Your Paperwork has been updated.");
     }).finally(() => {

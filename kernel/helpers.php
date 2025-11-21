@@ -972,3 +972,9 @@ if (!function_exists('logger')) {
         file_put_contents($logFile, $entry, FILE_APPEND);
     }
 }
+
+if (!function_exists('now')) {
+    function now() {
+        return date('Y-m-d H:i:s');
+    }
+}
