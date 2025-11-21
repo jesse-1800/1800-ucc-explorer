@@ -33,7 +33,10 @@ import {useAuth0} from "@auth0/auth0-vue";
 import {UccServer} from "@/plugins/ucc-server";
 import {my_company_name, my_partner_id, my_user_id, SluggifyText} from "@/composables/GlobalComposables.ts";
 
+const db_columns = ref([]);
 const file_input = ref(null);
+const target_columns = ref([]);
+const show_field_mapper = ref(false);
 const {getAccessTokenSilently} = useAuth0();
 
 const TriggerFileInput = () => {
@@ -57,7 +60,10 @@ const ProcessFile = async(file_obj) => {
   form.append('folder_name', SluggifyText(my_company_name.value));
 
   UccServer(token).post("/import/store",form).then(res => {
-    console.log(res.data);
+    if (res.data.result) {
+      show_field_mapper.value = true;
+
+    }
   });
 }
 </script>
