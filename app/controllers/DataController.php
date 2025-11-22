@@ -3,7 +3,7 @@
 use App\Models\IDProviderPartners;
 use App\Models\CatalogManufacturers;
 use App\Models\IDProviderPartnerUsers;
-use App\Models\UccFiles;
+use App\Models\UccFileManager;
 use Auth as PropAuth;
 
 class DataController {
@@ -16,7 +16,7 @@ class DataController {
         $data = array(
             'auth0_roles'       => $auth->fetch_roles(),
             'auth0_users'       => $auth->fetch_users(true,true),
-            'ucc_files'         => UccFiles::where('partner_id',$partner_id)->get(),
+            'ucc_files'         => UccFileManager::where('partner_id',$partner_id)->get(),
             'ucc_map_columns'   => [
                 'buyers'     => json_decode(file_get_contents("$path/buyers.json")),
                 'equipments' => json_decode(file_get_contents("$path/equipments.json")),

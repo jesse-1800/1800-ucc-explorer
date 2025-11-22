@@ -3,11 +3,11 @@
 use Kernel\Database\QueryBuilder as Model;
 
 /**
- * Class UccFiles
+ * Class UccFileManager
  *
  * @package App\Models
  */
-class UccFiles extends Model
+class UccFileManager extends Model
 {
     protected static $table = "files";
 }

@@ -3,7 +3,7 @@
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 
-class UccLLM {
+class UccLanguageModel {
     protected Client $client;
     protected $environment;
     protected $logs_path;

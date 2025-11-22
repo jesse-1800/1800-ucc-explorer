@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\UccFiles;
-use App\Models\UccLLM;
+use App\Models\UccFileManager;
+use App\Models\UccLanguageModel;
 use Kernel\Database\Database;
 use Google\Cloud\Storage\StorageClient;
 
@@ -38,13 +38,13 @@ class ImportController
                 ");
                 foreach($raw_columns as $column) {
                     $ai_suggest = explode(",", $this->suggest_labels($column->COLUMN_NAME));
-                    array_push($column_list, [
-                        "column"      => $column->COLUMN_NAME,
-                        "label"       => $ai_suggest[0],
+                    $column_list[] = [
+                        "column" => $column->COLUMN_NAME,
+                        "label" => $ai_suggest[0],
                         "description" => $ai_suggest[1],
-                        "table"       => $table,
-                        "mapped_to"   => ""
-                    ]);
+                        "table" => $table,
+                        "mapped_to" => ""
+                    ];
                 }
                 file_put_contents("$savepath/$table.json", json_encode($column_list));
             }
@@ -56,7 +56,7 @@ class ImportController
      **/
     private function suggest_labels($column)
     {
-        $llm = new UccLLM();
+        $llm = new UccLanguageModel();
         return $llm->completions([
             [
                 'role' => 'system',
