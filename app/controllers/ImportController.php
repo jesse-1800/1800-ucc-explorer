@@ -7,7 +7,6 @@ use Google\Cloud\Storage\StorageClient;
 
 class ImportController
 {
-
     /**
      * Will pull column names from select table
      * Let's AI generate a label for each.
@@ -68,7 +67,11 @@ class ImportController
             ],
         ]);
     }
-    
+
+    /**
+     * Uploads file into GCS Bucket under a partner's
+     * company name slug e.g. 1800-office-solutions
+     */
     public function store()
     {
         if (!isset($_FILES['file'])) {
