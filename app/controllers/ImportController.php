@@ -5,6 +5,10 @@ use App\Models\UccLLM;
 use Kernel\Database\Database;
 use Google\Cloud\Storage\StorageClient;
 
+/**
+ * This class is meant for imports only.
+ * For rehydration, check FilesController.php
+ */
 class ImportController
 {
     /**
