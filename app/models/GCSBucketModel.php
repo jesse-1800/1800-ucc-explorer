@@ -37,4 +37,58 @@ class GCSBucketModel {
             ['name' => $file_name,'contentType' => 'text/csv']
         );
     }
+
+    /**
+     * Fetch file contents from GCS bucket
+     */
+    public function parse_file($file_name)
+    {
+        try {
+            $object = $this->bucket->object($file_name);
+            if (!$object->exists()) {
+                die(json([
+                    'result' => false,
+                    'message' => "File not found in GCS: $file_name"
+                ]));
+            }
+            return $object->downloadAsString();
+        }
+        catch (\Exception $e) {
+            die(json([
+                'result' => false,
+                'message' => "Failed to fetch file: {$e->getMessage()}"
+            ]));
+        }
+    }
+
+    /**
+     * Fetch CSV headers and first row of data for field mapping
+     */
+    public function csv_preview($csv_content)
+    {
+        try {
+            $lines = explode("\n", trim($csv_content));
+
+            if (count($lines) < 2) {
+                die(json([
+                    'result'  => false,
+                    'message' => 'CSV must contain headers and at least one data row',
+                ]));
+            }
+
+            $headers = str_getcsv($lines[0]);
+            $first_row = str_getcsv($lines[1]);
+
+            return [
+                'headers' => $headers,
+                'sample_data' => $first_row
+            ];
+        }
+        catch (\Exception $e) {
+            die(json([
+                'result'  => false,
+                'message' => 'Failed to fetch a CSV preview',
+            ]));
+        }
+    }
 }
