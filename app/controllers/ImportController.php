@@ -79,26 +79,22 @@ class ImportController
     public function store()
     {
         if (!isset($_FILES['file'])) {
-            return json(['result' => false, 'message' => 'Please upload a valid CSV file']);
-        }
-
-        try {
-            $storage = new StorageClient([
-                'keyFilePath' => "{$_SERVER['DOCUMENT_ROOT']}/app/config/ucc-explorer-svc-key.json"
+            return json([
+                'result' => false,
+                'message' => 'Please upload a valid CSV file'
             ]);
-            $bucket_name = 'ucc-file-explorer-uploads';
-            $bucket = $storage->bucket($bucket_name);
+        }
+        try {
+            $gcs_instance = new GCSBucketModel;
             $file_tmp_path = $_FILES['file']['tmp_name'];
-            $file_name = "{$_POST['folder_name']}/".time().'-'.basename($_FILES['file']['name']);
+            $file_ext = basename($_FILES['file']['name']);
+            $file_name = "{$_POST['folder_name']}/".time()."-$file_ext";
 
             // Upload the file to GCS
-            $bucket->upload(
-                fopen($file_tmp_path, 'r'),
-                ['name' => $file_name,'contentType' => 'text/csv']
-            );
+            $gcs_instance->upload($file_tmp_path);
 
             // Store in database
-            UccFiles::insert([
+            UccFileManager::insert([
                 "user_id"     => $_POST['user_id'],
                 "partner_id"  => $_POST['partner_id'],
                 "name"        => $file_name,
