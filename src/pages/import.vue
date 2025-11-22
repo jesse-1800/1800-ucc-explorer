@@ -5,7 +5,7 @@
       <squeeze class="mt-md-15" columns="8" offset="2">
 
         <!--Show the Field Mapping Window-->
-        <template v-if="has_pending_tasks">
+        <template v-if="1==0">
           <h1 class="mb-5">Pending Task: Complete your import</h1>
 
           <!--Buyers table-->

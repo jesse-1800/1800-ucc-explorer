@@ -1,9 +1,9 @@
 <?php
 
+use App\Models\GCSBucketModel;
 use App\Models\UccFileManager;
 use App\Models\UccLanguageModel;
 use Kernel\Database\Database;
-use Google\Cloud\Storage\StorageClient;
 
 /**
  * This class is meant for imports only.
@@ -85,13 +85,13 @@ class ImportController
             ]);
         }
         try {
-            $gcs_instance = new GCSBucketModel;
+            $gcs_instance = new GCSBucketModel();
             $file_tmp_path = $_FILES['file']['tmp_name'];
             $file_ext = basename($_FILES['file']['name']);
             $file_name = "{$_POST['folder_name']}/".time()."-$file_ext";
 
             // Upload the file to GCS
-            $gcs_instance->upload($file_tmp_path);
+            $gcs_instance->upload($file_name,$file_tmp_path);
 
             // Store in database
             UccFileManager::insert([
@@ -105,8 +105,8 @@ class ImportController
 
             // Return response to Vue
             return json([
-                'result' => true,
-                'file_name' => $file_name
+                'result'   => true,
+                'contents' => $file_name
             ]);
         }
         catch (Exception $e) {

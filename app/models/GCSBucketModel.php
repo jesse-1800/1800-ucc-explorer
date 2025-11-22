@@ -1,4 +1,4 @@
-<?php
+<?php namespace App\Models;
 
 use Google\Cloud\Storage\Bucket;
 use Google\Cloud\Storage\StorageClient;
@@ -30,8 +30,11 @@ class GCSBucketModel {
     /**
      * Upload to a specific partner folder
      */
-    public function upload($tmp_file_path)
+    public function upload($file_name,$tmp_file_path)
     {
-        return $this->bucket->upload(fopen($tmp_file_path,'r'));
+        return $this->bucket->upload(
+            fopen($tmp_file_path,'r'),
+            ['name' => $file_name,'contentType' => 'text/csv']
+        );
     }
 }
