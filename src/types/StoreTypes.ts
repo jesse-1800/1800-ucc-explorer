@@ -82,6 +82,7 @@ export interface GlobalStateTypes {
 
   // Ucc Explorer Data
   ucc_files: any[];
+  ucc_map_columns: any;
 
   // Catalog Server (Only for brands)
   cat_manufacturers: ManufacturerType[],
