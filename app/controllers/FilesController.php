@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\GCSBucketModel;
 use App\Models\UccFileManager;
 
 class FilesController {
@@ -10,8 +11,16 @@ class FilesController {
         );
     }
 
-    public function pending_import($file_id)
+    /**
+     * This method parses file contents, then returns
+     * 'headers' and 'sample_data' for field mapping
+     */
+    public function parse_file($file_id)
     {
         $file = UccFileManager::find($file_id);
+        $gcs = new GCSBucketModel();
+        json($gcs->csv_preview(
+            $gcs->parse_file($file->name)
+        ));
     }
 }

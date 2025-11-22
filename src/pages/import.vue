@@ -5,31 +5,168 @@
       <squeeze class="mt-md-15" columns="8" offset="2">
 
         <!--Show the Field Mapping Window-->
-        <template v-if="1==0">
+        <template v-if="has_pending_tasks">
           <h1 class="mb-5">Pending Task: Complete your import</h1>
 
-          <!--Buyers table-->
-          <v-row>
-            <v-col cols="6">
-              <v-text-field
-                density="compact"
-                variant="outlined"
-                :placeholder="column.description"
-                v-for="column in ucc_map_columns.buyers"
-                :label="column.label">
-              </v-text-field>
-            </v-col>
-            <v-col cols="6" >
-              <template v-for="column in ucc_map_columns.buyers">
-                <v-select
-                  density="compact"
-                  variant="outlined"
-                  :items="['item 1', 'item 2', 'item 3']"
-                  v-model="column.mapped_to">
-                </v-select>
-              </template>
-            </v-col>
-          </v-row>
+          <v-expansion-panels>
+            <panel title="Buyers">
+              <!--Buyers Mapping-->
+              <v-card-text>
+                <v-row>
+                  <v-col cols="5">
+                    <h3 class="font-weight-light mb-5">Buyer Fields</h3>
+                    <v-text-field
+                      :readonly="true"
+                      density="compact"
+                      variant="outlined"
+                      :placeholder="column.description"
+                      v-for="column in ucc_map_columns.buyers"
+                      :label="column.label">
+                    </v-text-field>
+                  </v-col>
+                  <v-col cols="2">
+                    <br><br>
+                    <template v-for="n in ucc_map_columns.buyers.length">
+                      <div class="mt-1 mb-5 d-flex align-center justify-center" style="height:42px">
+                        <v-icon>mdi-swap-horizontal</v-icon>
+                      </div>
+                    </template>
+                  </v-col>
+                  <v-col cols="5" >
+                    <h3 class="font-weight-light mb-5">Map to your CSV Data</h3>
+                    <template v-for="column in ucc_map_columns.buyers">
+                      <v-combobox
+                        density="compact"
+                        variant="outlined"
+                        label="Select a header"
+                        :items="target_headers"
+                        v-model="column.mapped_to">
+                      </v-combobox>
+                    </template>
+                  </v-col>
+                </v-row>
+              </v-card-text>
+            </panel>
+
+            <panel title="Equipments">
+              <v-card-text>
+                <v-row>
+                  <v-col cols="5">
+                    <h3 class="font-weight-light mb-5">Equipment Fields</h3>
+                    <v-text-field
+                      :readonly="true"
+                      density="compact"
+                      variant="outlined"
+                      :placeholder="column.description"
+                      v-for="column in ucc_map_columns.equipments"
+                      :label="column.label">
+                    </v-text-field>
+                  </v-col>
+                  <v-col cols="2">
+                    <br><br>
+                    <template v-for="n in ucc_map_columns.equipments.length">
+                      <div class="mt-1 mb-5 d-flex align-center justify-center" style="height:42px">
+                        <v-icon>mdi-swap-horizontal</v-icon>
+                      </div>
+                    </template>
+                  </v-col>
+                  <v-col cols="5" >
+                    <h3 class="font-weight-light mb-5">Map to your CSV data</h3>
+                    <template v-for="column in ucc_map_columns.equipments">
+                      <v-combobox
+                        density="compact"
+                        variant="outlined"
+                        label="Select a header"
+                        :items="target_headers"
+                        v-model="column.mapped_to">
+                      </v-combobox>
+                    </template>
+                  </v-col>
+                </v-row>
+              </v-card-text>
+            </panel>
+
+            <panel title="Lenders">
+              <v-card-text>
+                <v-row>
+                  <v-col cols="5">
+                    <h3 class="font-weight-light mb-5">Lenders Fields</h3>
+                    <v-text-field
+                      :readonly="true"
+                      density="compact"
+                      variant="outlined"
+                      :placeholder="column.description"
+                      v-for="column in ucc_map_columns.lenders"
+                      :label="column.label">
+                    </v-text-field>
+                  </v-col>
+                  <v-col cols="2">
+                    <br><br>
+                    <template v-for="n in ucc_map_columns.lenders.length">
+                      <div class="mt-1 mb-5 d-flex align-center justify-center" style="height:42px">
+                        <v-icon>mdi-swap-horizontal</v-icon>
+                      </div>
+                    </template>
+                  </v-col>
+                  <v-col cols="5" >
+                    <h3 class="font-weight-light mb-5">Map to your CSV data</h3>
+                    <template v-for="column in ucc_map_columns.lenders">
+                      <v-combobox
+                        density="compact"
+                        variant="outlined"
+                        label="Select a header"
+                        :items="target_headers"
+                        v-model="column.mapped_to">
+                      </v-combobox>
+                    </template>
+                  </v-col>
+                </v-row>
+              </v-card-text>
+            </panel>
+
+            <panel title="Lessors">
+              <v-card-text>
+                <v-row>
+                  <v-col cols="5">
+                    <h3 class="font-weight-light mb-5">Lenders Fields</h3>
+                    <v-text-field
+                      :readonly="true"
+                      density="compact"
+                      variant="outlined"
+                      :placeholder="column.description"
+                      v-for="column in ucc_map_columns.lessors"
+                      :label="column.label">
+                    </v-text-field>
+                  </v-col>
+                  <v-col cols="2">
+                    <br><br>
+                    <template v-for="n in ucc_map_columns.lessors.length">
+                      <div class="mt-1 mb-5 d-flex align-center justify-center" style="height:42px">
+                        <v-icon>mdi-swap-horizontal</v-icon>
+                      </div>
+                    </template>
+                  </v-col>
+                  <v-col cols="5" >
+                    <h3 class="font-weight-light mb-5">Map to your CSV data</h3>
+                    <template v-for="column in ucc_map_columns.lessors">
+                      <v-combobox
+                        density="compact"
+                        variant="outlined"
+                        label="Select a header"
+                        :items="target_headers"
+                        v-model="column.mapped_to">
+                      </v-combobox>
+                    </template>
+                  </v-col>
+                </v-row>
+              </v-card-text>
+            </panel>
+          </v-expansion-panels>
+
+
+
+          <!--Equipments table-->
+
         </template>
 
         <!--Show the Uploader Window-->
@@ -92,7 +229,8 @@ import {my_company_name} from "@/composables/GlobalComposables";
 import {theme_table_style} from "@/composables/GlobalComposables";
 
 const store = GlobalStore();
-const target_columns = ref([]);
+const sample_values = ref([]);
+const target_headers = ref([]);
 const headers = [
   {title:"ID",       value: "id",  sortable:true},
   {title:"File name",value: "name",sortable:true},
@@ -100,10 +238,10 @@ const headers = [
 ];
 const file_input = ref<any>(null);
 const {getAccessTokenSilently} = useAuth0();
-const {ucc_files,ucc_map_columns} = storeToRefs(store);
 const has_pending_tasks = computed(() => {
-  return ucc_files.value.some(f => f.is_imported == 0);
+  return ucc_files.value.find(f => f.is_imported == 0);
 });
+const {ucc_files,ucc_map_columns,is_data_loaded} = storeToRefs(store);
 
 const TriggerFileInput = () => {
   file_input.value?.click()
@@ -125,8 +263,26 @@ const ProcessFile = async(file_obj:any) => {
   form.append('partner_id', my_partner_id.value);
   form.append('folder_name', SluggifyText(my_company_name.value));
 
-  UccServer(token).post("/import/store",form).then(res => {
+  UccServer(token).post("/import/store",form).then(()=>{
+    store.ShowSuccess("File has been uploaded!")
     store.FetchFiles(token);
   });
 }
+const ParseContents = async() => {
+  const file_id = has_pending_tasks.value.id;
+  const token = await getAccessTokenSilently();
+  UccServer(token).post(`/files/parse-file/${file_id}`).then(res => {
+    console.log(res.data);
+    sample_values.value = res.data.sample_data;
+    target_headers.value = res.data.headers;
+  });
+}
+
+// Watcher to check if there's pending task.
+watch(()=>is_data_loaded.value,(loaded:boolean) => {
+  if (loaded && has_pending_tasks.value) {
+    console.log("Shit ran")
+    ParseContents();
+  }
+})
 </script>
