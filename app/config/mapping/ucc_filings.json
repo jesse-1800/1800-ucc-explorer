@@ -1,0 +1,569 @@
+[
+  {
+    "column": "id",
+    "label": "Record ID",
+    "description": "Unique identifier for this UCC filing record.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": false,
+    "preselect": ["id"]
+  },
+  {
+    "column": "buyid",
+    "label": "Buyer ID",
+    "description": "Unique identifier for the buyer/lessee.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "Buyers",
+    "preselect": ["BUYID"]
+  },
+  {
+    "column": "buyc1first",
+    "label": "Buyer Contact 1 First Name",
+    "description": "First name of the primary contact person for the buyer.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "Buyers",
+    "preselect": ["BUYC1FIRST"]
+  },
+  {
+    "column": "buyc1last",
+    "label": "Buyer Contact 1 Last Name",
+    "description": "Last name of the primary contact person for the buyer.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "Buyers",
+    "preselect": ["BUYC1LAST"]
+  },
+  {
+    "column": "buyc1title",
+    "label": "Buyer Contact 1 Title",
+    "description": "Job title or position of the primary contact person.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "Buyers",
+    "preselect": ["BUYC1TITLE"]
+  },
+  {
+    "column": "buyc2first",
+    "label": "Buyer Contact 2 First Name",
+    "description": "First name of the secondary contact person for the buyer.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "Buyers",
+    "preselect": ["BUYC2FIRST"]
+  },
+  {
+    "column": "buyc2last",
+    "label": "Buyer Contact 2 Last Name",
+    "description": "Last name of the secondary contact person for the buyer.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "Buyers",
+    "preselect": ["BUYC2LAST"]
+  },
+  {
+    "column": "buyc2title",
+    "label": "Buyer Contact 2 Title",
+    "description": "Job title or position of the secondary contact person.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "Buyers",
+    "preselect": ["BUYC2TITLE"]
+  },
+  {
+    "column": "buycomp1",
+    "label": "Buyer Company Name",
+    "description": "Name of the buyer's company or organization.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "Buyers",
+    "preselect": ["BUYCOMP1"]
+  },
+  {
+    "column": "buyadr1",
+    "label": "Buyer Address Line 1",
+    "description": "Primary street address of the buyer.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "Buyers",
+    "preselect": ["BUYADR1"]
+  },
+  {
+    "column": "buyadr2",
+    "label": "Buyer Address Line 2",
+    "description": "Secondary address information (suite, unit, etc.).",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "Buyers",
+    "preselect": ["BUYADR2"]
+  },
+  {
+    "column": "buycity",
+    "label": "Buyer City",
+    "description": "City where the buyer is located.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "Buyers",
+    "preselect": ["BUYCITY"]
+  },
+  {
+    "column": "buystate",
+    "label": "Buyer State",
+    "description": "State or province code where the buyer is located.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "Buyers",
+    "preselect": ["BUYSTATE"]
+  },
+  {
+    "column": "buyzip",
+    "label": "Buyer ZIP Code",
+    "description": "Postal code for the buyer's address.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "Buyers",
+    "preselect": ["BUYZIP"]
+  },
+  {
+    "column": "buyphone",
+    "label": "Buyer Phone",
+    "description": "Primary phone number for the buyer.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "Buyers",
+    "preselect": ["BUYPHONE"]
+  },
+  {
+    "column": "buyfax",
+    "label": "Buyer Fax",
+    "description": "Fax number for the buyer.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "Buyers",
+    "preselect": ["BUYFAX"]
+  },
+  {
+    "column": "buyfips",
+    "label": "Buyer FIPS Code",
+    "description": "Federal Information Processing Standards code for the buyer's county.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "Buyers",
+    "preselect": ["BUYFIPS"]
+  },
+  {
+    "column": "buycty",
+    "label": "Buyer County",
+    "description": "County where the buyer is located.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "Buyers",
+    "preselect": ["BUYCTY"]
+  },
+  {
+    "column": "buysic",
+    "label": "Buyer SIC Code",
+    "description": "Standard Industrial Classification code for the buyer's industry.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "Buyers",
+    "preselect": ["BUYSIC"]
+  },
+  {
+    "column": "buysicdesc",
+    "label": "Buyer Industry Description",
+    "description": "Description of the buyer's industry based on SIC code.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "Buyers",
+    "preselect": ["BUYSICDESC"]
+  },
+  {
+    "column": "buydola",
+    "label": "Lease Dollar Amount",
+    "description": "Total dollar amount of the lease.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "Buyers",
+    "preselect": ["BUYDOLA"]
+  },
+  {
+    "column": "buyduns",
+    "label": "Buyer DUNS Number",
+    "description": "Dun & Bradstreet identification number for the buyer.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "Buyers",
+    "preselect": ["BUYDUNS"]
+  },
+  {
+    "column": "uccid",
+    "label": "UCC Filing ID",
+    "description": "Unique identifier for the UCC filing.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "UCC Filing",
+    "preselect": ["UCCID"]
+  },
+  {
+    "column": "ucctransid",
+    "label": "UCC Transaction ID",
+    "description": "Transaction identifier associated with the UCC filing.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "UCC Filing",
+    "preselect": ["UCCTRANSID"]
+  },
+  {
+    "column": "uccdate",
+    "label": "UCC Filing Date",
+    "description": "Date when the UCC filing was recorded.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "UCC Filing",
+    "preselect": ["UCCDATE"]
+  },
+  {
+    "column": "uccstatus",
+    "label": "UCC Filing Status",
+    "description": "Current status of the UCC filing (e.g., active, lapsed, amended).",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "UCC Filing",
+    "preselect": ["UCCSTATUS"]
+  },
+  {
+    "column": "ucclien",
+    "label": "UCC Lienholder",
+    "description": "Name of the party holding the lien in the UCC filing.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "UCC Filing",
+    "preselect": ["UCCLIEN"]
+  },
+  {
+    "column": "ucccom",
+    "label": "UCC Comment",
+    "description": "Additional comments or notes related to the UCC filing.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "UCC Filing",
+    "preselect": ["UCCCOM"]
+  },
+  {
+    "column": "uccfips2",
+    "label": "UCC FIPS Code",
+    "description": "Federal Information Processing Standards code for the UCC filing location.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "UCC Filing",
+    "preselect": ["UCCFIPS2"]
+  },
+  {
+    "column": "uccbatch",
+    "label": "UCC Batch Number",
+    "description": "Batch number for processing the UCC filing.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "UCC Filing",
+    "preselect": ["UCCBATCH"]
+  },
+  {
+    "column": "spid",
+    "label": "Service Provider ID",
+    "description": "Unique identifier for the service provider.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "Providers",
+    "preselect": ["SPID"]
+  },
+  {
+    "column": "spclass",
+    "label": "Service Provider Class",
+    "description": "Classification or category of the service provider.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "Providers",
+    "preselect": ["SPCLASS"]
+  },
+  {
+    "column": "spcomp",
+    "label": "Service Provider Company",
+    "description": "Name of the service provider company.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "Providers",
+    "preselect": ["SPCOMP"]
+  },
+  {
+    "column": "spcity",
+    "label": "Service Provider City",
+    "description": "City where the service provider is located.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "Providers",
+    "preselect": ["SPCITY"]
+  },
+  {
+    "column": "spstate",
+    "label": "Service Provider State",
+    "description": "State or province code for the service provider.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "Providers",
+    "preselect": ["SPSTATE"]
+  },
+  {
+    "column": "asid",
+    "label": "Assignee ID",
+    "description": "Unique identifier for the assignee.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "Assignees",
+    "preselect": ["ASID"]
+  },
+  {
+    "column": "asclass",
+    "label": "Assignee Class",
+    "description": "Classification or category of the assignee.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "Assignees",
+    "preselect": ["ASCLASS"]
+  },
+  {
+    "column": "ascomp",
+    "label": "Assignee Company",
+    "description": "Name of the assignee company or organization.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "Assignees",
+    "preselect": ["ASCOMP"]
+  },
+  {
+    "column": "ascity",
+    "label": "Assignee City",
+    "description": "City where the assignee is located.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "Assignees",
+    "preselect": ["ASCITY"]
+  },
+  {
+    "column": "asstate",
+    "label": "Assignee State",
+    "description": "State or province code for the assignee.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "Assignees",
+    "preselect": ["ASSTATE"]
+  },
+  {
+    "column": "eqtunit",
+    "label": "Equipment Unit",
+    "description": "Unit of measure for the equipment (e.g., unit, piece, lot).",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "Equipments",
+    "preselect": ["EQTUNIT"]
+  },
+  {
+    "column": "eqtuccyr",
+    "label": "Equipment UCC Year",
+    "description": "Year associated with the UCC filing for the equipment.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "Equipments",
+    "preselect": ["EQTUCCYR"]
+  },
+  {
+    "column": "eqtnu",
+    "label": "Equipment Number",
+    "description": "Internal unique identifier for the equipment.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "Equipments",
+    "preselect": ["EQTNU"]
+  },
+  {
+    "column": "eqtman",
+    "label": "Equipment Manufacturer",
+    "description": "Name of the company that manufactured the equipment.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "Equipments",
+    "preselect": ["EQTMAN"]
+  },
+  {
+    "column": "eqtmodel",
+    "label": "Equipment Model",
+    "description": "Model name or number of the equipment.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "Equipments",
+    "preselect": ["EQTMODEL"]
+  },
+  {
+    "column": "eqtdesc",
+    "label": "Equipment Description",
+    "description": "Detailed description of the equipment.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "Equipments",
+    "preselect": ["EQTDESC"]
+  },
+  {
+    "column": "eqtcode",
+    "label": "Equipment Code",
+    "description": "Standardized or internal code identifying the equipment type.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "Equipments",
+    "preselect": ["EQTCODE"]
+  },
+  {
+    "column": "eqtsn",
+    "label": "Equipment Serial Number",
+    "description": "Serial number or unique identifying number for the equipment.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "Equipments",
+    "preselect": ["EQTSN"]
+  },
+  {
+    "column": "eqtsz",
+    "label": "Equipment Size",
+    "description": "Size, capacity, or physical measurement of the equipment.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "Equipments",
+    "preselect": ["EQTSZ"]
+  },
+  {
+    "column": "eqtedayr",
+    "label": "Equipment End Year",
+    "description": "End year for the lease or term of the equipment.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "Equipments",
+    "preselect": ["EQTEDAYR"]
+  },
+  {
+    "column": "eqtattach",
+    "label": "Equipment Attachment",
+    "description": "Attachment identifier linking the equipment to related documents.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "Equipments",
+    "preselect": ["EQTATTACH"]
+  },
+  {
+    "column": "eqtvalue",
+    "label": "Equipment Value",
+    "description": "Declared dollar value of the equipment.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "Equipments",
+    "preselect": ["EQTVALUE"]
+  },
+  {
+    "column": "eqtae",
+    "label": "Equipment Adverse Event Flag",
+    "description": "Indicates whether an adverse event is associated with the equipment.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "Equipments",
+    "preselect": ["EQTAE"]
+  },
+  {
+    "column": "userdef1",
+    "label": "Custom Field 1",
+    "description": "User-defined custom field for additional data.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "Equipments",
+    "preselect": ["USERDEF1"]
+  },
+  {
+    "column": "userdef2",
+    "label": "Custom Field 2",
+    "description": "User-defined custom field for additional data.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "Equipments",
+    "preselect": ["USERDEF2"]
+  },
+  {
+    "column": "created_at",
+    "label": "Created At",
+    "description": "Timestamp when this record was created in the system.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": false,
+    "preselect": ["created_at"]
+  },
+  {
+    "column": "updated_at",
+    "label": "Updated At",
+    "description": "Timestamp when this record was updated in the system.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": false,
+    "preselect": ["updated_at"]
+  }
+]
