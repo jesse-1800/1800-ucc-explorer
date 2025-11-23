@@ -2,6 +2,7 @@
 
 use App\Models\GCSBucketModel;
 use App\Models\UccFileManager;
+use App\Models\UccFilings;
 use App\Models\UccLanguageModel;
 use Kernel\Database\Database;
 
@@ -32,11 +33,10 @@ class ImportController
                     AND TABLE_NAME = '$table';
                 ");
                 foreach($raw_columns as $column) {
-                    $ai_suggest = explode(",", $this->suggest_labels($column->COLUMN_NAME));
                     $column_list[] = [
                         "column"      => $column->COLUMN_NAME,
-                        "label"       => $ai_suggest[0],
-                        "description" => $ai_suggest[1],
+                        "label"       => '',
+                        "description" => '',
                         "table"       => $table,
                         "mapped_to"   => "",
                         "display"     => false,
@@ -114,4 +114,45 @@ class ImportController
             ]);
         }
     }
+    
+    /**
+     * After user mapped the fields, begin import
+     */
+    public function import_data()
+    {
+        $gcs_inst = new GCSBucketModel();
+        $file_mgr = UccFileManager::find($_POST['file_id']);
+        $contents = $gcs_inst->parse_file($file_mgr->name);
+        $csv_data = $gcs_inst->csv_to_array($contents);
+        $mappings = json_decode($_POST['mappings']);
+        $data_list = array();
+
+        // Loop through each CSV record
+        foreach ($csv_data as $csv_row) {
+            $row_data = array();
+
+            // Apply mappings to transform CSV headers to database columns
+            foreach ($mappings as $mapping) {
+                $db_column = $mapping->db_column;        // e.g., 'buyid'
+                $csv_header = $mapping->mapped_to;       // e.g., 'BUYID'
+
+                // Get the value from CSV row using the mapped header
+                if (isset($csv_row[$csv_header])) {
+                    $row_data[$db_column] = $csv_row[$csv_header];
+                } else {
+                    // Optional: handle missing values
+                    $row_data[$db_column] = null;
+                }
+            }
+
+            // Add the transformed row to data_list
+            $data_list[] = $row_data;
+        }
+
+        // The actual database insertion
+        foreach($data_list as $insert) {
+            UccFilings::insert($insert);
+        }
+    }
+
 }
