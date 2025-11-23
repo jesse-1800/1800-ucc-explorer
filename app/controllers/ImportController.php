@@ -19,12 +19,7 @@ class ImportController
     {
         $database = new Database;
         $savepath = "{$_SERVER['DOCUMENT_ROOT']}/app/config/mapping";
-        $tables   = array(
-            "buyers",
-            "equipments",
-            "lenders",
-            "lessors",
-        );
+        $tables   = array("ucc_filings");
 
         foreach ($tables as $table) {
             # Only generate if table.json doesn't exist
@@ -39,11 +34,14 @@ class ImportController
                 foreach($raw_columns as $column) {
                     $ai_suggest = explode(",", $this->suggest_labels($column->COLUMN_NAME));
                     $column_list[] = [
-                        "column" => $column->COLUMN_NAME,
-                        "label" => $ai_suggest[0],
+                        "column"      => $column->COLUMN_NAME,
+                        "label"       => $ai_suggest[0],
                         "description" => $ai_suggest[1],
-                        "table" => $table,
-                        "mapped_to" => ""
+                        "table"       => $table,
+                        "mapped_to"   => "",
+                        "display"     => false,
+                        "category"    => "",
+                        "preselect"   => [""]
                     ];
                 }
                 file_put_contents("$savepath/$table.json", json_encode($column_list));
@@ -61,7 +59,7 @@ class ImportController
             [
                 'role' => 'system',
                 'content' => ("
-                    You are a database expert. Return a **very short** label and
+                    You are a database and UCC Filings expert. Return a **very short** label and
                     a **very short** description that explain the meaning of the
                     column name '$column'. Respond using ONLY this exact CSV format,
                     with no code formatting, no explanations, and no reasoning:
