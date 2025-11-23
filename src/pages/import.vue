@@ -8,6 +8,7 @@
         <template v-if="has_pending_tasks">
           <h1 class="mb-5">Pending Task: Complete your import</h1>
 
+          <!--Collapsible Panels-->
           <v-expansion-panels>
             <panel title="Buyers">
               <!--Buyers Mapping-->
@@ -15,19 +16,21 @@
                 <v-row>
                   <v-col cols="5">
                     <h3 class="font-weight-light mb-5">Buyer Fields</h3>
-                    <v-text-field
-                      :readonly="true"
-                      density="compact"
-                      variant="outlined"
-                      :placeholder="column.description"
-                      v-for="column in ucc_map_columns.buyers"
-                      :label="column.label">
-                    </v-text-field>
+                    <template v-for="column in ucc_map_columns.buyers">
+                      <v-text-field
+                        :readonly="true"
+                        density="compact"
+                        variant="outlined"
+                        v-if="column.display"
+                        :label="column.label"
+                        :placeholder="column.description">
+                      </v-text-field>
+                    </template>
                   </v-col>
                   <v-col cols="2">
                     <br><br>
-                    <template v-for="n in ucc_map_columns.buyers.length">
-                      <div class="mt-1 mb-5 d-flex align-center justify-center" style="height:42px">
+                    <template v-for="buyer in ucc_map_columns.buyers">
+                      <div v-if="buyer.display" class="mt-1 mb-5 d-flex align-center justify-center" style="height:42px">
                         <v-icon>mdi-swap-horizontal</v-icon>
                       </div>
                     </template>
@@ -38,6 +41,7 @@
                       <v-combobox
                         density="compact"
                         variant="outlined"
+                        v-if="column.display"
                         label="Select a header"
                         :items="target_headers"
                         v-model="column.mapped_to">
@@ -163,10 +167,9 @@
             </panel>
           </v-expansion-panels>
 
-
-
-          <!--Equipments table-->
-
+          <div class="text-center mt-5">
+            <v-btn prepend-icon="mdi-import" :style="theme_btn_style">Ready to Import</v-btn>
+          </div>
         </template>
 
         <!--Show the Uploader Window-->
@@ -177,8 +180,8 @@
             elevation="0"
             height="250"
             rounded="lg"
-            @click="TriggerFileInput"
             @dragover.prevent
+            @click="TriggerFileInput"
             @drop.prevent="HandleDrop"
             style="background:transparent;border: 2px dashed #9e9e9e; cursor: pointer;">
             <v-icon size="56" color="grey">mdi-upload</v-icon>
@@ -197,7 +200,11 @@
           <template #item="{item}">
             <tr>
               <td>{{item.id}}</td>
-              <td>{{item.name}}</td>
+              <td>
+                <a :href="`files/download/${item.id}`">
+                  {{item.name}}
+                </a>
+              </td>
               <td>
                 <span v-if="item.is_imported" class="text-green">
                   <v-icon size="small">mdi-check-circle-outline</v-icon>
@@ -222,10 +229,11 @@ import {storeToRefs} from "pinia";
 import {useAuth0} from "@auth0/auth0-vue";
 import {GlobalStore} from "@/stores/globals";
 import {UccServer} from "@/plugins/ucc-server";
-import {my_user_id, } from "@/composables/GlobalComposables";
+import {my_user_id} from "@/composables/GlobalComposables";
 import {SluggifyText} from "@/composables/GlobalComposables";
 import {my_partner_id} from "@/composables/GlobalComposables";
 import {my_company_name} from "@/composables/GlobalComposables";
+import {theme_btn_style,} from "@/composables/GlobalComposables";
 import {theme_table_style} from "@/composables/GlobalComposables";
 
 const store = GlobalStore();
@@ -275,14 +283,27 @@ const ParseContents = async() => {
     console.log(res.data);
     sample_values.value = res.data.sample_data;
     target_headers.value = res.data.headers;
+    ucc_map_columns.value.buyers.forEach((buyer: any) => {
+      const preselect = res.data.headers.find((h: string) => {
+        // Remove BOM and trim whitespace
+        const cleanHeader = h.replace(/^\uFEFF/, '').trim();
+        return buyer.preselect.includes(cleanHeader);
+      });
+      if (preselect) {
+        buyer.mapped_to = preselect;
+      }
+      if (buyer.column == "buyid") {
+        console.log("preselect: ", preselect);
+      }
+    });
   });
 }
 
 // Watcher to check if there's pending task.
-watch(()=>is_data_loaded.value,(loaded:boolean) => {
-  if (loaded && has_pending_tasks.value) {
-    console.log("Shit ran")
+watch(()=>has_pending_tasks.value,(new_val:boolean) => {
+  if (new_val) {
+    console.log("Fetch ran..")
     ParseContents();
   }
-})
+},{immediate:true});
 </script>

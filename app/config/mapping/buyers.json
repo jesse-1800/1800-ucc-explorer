@@ -1,0 +1,191 @@
+[
+  {
+    "column": "buyid",
+    "label": "Buyer ID (External)",
+    "description": "Legal name of the company",
+    "table": "buyers",
+    "mapped_to": "",
+    "display": false,
+    "preselect": ["BUYID"]
+  },
+  {
+    "column": "company_name",
+    "label": "Company Name",
+    "description": "Legal name of the company",
+    "table": "buyers",
+    "mapped_to": "",
+    "display": true,
+    "preselect": ["BUYCOMP1"]
+  },
+  {
+    "column": "contact1_first",
+    "label": "First Name (Primary Contact)",
+    "description": "Primary contact's first name",
+    "table": "buyers",
+    "mapped_to": "",
+    "display": true,
+    "preselect": ["BUYC1FIRST"]
+  },
+  {
+    "column": "contact1_last",
+    "label": "Last Name (Primary Contact)",
+    "description": "Surname of the primary contact",
+    "table": "buyers",
+    "mapped_to": "",
+    "display": true,
+    "preselect": ["BUYC1LAST"]
+  },
+  {
+    "column": "contact1_title",
+    "label": "Title/Position (Primary Contact)",
+    "description": "Primary contact's title/position",
+    "table": "buyers",
+    "mapped_to": "",
+    "display": true,
+    "preselect": ["BUYC1TITLE"]
+  },
+  {
+    "column": "contact2_first",
+    "label": "First Name (Second Contact)",
+    "description": "First name of the second contact.",
+    "table": "buyers",
+    "mapped_to": "",
+    "display": true,
+    "preselect": ["BUYC2FIRST"]
+  },
+  {
+    "column": "contact2_last",
+    "label": "Last Name (Second Contact)",
+    "description": "Second contact's surname",
+    "table": "buyers",
+    "mapped_to": "",
+    "display": true,
+    "preselect": ["BUYC2LAST"]
+  },
+  {
+    "column": "contact2_title",
+    "label": "Title/Position (Second Contact)",
+    "description": "Secondary contact's title/position",
+    "table": "buyers",
+    "mapped_to": "",
+    "display": true,
+    "preselect": ["BUYC2TITLE"]
+  },
+  {
+    "column": "address1",
+    "label": "Street Address",
+    "description": "Primary street address line",
+    "table": "buyers",
+    "mapped_to": "",
+    "display": true,
+    "preselect": ["BUYADR1"]
+  },
+  {
+    "column": "address2",
+    "label": "Address Line 2",
+    "description": "Secondary address detail (e.g.",
+    "table": "buyers",
+    "mapped_to": "",
+    "display": true,
+    "preselect": ["BUYADR2"]
+  },
+  {
+    "column": "city",
+    "label": "City",
+    "description": "Name of the city location",
+    "table": "buyers",
+    "mapped_to": "",
+    "display": true,
+    "preselect": ["BUYCITY"]
+  },
+  {
+    "column": "state",
+    "label": "State",
+    "description": "Geographic region",
+    "table": "buyers",
+    "mapped_to": "",
+    "display": true,
+    "preselect": ["BUYSTATE"]
+  },
+  {
+    "column": "zip_code",
+    "label": "ZIP Code",
+    "description": "Postal code for a location",
+    "table": "buyers",
+    "mapped_to": "",
+    "display": true,
+    "preselect": ["BUYZIP"]
+  },
+  {
+    "column": "county_name",
+    "label": "County",
+    "description": "Name of the county",
+    "table": "buyers",
+    "mapped_to": "",
+    "display": true,
+    "preselect": ["BUYCTY"]
+  },
+  {
+    "column": "phone",
+    "label": "Phone Number",
+    "description": "The individual's telephone contact number",
+    "table": "buyers",
+    "mapped_to": "",
+    "display": true,
+    "preselect": ["BUYPHONE"]
+  },
+  {
+    "column": "fax",
+    "label": "Fax Number",
+    "description": "Fax telephone number",
+    "table": "buyers",
+    "mapped_to": "",
+    "display": true,
+    "preselect": ["BUYFAX"]
+  },
+  {
+    "column": "duns_number",
+    "label": "DUNS",
+    "description": "Unique identifier assigned by Dun & Bradstreet to a business entity",
+    "table": "buyers",
+    "mapped_to": "",
+    "display": true,
+    "preselect": ["BUYDUNS"]
+  },
+  {
+    "column": "fips_county_code",
+    "label": "FIPS County Code",
+    "description": "Federal Information Processing Standard code identifying a U.S. county",
+    "table": "buyers",
+    "mapped_to": "",
+    "display": true,
+    "preselect": ["BUYFIPS"]
+  },
+  {
+    "column": "sic_code",
+    "label": "SIC Code",
+    "description": "Standard Industrial Classification code",
+    "table": "buyers",
+    "mapped_to": "",
+    "display": true,
+    "preselect": ["BUYSIC"]
+  },
+  {
+    "column": "sic_description",
+    "label": "SIC Description",
+    "description": "Industry classification text",
+    "table": "buyers",
+    "mapped_to": "",
+    "display": true,
+    "preselect": ["BUYSICDESC"]
+  },
+  {
+    "column": "created_at",
+    "label": "Created At",
+    "description": "TIMESTAMP of record creation",
+    "table": "buyers",
+    "mapped_to": "",
+    "display": false,
+    "preselect": []
+  }
+]
