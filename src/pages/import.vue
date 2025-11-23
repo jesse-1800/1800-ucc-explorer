@@ -156,7 +156,7 @@ const ProcessFile = async(file_obj:any) => {
   form.append('partner_id', my_partner_id.value);
   form.append('folder_name', SluggifyText(my_company_name.value));
 
-  UccServer(token).post("/import/store",form).then(()=>{
+  UccServer(token).post("/import/upload-to-gcs",form).then(()=>{
     store.ShowSuccess("File has been uploaded!")
     store.FetchFiles(token);
   });
