@@ -23,4 +23,18 @@ class FilesController {
             $gcs->parse_file($file->name)
         ));
     }
+
+    public function download($file_id)
+    {
+        $file = UccFileManager::find($file_id);
+        $gcs = new GCSBucketModel();
+        $contents = $gcs->parse_file($file->name);
+
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename="' . $file->name . '"');
+        header('Content-Length: ' . strlen($contents));
+
+        echo $contents;
+        exit;
+    }
 }
