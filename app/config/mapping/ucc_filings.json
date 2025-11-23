@@ -1,14 +1,5 @@
 [
   {
-    "column": "id",
-    "label": "Record ID",
-    "description": "Unique identifier for this UCC filing record.",
-    "table": "ucc_filings",
-    "mapped_to": "",
-    "display": false,
-    "preselect": ["id"]
-  },
-  {
     "column": "buyid",
     "label": "Buyer ID",
     "description": "Unique identifier for the buyer/lessee.",
@@ -547,23 +538,5 @@
     "display": true,
     "category": "Equipments",
     "preselect": ["USERDEF2"]
-  },
-  {
-    "column": "created_at",
-    "label": "Created At",
-    "description": "Timestamp when this record was created in the system.",
-    "table": "ucc_filings",
-    "mapped_to": "",
-    "display": false,
-    "preselect": ["created_at"]
-  },
-  {
-    "column": "updated_at",
-    "label": "Updated At",
-    "description": "Timestamp when this record was updated in the system.",
-    "table": "ucc_filings",
-    "mapped_to": "",
-    "display": false,
-    "preselect": ["updated_at"]
   }
 ]
