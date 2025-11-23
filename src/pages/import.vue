@@ -6,9 +6,9 @@
 
         <!--Show the Field Mapping Window-->
         <template v-if="has_pending_tasks">
-          <h1 class="mb-5">Pending Task: Complete your import</h1>
-
           <v-card-text>
+            <h1 class="mb-5">Pending Task: Complete your import</h1>
+            <pre>{{ucc_map_columns[1]}}</pre>
             <v-row>
               <v-col cols="5">
                 <h3 class="font-weight-light mb-5">Database Columns</h3>
@@ -48,7 +48,12 @@
           </v-card-text>
 
           <div class="text-center mt-5">
-            <v-btn prepend-icon="mdi-import" :style="theme_btn_style">Ready to Import</v-btn>
+            <v-btn
+              @click="ImportData"
+              text="Ready to Import"
+              prepend-icon="mdi-import"
+              :style="theme_btn_style">
+            </v-btn>
           </div>
         </template>
 
@@ -129,7 +134,7 @@ const {getAccessTokenSilently} = useAuth0();
 const has_pending_tasks = computed(() => {
   return ucc_files.value.find(f => f.is_imported == 0);
 });
-const {ucc_files,ucc_map_columns,is_data_loaded} = storeToRefs(store);
+const {ucc_files,ucc_map_columns} = storeToRefs(store);
 
 const TriggerFileInput = () => {
   file_input.value?.click()
@@ -172,6 +177,21 @@ const ParseContents = async() => {
         column.mapped_to = preselect;
       }
     });
+  });
+}
+const ImportData = async() => {
+  const form = new FormData;
+  const file_id = has_pending_tasks.value.id;
+  const token = await getAccessTokenSilently();
+  const mappings = ucc_map_columns.value.map((field:any)=>({
+    db_column: field.column,
+    mapped_to: field.mapped_to
+  }));
+
+  form.append('file_id', file_id);
+  form.append('mappings', JSON.stringify(mappings));
+  UccServer(token).post(`/import/import-data`,form).then(res => {
+    console.log(res.data);
   });
 }
 
