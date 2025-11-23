@@ -8,164 +8,44 @@
         <template v-if="has_pending_tasks">
           <h1 class="mb-5">Pending Task: Complete your import</h1>
 
-          <!--Collapsible Panels-->
-          <v-expansion-panels>
-            <panel title="Buyers">
-              <!--Buyers Mapping-->
-              <v-card-text>
-                <v-row>
-                  <v-col cols="5">
-                    <h3 class="font-weight-light mb-5">Buyer Fields</h3>
-                    <template v-for="column in ucc_map_columns.buyers">
-                      <v-text-field
-                        :readonly="true"
-                        density="compact"
-                        variant="outlined"
-                        v-if="column.display"
-                        :label="column.label"
-                        :placeholder="column.description">
-                      </v-text-field>
-                    </template>
-                  </v-col>
-                  <v-col cols="2">
-                    <br><br>
-                    <template v-for="buyer in ucc_map_columns.buyers">
-                      <div v-if="buyer.display" class="mt-1 mb-5 d-flex align-center justify-center" style="height:42px">
-                        <v-icon>mdi-swap-horizontal</v-icon>
-                      </div>
-                    </template>
-                  </v-col>
-                  <v-col cols="5" >
-                    <h3 class="font-weight-light mb-5">Map to your CSV Data</h3>
-                    <template v-for="column in ucc_map_columns.buyers">
-                      <v-combobox
-                        density="compact"
-                        variant="outlined"
-                        v-if="column.display"
-                        label="Select a header"
-                        :items="target_headers"
-                        v-model="column.mapped_to">
-                      </v-combobox>
-                    </template>
-                  </v-col>
-                </v-row>
-              </v-card-text>
-            </panel>
-
-            <panel title="Equipments">
-              <v-card-text>
-                <v-row>
-                  <v-col cols="5">
-                    <h3 class="font-weight-light mb-5">Equipment Fields</h3>
-                    <v-text-field
-                      :readonly="true"
-                      density="compact"
-                      variant="outlined"
-                      :placeholder="column.description"
-                      v-for="column in ucc_map_columns.equipments"
-                      :label="column.label">
-                    </v-text-field>
-                  </v-col>
-                  <v-col cols="2">
-                    <br><br>
-                    <template v-for="n in ucc_map_columns.equipments.length">
-                      <div class="mt-1 mb-5 d-flex align-center justify-center" style="height:42px">
-                        <v-icon>mdi-swap-horizontal</v-icon>
-                      </div>
-                    </template>
-                  </v-col>
-                  <v-col cols="5" >
-                    <h3 class="font-weight-light mb-5">Map to your CSV data</h3>
-                    <template v-for="column in ucc_map_columns.equipments">
-                      <v-combobox
-                        density="compact"
-                        variant="outlined"
-                        label="Select a header"
-                        :items="target_headers"
-                        v-model="column.mapped_to">
-                      </v-combobox>
-                    </template>
-                  </v-col>
-                </v-row>
-              </v-card-text>
-            </panel>
-
-            <panel title="Lenders">
-              <v-card-text>
-                <v-row>
-                  <v-col cols="5">
-                    <h3 class="font-weight-light mb-5">Lenders Fields</h3>
-                    <v-text-field
-                      :readonly="true"
-                      density="compact"
-                      variant="outlined"
-                      :placeholder="column.description"
-                      v-for="column in ucc_map_columns.lenders"
-                      :label="column.label">
-                    </v-text-field>
-                  </v-col>
-                  <v-col cols="2">
-                    <br><br>
-                    <template v-for="n in ucc_map_columns.lenders.length">
-                      <div class="mt-1 mb-5 d-flex align-center justify-center" style="height:42px">
-                        <v-icon>mdi-swap-horizontal</v-icon>
-                      </div>
-                    </template>
-                  </v-col>
-                  <v-col cols="5" >
-                    <h3 class="font-weight-light mb-5">Map to your CSV data</h3>
-                    <template v-for="column in ucc_map_columns.lenders">
-                      <v-combobox
-                        density="compact"
-                        variant="outlined"
-                        label="Select a header"
-                        :items="target_headers"
-                        v-model="column.mapped_to">
-                      </v-combobox>
-                    </template>
-                  </v-col>
-                </v-row>
-              </v-card-text>
-            </panel>
-
-            <panel title="Lessors">
-              <v-card-text>
-                <v-row>
-                  <v-col cols="5">
-                    <h3 class="font-weight-light mb-5">Lenders Fields</h3>
-                    <v-text-field
-                      :readonly="true"
-                      density="compact"
-                      variant="outlined"
-                      :placeholder="column.description"
-                      v-for="column in ucc_map_columns.lessors"
-                      :label="column.label">
-                    </v-text-field>
-                  </v-col>
-                  <v-col cols="2">
-                    <br><br>
-                    <template v-for="n in ucc_map_columns.lessors.length">
-                      <div class="mt-1 mb-5 d-flex align-center justify-center" style="height:42px">
-                        <v-icon>mdi-swap-horizontal</v-icon>
-                      </div>
-                    </template>
-                  </v-col>
-                  <v-col cols="5" >
-                    <h3 class="font-weight-light mb-5">Map to your CSV data</h3>
-                    <template v-for="column in ucc_map_columns.lessors">
-                      <v-combobox
-                        density="compact"
-                        variant="outlined"
-                        label="Select a header"
-                        :items="target_headers"
-                        v-model="column.mapped_to">
-                      </v-combobox>
-                    </template>
-                  </v-col>
-                </v-row>
-              </v-card-text>
-            </panel>
-          </v-expansion-panels>
+          <v-card-text>
+            <v-row>
+              <v-col cols="5">
+                <h3 class="font-weight-light mb-5">Database Columns</h3>
+                <template v-for="column in ucc_map_columns">
+                  <v-text-field
+                    :readonly="true"
+                    density="compact"
+                    variant="outlined"
+                    v-if="column.display"
+                    :label="column.label"
+                    :placeholder="column.description">
+                  </v-text-field>
+                </template>
+              </v-col>
+              <v-col cols="2">
+                <br><br>
+                <template v-for="buyer in ucc_map_columns">
+                  <div v-if="buyer.display" class="mt-1 mb-5 d-flex align-center justify-center" style="height:42px">
+                    <v-icon>mdi-swap-horizontal</v-icon>
+                  </div>
+                </template>
+              </v-col>
+              <v-col cols="5" >
+                <h3 class="font-weight-light mb-5">Map to your CSV Data</h3>
+                <template v-for="column in ucc_map_columns">
+                  <v-combobox
+                    density="compact"
+                    variant="outlined"
+                    v-if="column.display"
+                    label="Select a header"
+                    :items="target_headers"
+                    v-model="column.mapped_to">
+                  </v-combobox>
+                </template>
+              </v-col>
+            </v-row>
+          </v-card-text>
 
           <div class="text-center mt-5">
             <v-btn prepend-icon="mdi-import" :style="theme_btn_style">Ready to Import</v-btn>
@@ -283,17 +163,13 @@ const ParseContents = async() => {
     console.log(res.data);
     sample_values.value = res.data.sample_data;
     target_headers.value = res.data.headers;
-    ucc_map_columns.value.buyers.forEach((buyer: any) => {
-      const preselect = res.data.headers.find((h: string) => {
-        // Remove BOM and trim whitespace
-        const cleanHeader = h.replace(/^\uFEFF/, '').trim();
-        return buyer.preselect.includes(cleanHeader);
+    ucc_map_columns.value.forEach((column: any) => {
+      const preselect = res.data.headers.find((h:string) => {
+        const clean_header = h.replace(/^\uFEFF/,'').trim();
+        return column.preselect.includes(clean_header);
       });
       if (preselect) {
-        buyer.mapped_to = preselect;
-      }
-      if (buyer.column == "buyid") {
-        console.log("preselect: ", preselect);
+        column.mapped_to = preselect;
       }
     });
   });
