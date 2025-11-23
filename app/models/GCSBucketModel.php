@@ -91,4 +91,48 @@ class GCSBucketModel {
             ]));
         }
     }
+
+    /**
+     * Parse CSV content into array accessible by column header
+     * Returns array where keys are column headers (e.g., "BUYID")
+     * and values are arrays of data for that column
+     */
+    public function csv_to_array($csv_content)
+    {
+        try {
+            // Remove BOM if present
+            $csv_content = preg_replace('/^\xEF\xBB\xBF/', '', $csv_content);
+            $lines = explode("\n", trim($csv_content));
+            if (count($lines) < 2) {
+                die(json([
+                    'result'  => false,
+                    'message' => 'CSV must contain headers and at least one data row',
+                ]));
+            }
+            $headers = str_getcsv($lines[0]);
+            $data = [];
+
+            // Parse each row and create associative array
+            for ($i = 1; $i < count($lines); $i++) {
+                if (trim($lines[$i]) === '') {
+                    continue; // Skip empty lines
+                }
+                $row = str_getcsv($lines[$i]);
+                $row_data = [];
+
+                // Map each value to its corresponding header
+                foreach ($headers as $index => $header) {
+                    $row_data[$header] = $row[$index] ?? null;
+                }
+                $data[] = $row_data;
+            }
+            return $data;
+        }
+        catch (\Exception $e) {
+            die(json([
+                'result'  => false,
+                'message' => 'Failed to parse CSV data',
+            ]));
+        }
+    }
 }
