@@ -66,12 +66,7 @@ export const GlobalStore = defineStore('globals', {
 
     // Ucc Explorer Data
     ucc_files: [],
-    ucc_map_columns: {
-      buyers:     [],
-      equipments: [],
-      lenders:    [],
-      lessors:    [],
-    },
+    ucc_map_columns: [],
 
     // Catalog Server (Only for brands)
     cat_manufacturers: [],
