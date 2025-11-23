@@ -4,146 +4,170 @@
     "label": "UCC Filing ID",
     "description": "Identifier linking this equipment item to its related UCC filing record.",
     "table": "equipments",
-    "mapped_to": ""
+    "mapped_to": "",
+    "display": true,
+    "preselect": ["UCCID"]
   },
   {
     "column": "equipment_number",
     "label": "Equipment Number",
     "description": "Internal unique ID used to track this equipment item.",
     "table": "equipments",
-    "mapped_to": ""
+    "mapped_to": "",
+    "display": true,
+    "preselect": ["EQTNU"]
   },
   {
     "column": "serial_number",
     "label": "Serial Number",
     "description": "Serial number or unique identifying number for the physical equipment item.",
     "table": "equipments",
-    "mapped_to": ""
+    "mapped_to": "",
+    "display": true,
+    "preselect": ["EQTSN"]
   },
   {
     "column": "equipment_code",
     "label": "Equipment Code",
     "description": "Internal or standardized code identifying the equipment type.",
     "table": "equipments",
-    "mapped_to": ""
+    "mapped_to": "",
+    "display": true,
+    "preselect": ["EQTCODE"]
   },
   {
     "column": "description",
     "label": "Equipment Description",
     "description": "Description of the equipment being listed in the UCC filing.",
     "table": "equipments",
-    "mapped_to": ""
+    "mapped_to": "",
+    "display": true,
+    "preselect": ["EQTDESC"]
   },
   {
     "column": "manufacturer",
     "label": "Manufacturer",
     "description": "Name of the company that manufactured the equipment.",
     "table": "equipments",
-    "mapped_to": ""
+    "mapped_to": "",
+    "display": true,
+    "preselect": ["EQTMAN"]
   },
   {
     "column": "model",
     "label": "Model",
     "description": "Model name or number of the equipment.",
     "table": "equipments",
-    "mapped_to": ""
+    "mapped_to": "",
+    "display": true,
+    "preselect": ["EQTMODEL"]
   },
   {
     "column": "size",
     "label": "Equipment Size",
     "description": "Size, capacity, or physical measurement of the equipment.",
     "table": "equipments",
-    "mapped_to": ""
+    "mapped_to": "",
+    "display": true,
+    "preselect": ["EQTSZ"]
   },
   {
     "column": "eqt_unit",
     "label": "Unit of Measure",
     "description": "Unit of measure for the equipment item (e.g., unit, piece, lot).",
     "table": "equipments",
-    "mapped_to": ""
+    "mapped_to": "",
+    "display": true,
+    "preselect": ["EQTUNIT"]
   },
   {
     "column": "equipment_value",
     "label": "Equipment Value",
     "description": "Declared dollar value of the equipment for UCC filing purposes.",
     "table": "equipments",
-    "mapped_to": ""
-  },
-  {
-    "column": "lease_dollar_amount",
-    "label": "Lease Amount",
-    "description": "Lease dollar amount associated with this equipment item.",
-    "table": "equipments",
-    "mapped_to": ""
+    "mapped_to": "",
+    "display": true,
+    "preselect": ["EQTVALUE"]
   },
   {
     "column": "ucc_year",
     "label": "UCC Filing Year",
     "description": "Year associated with the UCC filing for this equipment.",
     "table": "equipments",
-    "mapped_to": ""
+    "mapped_to": "",
+    "display": true,
+    "preselect": ["EQTUCCYR"]
   },
   {
     "column": "end_date_year",
     "label": "End Year",
     "description": "End year associated with the lease, term, or coverage period for this equipment.",
     "table": "equipments",
-    "mapped_to": ""
+    "mapped_to": "",
+    "display": true,
+    "preselect": ["EQTEDAYR"]
   },
   {
     "column": "attachment_number",
     "label": "Attachment Number",
     "description": "Identifier linking the equipment entry to its related attachment record.",
     "table": "equipments",
-    "mapped_to": ""
+    "mapped_to": "",
+    "display": true,
+    "preselect": ["EQTATTACH"]
   },
   {
     "column": "service_provider_id",
     "label": "Service Provider ID",
     "description": "Identifier of the service provider associated with this equipment.",
     "table": "equipments",
-    "mapped_to": ""
+    "mapped_to": "",
+    "display": true,
+    "preselect": [""]
   },
   {
     "column": "assignee_id",
     "label": "Assigned To (User ID)",
     "description": "User ID of the person assigned to manage this equipment record.",
     "table": "equipments",
-    "mapped_to": ""
+    "mapped_to": "",
+    "display": true,
+    "preselect": [""]
   },
   {
     "column": "ae_flag",
     "label": "Adverse Event Flag",
     "description": "Indicates whether an adverse event is associated with this equipment item (1 = Yes, 0 = No).",
     "table": "equipments",
-    "mapped_to": ""
-  },
-  {
-    "column": "created_at",
-    "label": "Created At",
-    "description": "Timestamp when this equipment record was created.",
-    "table": "equipments",
-    "mapped_to": ""
+    "mapped_to": "",
+    "display": true,
+    "preselect": ["EQTAE"]
   },
   {
     "column": "id",
     "label": "Record ID",
     "description": "Unique identifier for the equipment database record.",
     "table": "equipments",
-    "mapped_to": ""
+    "mapped_to": "",
+    "display": true,
+    "preselect": [""]
   },
   {
     "column": "user_defined_1",
     "label": "Custom Field 1",
     "description": "Customizable user-defined field for additional equipment data.",
     "table": "equipments",
-    "mapped_to": ""
+    "mapped_to": "",
+    "display": true,
+    "preselect": ["USERDEF1"]
   },
   {
     "column": "user_defined_2",
     "label": "Custom Field 2",
     "description": "Customizable user-defined field for additional equipment data.",
     "table": "equipments",
-    "mapped_to": ""
+    "mapped_to": "",
+    "display": true,
+    "preselect": ["USERDEF2"]
   }
 ]
