@@ -17,12 +17,7 @@ class DataController {
             'auth0_roles'       => $auth->fetch_roles(),
             'auth0_users'       => $auth->fetch_users(true,true),
             'ucc_files'         => UccFileManager::where('partner_id',$partner_id)->get(),
-            'ucc_map_columns'   => [
-                'buyers'     => json_decode(file_get_contents("$path/buyers.json")),
-                'equipments' => json_decode(file_get_contents("$path/equipments.json")),
-                'lenders'    => json_decode(file_get_contents("$path/lenders.json")),
-                'lessors'    => json_decode(file_get_contents("$path/lessors.json")),
-            ],
+            'ucc_columns'       => json_decode(file_get_contents("$path/ucc_filings.json")),
             'idp_partners'      => (new IDProviderPartners)::fetch(),
             'idp_partner_users' => (new IDProviderPartnerUsers)::get(),
             'cat_manufacturers' => (new CatalogManufacturers)::get(),
