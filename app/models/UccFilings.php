@@ -9,5 +9,5 @@ use Kernel\Database\QueryBuilder as Model;
  */
 class UccFilings extends Model
 {
-    protected static $table = "ucc_filings_ORIGINAL";
+    protected static $table = "ucc_filings";
 }
