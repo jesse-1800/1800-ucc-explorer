@@ -130,6 +130,11 @@ class ImportController
 
         // Loop through each UCC ID filing.
         foreach ($mapped_data as $row) {
+            // Check if UCC already exists, then skip.
+            if (UccFilings::find($row->ucc_data->ucc_id)) {
+                continue;
+            }
+
             // Insert the buyer data
             $buyer_id = UccBuyers::get_or_insert($partner_id,$row->buyer);
 
