@@ -8,7 +8,6 @@
         <template v-if="has_pending_tasks">
           <v-card-text>
             <h1 class="mb-5">Pending Task: Complete your import</h1>
-            <pre>{{ucc_map_columns[1]}}</pre>
             <v-row>
               <v-col cols="5">
                 <h3 class="font-weight-light mb-5">Database Columns</h3>
@@ -49,7 +48,7 @@
 
           <div class="text-center mt-5">
             <v-btn
-              @click="ImportData"
+              @click="ImportDataToDB"
               text="Ready to Import"
               prepend-icon="mdi-import"
               :style="theme_btn_style">
@@ -141,13 +140,13 @@ const TriggerFileInput = () => {
 }
 const HandleFileSelect = (event:any) => {
   const selected_file = event.target.files[0]
-  if (selected_file) ProcessFile(selected_file)
+  if (selected_file) UploadToGCS(selected_file)
 }
 const HandleDrop = (event:any) => {
   const dropped_file = event.dataTransfer.files[0]
-  if (dropped_file) ProcessFile(dropped_file)
+  if (dropped_file) UploadToGCS(dropped_file)
 }
-const ProcessFile = async(file_obj:any) => {
+const UploadToGCS = async(file_obj:any) => {
   const form = new FormData;
   const token = await getAccessTokenSilently();
 
@@ -179,7 +178,7 @@ const ParseContents = async() => {
     });
   });
 }
-const ImportData = async() => {
+const ImportDataToDB = async() => {
   const form = new FormData;
   const file_id = has_pending_tasks.value.id;
   const token = await getAccessTokenSilently();
@@ -192,6 +191,7 @@ const ImportData = async() => {
   form.append('mappings', JSON.stringify(mappings));
   UccServer(token).post(`/import/import-data`,form).then(res => {
     console.log(res.data);
+    store.ShowSuccess(res.data.result)
   });
 }
 

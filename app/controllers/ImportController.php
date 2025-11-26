@@ -74,7 +74,7 @@ class ImportController
      * Uploads file into GCS Bucket under a partner's
      * company name slug e.g. 1800-office-solutions
      */
-    public function store()
+    public function upload_to_gcs()
     {
         if (!isset($_FILES['file'])) {
             return json([
@@ -133,8 +133,8 @@ class ImportController
 
             // Apply mappings to transform CSV headers to database columns
             foreach ($mappings as $mapping) {
-                $db_column = $mapping->db_column;        // e.g., 'buyid'
-                $csv_header = $mapping->mapped_to;       // e.g., 'BUYID'
+                $db_column  = $mapping->db_column; // e.g., 'buyid'
+                $csv_header = $mapping->mapped_to; // e.g., 'BUYID'
 
                 // Get the value from CSV row using the mapped header
                 if (isset($csv_row[$csv_header])) {
@@ -150,9 +150,21 @@ class ImportController
         }
 
         // The actual database insertion
+        $rows_inserted = 0;
         foreach($data_list as $insert) {
-            UccFilings::insert($insert);
+            $is_inserted = UccFilings::insert($insert);
+            if ($is_inserted) $rows_inserted++;
         }
+        $result = $rows_inserted == count($data_list);
+
+        // Update file status
+        $file_mgr->is_imported = 1;
+        $file_mgr->save();
+
+        return json([
+            "result" => $result,
+            "message" => "$rows_inserted row(s) inserted out of (".count($data_list).") from your file."
+        ]);
     }
 
 }
