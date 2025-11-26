@@ -75,7 +75,6 @@ class GCSBucketModel {
                 ]));
             }
             $headers = str_getcsv($lines[0]);
-            $sample = isset($this->csv_to_array($csv_content)[0]) ? $this->csv_to_array($csv_content)[0] : null;
 
             // Cleanup
             foreach ($headers as $index => $header) {
@@ -84,7 +83,7 @@ class GCSBucketModel {
 
             return [
                 'headers' => $headers,
-                'sample_data' => $sample,
+                'data' => $this->csv_to_array($csv_content),
             ];
         }
         catch (\Exception $e) {
