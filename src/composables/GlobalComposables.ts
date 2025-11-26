@@ -82,7 +82,7 @@ export const FindPartnerUser = (user_id:string) => {
 export const IsMyself = (user_id:string) => {
   return user_id == my_user_id.value;
 }
-export const SluggifyText = (input_text) => {
+export const SluggifyText = (input_text:string) => {
   return input_text
   .toString()
   .trim()
@@ -194,7 +194,7 @@ export const theme_drawer_style = computed(() => {
 });
 export const theme_navbar_style = computed(() => {
   if (backend_theme.value == 'light') {
-    return `background:linear-gradient(44deg,rgba(4,0,110,1) 0%,rgba(0,0,171,1) 51%,rgba(0,100,200,1) 100%)`
+    return ``
   } else {
     return `background:rgba(7,10,42,0.8)`
   }
