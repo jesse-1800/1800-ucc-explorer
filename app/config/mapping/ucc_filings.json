@@ -190,7 +190,7 @@
     "preselect": ["BUYSICDESC"]
   },
   {
-    "column": "buyer_dola",
+    "column": "buyer_lease_acqui_date",
     "label": "Lease Dollar Amount",
     "description": "Total dollar amount of the lease.",
     "table": "ucc_filings",

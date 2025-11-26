@@ -22,6 +22,7 @@ declare module 'vue-router/auto-routes' {
     '/[...notfound]': RouteRecordInfo<'/[...notfound]', '/:notfound(.*)', { notfound: ParamValue<true> }, { notfound: ParamValue<false> }>,
     '/dashboard': RouteRecordInfo<'/dashboard', '/dashboard', Record<never, never>, Record<never, never>>,
     '/import': RouteRecordInfo<'/import', '/import', Record<never, never>, Record<never, never>>,
+    '/importCopy': RouteRecordInfo<'/importCopy', '/importCopy', Record<never, never>, Record<never, never>>,
     '/login': RouteRecordInfo<'/login', '/login', Record<never, never>, Record<never, never>>,
     '/partners': RouteRecordInfo<'/partners', '/partners', Record<never, never>, Record<never, never>>,
     '/providers': RouteRecordInfo<'/providers', '/providers', Record<never, never>, Record<never, never>>,

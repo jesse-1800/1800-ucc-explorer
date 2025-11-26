@@ -277,10 +277,13 @@ const ImportDataToDB = async() => {
   const form = new FormData;
   const file_id = has_pending_tasks.value.id;
   const token = await getAccessTokenSilently();
+  const mappings = ucc_map_columns.value.map((field:any)=>({
+    db_column: field.column,
+    mapped_to: field.mapped_to
+  }));
 
-  form.append('partner_id', my_partner_id.value);
   form.append('file_id', file_id);
-  form.append('data', JSON.stringify(ucc_grouped_data.value));
+  form.append('mappings', JSON.stringify(mappings));
   UccServer(token).post(`/import/import-data`,form).then(res => {
     console.log(res.data);
     store.ShowSuccess(res.data.result);

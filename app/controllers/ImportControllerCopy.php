@@ -10,7 +10,7 @@ use Kernel\Database\Database;
  * This class is meant for imports only.
  * For rehydration, check FilesController.php
  */
-class ImportController
+class ImportControllerCopy
 {
     /**
      * Will pull column names from select table
@@ -120,12 +120,42 @@ class ImportController
      */
     public function import_data()
     {
-        $partner_id = $_POST['partner_id'];
-        $mapped_data = json_decode($_POST['data']);
+        $gcs_inst = new GCSBucketModel();
         $file_mgr = UccFileManager::find($_POST['file_id']);
+        $contents = $gcs_inst->parse_file($file_mgr->name);
+        $csv_data = $gcs_inst->csv_to_array($contents);
+        $mappings = json_decode($_POST['mappings']);
+        $data_list = array();
 
+        // Loop through each CSV record
+        foreach ($csv_data as $csv_row) {
+            $row_data = array();
 
-        dump($mapped_data);
+            // Apply mappings to transform CSV headers to database columns
+            foreach ($mappings as $mapping) {
+                $db_column  = $mapping->db_column; // e.g., 'buyid'
+                $csv_header = $mapping->mapped_to; // e.g., 'BUYID'
+
+                // Get the value from CSV row using the mapped header
+                if (isset($csv_row[$csv_header])) {
+                    $row_data[$db_column] = $csv_row[$csv_header];
+                } else {
+                    // Optional: handle missing values
+                    $row_data[$db_column] = null;
+                }
+            }
+
+            // Add the transformed row to data_list
+            $data_list[] = $row_data;
+        }
+
+        // The actual database insertion
+        $rows_inserted = 0;
+        foreach($data_list as $insert) {
+            $is_inserted = UccFilings::insert($insert);
+            if ($is_inserted) $rows_inserted++;
+        }
+        $result = $rows_inserted == count($data_list);
 
         // Update file status
         $file_mgr->is_imported = 1;
