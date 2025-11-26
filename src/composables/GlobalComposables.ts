@@ -6,11 +6,15 @@ const store = GlobalStore();
 const {
   modals,
   profile,
-  ucc_files,
   auth0_users,
-  idp_partners,
   backend_theme,
+  idp_partners,
   idp_partner_users,
+
+  ucc_files,
+  ucc_buyers,
+  ucc_filings,
+  ucc_equipments,
 } = storeToRefs(store);
 
 // Computed properties
@@ -91,6 +95,14 @@ export const SluggifyText = (input_text:string) => {
   .replace(/[^a-z0-9\-]/g, "")     // remove non-alphanumeric chars except hyphens
   .replace(/\-+/g, "-")            // collapse multiple hyphens
   .replace(/^\-+|\-+$/g, "");      // trim leading/trailing hyphens
+}
+export const FindUccEquipments = (ucc_filing_id:string) => {
+  return ucc_equipments.value.filter(equipment => {
+    return equipment.ucc_filing_id === ucc_filing_id
+  });
+}
+export const FindUccBuyer = (buyer_id:string) => {
+  return ucc_buyers.value.find(buyer => buyer.id === buyer_id);
 }
 
 // Access Levels
