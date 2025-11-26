@@ -1,9 +1,9 @@
 <template>
   <v-app :style="theme_main_background" id="backend-app" :theme="backend_theme" class="outfit-font">
     <v-layout class="d-flex flex-column fill-height">
-      <v-app-bar class="layout-appbar elevation-0 border-b" prominent theme="dark" :style="theme_navbar_style">
+      <v-app-bar class="layout-appbar elevation-0 border-b" prominent :style="theme_navbar_style">
         <v-app-bar-nav-icon variant="text" @click="ToggleSidebar"/>
-        <AuthorLogoBackend color="light"/>
+        <AuthorLogoBackend/>
         <v-spacer/>
 
         <div class="d-flex align-center" v-if="global_loading">
