@@ -19,6 +19,9 @@ class UccAssignees extends Model
             ->first();
         if ($finder) return $finder->id;
 
+        # If assignee_id is empty, return null
+        if (empty($assignee->assignee_id)) return null;
+
         # Otherwise, insert
         self::insert([
             'id'               => $assignee->assignee_id,
