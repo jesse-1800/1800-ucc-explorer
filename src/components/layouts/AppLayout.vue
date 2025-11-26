@@ -31,13 +31,13 @@
         </v-list>
 
         <v-list>
-          <v-list-item to="/"           prepend-icon="mdi-view-dashboard" title="Dashboard"/>
-          <v-list-item to="/equipments" prepend-icon="mdi-printer-outline" title="Equipments"/>
-          <v-list-item to="/buyers"     prepend-icon="mdi-account-supervisor-circle" title="Buyers"/>
-          <v-list-item to="/lenders"    prepend-icon="mdi-bank-circle-outline" title="Lenders"/>
-          <v-list-item to="/lessors"    prepend-icon="mdi-domain" title="Lessors"/>
-          <v-list-item to="/ucc-list"   prepend-icon="mdi-format-list-text" title="UCC List"/>
-          <v-list-item to="/import"     prepend-icon="mdi-import" title="Import Data..."/>
+          <v-list-item to="/"            prepend-icon="mdi-view-dashboard" title="Dashboard"/>
+          <v-list-item to="/equipments"  prepend-icon="mdi-printer-outline" title="Equipments"/>
+          <v-list-item to="/buyers"      prepend-icon="mdi-account-supervisor-circle" title="Buyers"/>
+          <v-list-item to="/lenders"     prepend-icon="mdi-bank-circle-outline" title="Lenders"/>
+          <v-list-item to="/lessors"     prepend-icon="mdi-domain" title="Lessors"/>
+          <v-list-item to="/ucc-filings" prepend-icon="mdi-format-list-text" title="UCC Filings"/>
+          <v-list-item to="/import"      prepend-icon="mdi-import" title="Import Data..."/>
 
           <template v-if="is_admin">
             <v-divider/>
