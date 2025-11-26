@@ -68,18 +68,23 @@ class GCSBucketModel {
     {
         try {
             $lines = explode("\n", trim($csv_content));
-
             if (count($lines) < 2) {
                 die(json([
                     'result'  => false,
                     'message' => 'CSV must contain headers and at least one data row',
                 ]));
             }
-
             $headers = str_getcsv($lines[0]);
+            $sample = isset($this->csv_to_array($csv_content)[0]) ? $this->csv_to_array($csv_content)[0] : null;
+
+            // Cleanup
+            foreach ($headers as $index => $header) {
+                $headers[$index] = preg_replace('/^\xEF\xBB\xBF/', '', $header);
+            }
+
             return [
                 'headers' => $headers,
-                'data' => $this->csv_to_array($csv_content)
+                'sample_data' => $sample,
             ];
         }
         catch (\Exception $e) {
