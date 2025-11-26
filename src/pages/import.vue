@@ -4,6 +4,8 @@
     <template #content>
       <squeeze class="mt-md-15" columns="8" offset="2">
 
+        <pre>{{ucc_grouped_data}}</pre>
+
         <!--Show the Field Mapping Window-->
         <template v-if="has_pending_tasks">
           <v-card-text>
@@ -129,7 +131,7 @@ import {theme_btn_style,} from "@/composables/GlobalComposables";
 import {theme_table_style} from "@/composables/GlobalComposables";
 
 const store = GlobalStore();
-const sample_data = ref([]);
+const actual_data = ref([]);
 const target_headers = ref([]);
 const headers = [
   {title:"ID",       value: "id",  sortable:true},
@@ -143,13 +145,98 @@ const has_pending_tasks = computed(() => {
 });
 const {ucc_files,ucc_map_columns} = storeToRefs(store);
 
-const TriggerFileInput = () => {
-  file_input.value?.click()
-}
-const HandleFileSelect = (event:any) => {
-  const selected_file = event.target.files[0]
-  if (selected_file) UploadToGCS(selected_file)
-}
+// Grouping data
+const ucc_grouped_data = computed(() => {
+  const ucc_key = GetBoundColumn('ucc_id');
+  const ids_only_group = <any>[];
+  const final_list = <any>[];
+
+  actual_data.value.forEach((data) => {
+    if (!ids_only_group.includes(data[ucc_key])) {
+      ids_only_group.push(data[ucc_key]);
+    }
+  });
+
+  ids_only_group.forEach((ucc_id:string) => {
+    const selected_ucc_rows = actual_data.value.filter(d => d[ucc_key] == ucc_id);
+    const first_row = selected_ucc_rows[0];
+    const equipments_list = <any>[];
+    selected_ucc_rows.forEach(row => {
+      equipments_list.push({
+        equipment_unit:      row[GetBoundColumn('equipment_unit')],
+        equipment_ucc_year:  row[GetBoundColumn('equipment_ucc_year')],
+        equipment_number:    row[GetBoundColumn('equipment_number')],
+        equipment_brand:     row[GetBoundColumn('equipment_brand')],
+        equipment_model:     row[GetBoundColumn('equipment_model')],
+        equipment_desc:      row[GetBoundColumn('equipment_desc')],
+        equipment_code:      row[GetBoundColumn('equipment_code')],
+        equipment_serial_no: row[GetBoundColumn('equipment_serial_no')],
+        equipment_size:      row[GetBoundColumn('equipment_size')],
+        equipment_end_year:  row[GetBoundColumn('equipment_end_year')],
+        equipment_attachment:row[GetBoundColumn('equipment_attachment')],
+        equipment_value:     row[GetBoundColumn('equipment_value')],
+        equipment_tae:       row[GetBoundColumn('equipment_tae')],
+      });
+    });
+
+    final_list.push({
+      ucc_id: ucc_id,
+      ucc_data: {
+        ucc_id:            first_row[GetBoundColumn('ucc_id')],
+        ucc_transaction_id:first_row[GetBoundColumn('ucc_transaction_id')],
+        ucc_date:          first_row[GetBoundColumn('ucc_date')],
+        ucc_status:        first_row[GetBoundColumn('ucc_status')],
+        ucc_lien:          first_row[GetBoundColumn('ucc_lien')],
+        ucc_comments:      first_row[GetBoundColumn('ucc_comments')],
+        ucc_fips2:         first_row[GetBoundColumn('ucc_fips2')],
+        ucc_batch:         first_row[GetBoundColumn('ucc_batch')],
+      },
+      buyer:    {
+        buyer_id:       first_row[GetBoundColumn('buyer_id')],
+        buyer_company:  first_row[GetBoundColumn('buyer_company')],
+        buyer_adress1:  first_row[GetBoundColumn('buyer_adress1')],
+        buyer_adress2:  first_row[GetBoundColumn('buyer_adress2')],
+        buyer_city:     first_row[GetBoundColumn('buyer_city')],
+        buyer_state:    first_row[GetBoundColumn('buyer_state')],
+        buyer_zip:      first_row[GetBoundColumn('buyer_zip')],
+        buyer_phone:    first_row[GetBoundColumn('buyer_phone')],
+        buyer_fax:      first_row[GetBoundColumn('buyer_fax')],
+        buyer_fips:     first_row[GetBoundColumn('buyer_fips')],
+        buyer_county:   first_row[GetBoundColumn('buyer_county')],
+        buyer_sic:      first_row[GetBoundColumn('buyer_sic')],
+        buyer_sic_desc: first_row[GetBoundColumn('buyer_sic_desc')],
+        buyer_dola:     first_row[GetBoundColumn('buyer_dola')],
+        buyer_duns:     first_row[GetBoundColumn('buyer_duns')],
+      },
+      contacts: {
+        buyer_primary_firstname:   first_row[GetBoundColumn('buyer_primary_firstname')],
+        buyer_primary_lastname:    first_row[GetBoundColumn('buyer_primary_lastname')],
+        buyer_primary_title:       first_row[GetBoundColumn('buyer_primary_title')],
+        buyer_secondary_firstname: first_row[GetBoundColumn('buyer_secondary_firstname')],
+        buyer_secondary_lastname:  first_row[GetBoundColumn('buyer_secondary_lastname')],
+        buyer_secondary_title:     first_row[GetBoundColumn('buyer_secondary_title')],
+      },
+      provider: {
+        provider_id:      first_row[GetBoundColumn('provider_id')],
+        provider_class:   first_row[GetBoundColumn('provider_class')],
+        provider_company: first_row[GetBoundColumn('provider_company')],
+        provider_city:    first_row[GetBoundColumn('provider_city')],
+        provider_state:   first_row[GetBoundColumn('provider_state')],
+      },
+      assignee: {
+        assignee_id:      first_row[GetBoundColumn('assignee_id')],
+        assignee_class:   first_row[GetBoundColumn('assignee_class')],
+        assignee_company: first_row[GetBoundColumn('assignee_company')],
+        assignee_city:    first_row[GetBoundColumn('assignee_city')],
+        assignee_state:   first_row[GetBoundColumn('assignee_state')],
+      },
+      equipments: equipments_list,
+    });
+  });
+
+  return final_list;
+});
+
 const HandleDrop = (event:any) => {
   const dropped_file = event.dataTransfer.files[0]
   if (dropped_file) UploadToGCS(dropped_file)
@@ -173,7 +260,7 @@ const ParseContents = async() => {
   const token = await getAccessTokenSilently();
   UccServer(token).post(`/files/parse-file/${file_id}`).then(res => {
     console.log(res.data);
-    sample_data.value = res.data.sample_data;
+    actual_data.value = res.data.data;
     target_headers.value = res.data.headers;
     ucc_map_columns.value.forEach((column: any) => {
       const preselect = res.data.headers.find((h:string) => {
@@ -204,11 +291,26 @@ const ImportDataToDB = async() => {
   });
 }
 const FindSampleValue = (csv_header:string) => {
-  if (sample_data.value[csv_header as any]) {
-    return sample_data.value[csv_header as any];
-  } else {
-    return null;
+  const single_row = actual_data.value[0];
+  if (single_row[csv_header]) {
+    return single_row[csv_header];
   }
+  return null;
+}
+const GetBoundColumn = (db_column:string) => {
+  // this returns the csv column bound to the table column. e.g. ucc_id => UCCID
+  const finder = ucc_map_columns.value.find((c:any) => c.column === db_column);
+  if (finder) {
+    return finder.mapped_to;
+  }
+  return null;
+}
+const TriggerFileInput = () => {
+  file_input.value?.click()
+}
+const HandleFileSelect = (event:any) => {
+  const selected_file = event.target.files[0]
+  if (selected_file) UploadToGCS(selected_file)
 }
 
 // Watcher to check if there's pending task.
