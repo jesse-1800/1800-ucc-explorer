@@ -77,11 +77,9 @@ class GCSBucketModel {
             }
 
             $headers = str_getcsv($lines[0]);
-            $first_row = str_getcsv($lines[1]);
-
             return [
                 'headers' => $headers,
-                'sample_data' => $first_row
+                'data' => $this->csv_to_array($csv_content)
             ];
         }
         catch (\Exception $e) {
