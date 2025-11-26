@@ -4,8 +4,6 @@
     <template #content>
       <squeeze class="mt-md-15" columns="8" offset="2">
 
-        <pre>{{ucc_grouped_data}}</pre>
-
         <!--Show the Field Mapping Window-->
         <template v-if="has_pending_tasks">
           <v-card-text>
@@ -90,6 +88,7 @@
           </v-sheet>
         </template>
 
+        <!--List all files-->
         <v-data-table class="mt-5" :style="theme_table_style" :items="ucc_files" :headers="headers">
           <template #item="{item}">
             <tr>
@@ -182,14 +181,15 @@ const ucc_grouped_data = computed(() => {
     final_list.push({
       ucc_id: ucc_id,
       ucc_data: {
-        ucc_id:            first_row[GetBoundColumn('ucc_id')],
-        ucc_transaction_id:first_row[GetBoundColumn('ucc_transaction_id')],
-        ucc_date:          first_row[GetBoundColumn('ucc_date')],
-        ucc_status:        first_row[GetBoundColumn('ucc_status')],
-        ucc_lien:          first_row[GetBoundColumn('ucc_lien')],
-        ucc_comments:      first_row[GetBoundColumn('ucc_comments')],
-        ucc_fips2:         first_row[GetBoundColumn('ucc_fips2')],
-        ucc_batch:         first_row[GetBoundColumn('ucc_batch')],
+        ucc_id:              first_row[GetBoundColumn('ucc_id')],
+        ucc_transaction_id:  first_row[GetBoundColumn('ucc_transaction_id')],
+        ucc_date:            first_row[GetBoundColumn('ucc_date')],
+        ucc_lease_acqui_date:first_row[GetBoundColumn('ucc_lease_acqui_date')],
+        ucc_status:          first_row[GetBoundColumn('ucc_status')],
+        ucc_lien:            first_row[GetBoundColumn('ucc_lien')],
+        ucc_comments:        first_row[GetBoundColumn('ucc_comments')],
+        ucc_fips2:           first_row[GetBoundColumn('ucc_fips2')],
+        ucc_batch:           first_row[GetBoundColumn('ucc_batch')],
       },
       buyer:    {
         buyer_id:       first_row[GetBoundColumn('buyer_id')],

@@ -1,9 +1,14 @@
 <?php
 
 use App\Models\GCSBucketModel;
+use App\Models\UccAssignees;
+use App\Models\UccBuyers;
+use App\Models\UccContacts;
+use App\Models\UccEquipments;
 use App\Models\UccFileManager;
 use App\Models\UccFilings;
 use App\Models\UccLanguageModel;
+use App\Models\UccProviders;
 use Kernel\Database\Database;
 
 /**
@@ -120,21 +125,87 @@ class ImportController
      */
     public function import_data()
     {
-        $partner_id = $_POST['partner_id'];
+        $partner_id  = $_POST['partner_id'];
         $mapped_data = json_decode($_POST['data']);
-        $file_mgr = UccFileManager::find($_POST['file_id']);
 
+        // Loop through each UCC ID filing.
+        foreach ($mapped_data as $row) {
+            // Insert the buyer data
+            $buyer_id = UccBuyers::get_or_insert($partner_id,$row->buyer);
 
-        dump($mapped_data);
+            // Insert Primary Contact
+            $primary_contact_id = UccContacts::get_or_insert(
+                $buyer_id,
+                $partner_id,
+                $row->contacts->buyer_primary_firstname,
+                $row->contacts->buyer_primary_lastname,
+                $row->contacts->buyer_primary_title,
+            );
+
+            // Insert Secondary Contact
+            $secondary_contact_id = UccContacts::get_or_insert(
+                $buyer_id,
+                $partner_id,
+                $row->contacts->buyer_secondary_firstname,
+                $row->contacts->buyer_secondary_lastname,
+                $row->contacts->buyer_secondary_title,
+            );
+
+            // Insert Service Provider
+            $provider_id = UccProviders::get_or_insert($partner_id,$row->provider);
+
+            // Insert Assignee
+            $assignee_id = UccAssignees::get_or_insert($partner_id,$row->assignee);
+
+            // Insert UCC Filing (required for Equipments)
+            UccFilings::insert([
+                'id'                  => $row->ucc_data->ucc_id,
+                'partner_id'          => $partner_id,
+                'buyer_id'            => $buyer_id,
+                'assignee_id'         => $assignee_id,
+                'provider_id'         => $provider_id,
+                'primary_contact_id'  => $primary_contact_id,
+                'secondary_contact_id'=> $secondary_contact_id,
+                'ucc_transaction_id'  => $row->ucc_data->ucc_transaction_id,
+                'ucc_date'            => $row->ucc_data->ucc_date,
+                'ucc_lease_acqui_date'=> $row->ucc_data->ucc_lease_acqui_date,
+                'ucc_status'          => $row->ucc_data->ucc_status,
+                'ucc_lien'            => $row->ucc_data->ucc_lien,
+                'ucc_comments'        => $row->ucc_data->ucc_comments,
+                'ucc_fips2'           => $row->ucc_data->ucc_fips2,
+                'ucc_batch'           => $row->ucc_data->ucc_batch,
+            ]);
+
+            // Iterate and Insert Equipments
+            foreach ($row->equipments as $equipment) {
+                UccEquipments::insert([
+                    'partner_id'          => $partner_id,
+                    'ucc_filing_id'       => $row->ucc_data->ucc_id,
+                    'equipment_unit'      => $equipment->equipment_unit,
+                    'equipment_ucc_year'  => $equipment->equipment_ucc_year,
+                    'equipment_number'    => $equipment->equipment_number,
+                    'equipment_brand'     => $equipment->equipment_brand,
+                    'equipment_model'     => $equipment->equipment_model,
+                    'equipment_desc'      => $equipment->equipment_desc,
+                    'equipment_code'      => $equipment->equipment_code,
+                    'equipment_serial_no' => $equipment->equipment_serial_no,
+                    'equipment_size'      => $equipment->equipment_size,
+                    'equipment_end_year'  => $equipment->equipment_end_year,
+                    'equipment_attachment'=> $equipment->equipment_attachment,
+                    'equipment_value'     => $equipment->equipment_value,
+                    'equipment_tae'       => $equipment->equipment_tae,
+                ]);
+            }
+        }
 
         // Update file status
-        $file_mgr->is_imported = 1;
-        $file_mgr->save();
+        $file_model = UccFileManager::find($_POST['file_id']);
+        $file_model->is_imported = 1;
+        $file_model->save();
 
         return json([
-            "result" => $result,
-            "message" => "$rows_inserted row(s) inserted out of (".count($data_list).") from your file."
+            'result' => true,
+            'message' => count($mapped_data) . ' UCC records imported successfully.'
         ]);
     }
-
 }

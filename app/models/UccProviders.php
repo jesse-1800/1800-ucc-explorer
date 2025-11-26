@@ -21,7 +21,7 @@ class UccProviders extends Model
         if ($finder) return $finder->id;
 
         # Otherwise, insert
-        $is_inserted = self::insert([
+        self::insert([
             'id'              => $provider->provider_id,
             'partner_id'      => $partner_id,
             'provider_class'  => $provider->provider_class,
@@ -29,7 +29,6 @@ class UccProviders extends Model
             'provider_city'   => $provider->provider_city,
             'provider_state'  => $provider->provider_state,
         ]);
-
-        return $is_inserted ? self::lastInsertedId() : null;
+        return $provider->provider_id;
     }
 }
