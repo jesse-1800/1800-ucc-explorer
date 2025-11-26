@@ -190,16 +190,6 @@
     "preselect": ["BUYSICDESC"]
   },
   {
-    "column": "buyer_lease_acqui_date",
-    "label": "Lease Dollar Amount",
-    "description": "Total dollar amount of the lease.",
-    "table": "ucc_filings",
-    "mapped_to": "",
-    "display": true,
-    "category": "Buyers",
-    "preselect": ["BUYDOLA"]
-  },
-  {
     "column": "buyer_duns",
     "label": "Buyer DUNS Number",
     "description": "Dun & Bradstreet identification number for the buyer.",
@@ -238,6 +228,16 @@
     "display": true,
     "category": "UCC Filing",
     "preselect": ["UCCDATE"]
+  },
+  {
+    "column": "ucc_lease_acqui_date",
+    "label": "UCC Date of Lease Acquisition",
+    "description": "Date of Lease Acquisition",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "UCC Filing",
+    "preselect": ["BUYDOLA"]
   },
   {
     "column": "ucc_status",
