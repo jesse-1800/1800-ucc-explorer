@@ -11,4 +11,15 @@ class CatalogManufacturers extends Model
         parent::__construct($data);
         Connection::initialize('catalog');
     }
+
+    public static function fetch()
+    {
+        # Fetch data first
+        $data = self::get();
+
+        # Revert the connection to default asap.
+        Connection::initialize('default');
+
+        return $data;
+    }
 }
