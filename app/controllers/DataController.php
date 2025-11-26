@@ -23,6 +23,7 @@ class DataController {
             'auth0_roles'       => $auth->fetch_roles(),
             'auth0_users'       => $auth->fetch_users(true,true),
 
+            // Shared databases
             'idp_partners'      => (new IDProviderPartners)::fetch(),
             'idp_partner_users' => (new IDProviderPartnerUsers)::get(),
             'cat_manufacturers' => (new CatalogManufacturers)::fetch(),
