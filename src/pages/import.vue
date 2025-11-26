@@ -40,6 +40,14 @@
                     label="Select a header"
                     :items="target_headers"
                     v-model="column.mapped_to">
+                    <template #item="{item}">
+                      <v-list-item @click="column.mapped_to = item.value">
+                        <v-list-item-title>
+                          <span class="mr-2">{{item.title}}</span>
+                          <i class="text-grey" v-if="FindSampleValue(item.value)">({{FindSampleValue(item.value)}})</i>
+                        </v-list-item-title>
+                      </v-list-item>
+                    </template>
                   </v-combobox>
                 </template>
               </v-col>
@@ -121,7 +129,7 @@ import {theme_btn_style,} from "@/composables/GlobalComposables";
 import {theme_table_style} from "@/composables/GlobalComposables";
 
 const store = GlobalStore();
-const sample_values = ref([]);
+const sample_data = ref([]);
 const target_headers = ref([]);
 const headers = [
   {title:"ID",       value: "id",  sortable:true},
@@ -165,7 +173,7 @@ const ParseContents = async() => {
   const token = await getAccessTokenSilently();
   UccServer(token).post(`/files/parse-file/${file_id}`).then(res => {
     console.log(res.data);
-    sample_values.value = res.data.sample_data;
+    sample_data.value = res.data.sample_data;
     target_headers.value = res.data.headers;
     ucc_map_columns.value.forEach((column: any) => {
       const preselect = res.data.headers.find((h:string) => {
@@ -191,8 +199,16 @@ const ImportDataToDB = async() => {
   form.append('mappings', JSON.stringify(mappings));
   UccServer(token).post(`/import/import-data`,form).then(res => {
     console.log(res.data);
-    store.ShowSuccess(res.data.result)
+    store.ShowSuccess(res.data.result);
+    store.FetchAllData(token);
   });
+}
+const FindSampleValue = (csv_header:string) => {
+  if (sample_data.value[csv_header as any]) {
+    return sample_data.value[csv_header as any];
+  } else {
+    return null;
+  }
 }
 
 // Watcher to check if there's pending task.

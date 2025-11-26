@@ -70,7 +70,7 @@
     "preselect": ["BUYC2TITLE"]
   },
   {
-    "column": "buyer_company_name",
+    "column": "buyer_company",
     "label": "Buyer Company Name",
     "description": "Name of the buyer's company or organization.",
     "table": "ucc_filings",
@@ -260,7 +260,7 @@
     "preselect": ["UCCLIEN"]
   },
   {
-    "column": "ucc_com",
+    "column": "ucc_comments",
     "label": "UCC Comment",
     "description": "Additional comments or notes related to the UCC filing.",
     "table": "ucc_filings",
@@ -310,7 +310,7 @@
     "preselect": ["SPCLASS"]
   },
   {
-    "column": "provider_comp",
+    "column": "provider_company",
     "label": "Service Provider Company",
     "description": "Name of the service provider company.",
     "table": "ucc_filings",
@@ -360,7 +360,7 @@
     "preselect": ["ASCLASS"]
   },
   {
-    "column": "assignee_comp",
+    "column": "assignee_company",
     "label": "Assignee Company",
     "description": "Name of the assignee company or organization.",
     "table": "ucc_filings",
