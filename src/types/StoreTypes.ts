@@ -81,8 +81,14 @@ export interface GlobalStateTypes {
   idp_partner_users: any[];
 
   // Ucc Explorer Data
+  ucc_assignees: any[];
+  ucc_buyers: any[];
+  ucc_contacts: any[];
+  ucc_equipments: any[];
   ucc_files: any[];
-  ucc_map_columns: any;
+  ucc_filings: any[];
+  ucc_providers: any[];
+  ucc_map_columns: any[];
 
   // Catalog Server (Only for brands)
   cat_manufacturers: ManufacturerType[],
