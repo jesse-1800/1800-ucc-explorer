@@ -19,7 +19,7 @@
                 <td>{{item.ucc_date}}</td>
                 <td>{{item.ucc_status}}</td>
                 <td>
-                  <v-btn variant="outlined" size="small" prepend-icon="mdi-file-find" color="primary">View</v-btn>
+                  <v-btn variant="outlined" size="small" prepend-icon="mdi-file-find" color="primary" @click="ViewUcc(item.id)">View</v-btn>
                   <v-btn variant="outlined" size="small" prepend-icon="mdi-pencil" color="primary" class="ml-1">Edit</v-btn>
                 </td>
               </tr>
@@ -27,6 +27,8 @@
           </v-data-table>
         </template>
       </InnerLayout>
+
+      <UccFilingsViewModal :ucc_filing_id="view_ucc_id"/>
     </template>
   </AppLayout>
 </template>
@@ -36,12 +38,13 @@ import moment from "moment";
 import {storeToRefs} from "pinia";
 import {useAuth0} from "@auth0/auth0-vue";
 import {GlobalStore} from "@/stores/globals";
+import {ToggleModal} from "@/composables/GlobalComposables";
 import {FindUccBuyer} from "@/composables/GlobalComposables";
 import {FindUccEquipments} from "@/composables/GlobalComposables";
 import {theme_table_style} from "@/composables/GlobalComposables";
 
-
 const store = GlobalStore();
+const view_ucc_id = ref<any>(null);
 const headers = <any>[
   {title: "UCC ID",     value: "id",           sortable: true},
   {title: "Company",    value: "buyer_company",sortable: true},
@@ -119,4 +122,9 @@ const filtered_ucc_filings = computed(() => {
   return filtered_ucc_list;
 });
 const {ucc_filing_filters:filters} = storeToRefs(store);
+
+const ViewUcc = (ucc_filing_id:string) => {
+  view_ucc_id.value = ucc_filing_id;
+  ToggleModal('ucc_filing_viewer',true);
+}
 </script>

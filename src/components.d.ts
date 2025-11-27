@@ -99,6 +99,8 @@ declare module 'vue' {
     TieredServicesTable: typeof import('./components/shared/it-services/TieredServicesTable.vue')['default']
     Tooltip: typeof import('./components/misc/Tooltip.vue')['default']
     UccFilingsFilters: typeof import('./components/shared/ucc-filings/UccFilingsFilters.vue')['default']
+    UccFilingsViewer: typeof import('./components/shared/ucc-filings/UccFilingsViewer.vue')['default']
+    UccFilingsViewModal: typeof import('./components/shared/ucc-filings/UccFilingsViewModal.vue')['default']
     UccFilters: typeof import('./components/shared/ucc-filings/UccFilters.vue')['default']
     UsersSettings: typeof import('./components/shared/settings/UsersSettings.vue')['default']
     ZoomButtons: typeof import('./components/shared/view-proposal/ZoomButtons.vue')['default']

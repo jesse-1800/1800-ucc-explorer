@@ -18,7 +18,9 @@ export const GlobalStore = defineStore('globals', {
     is_data_loaded: false,
 
     // Modals
-    modals: {},
+    modals: {
+      ucc_filing_viewer: false,
+    },
 
     // Theming
     backend_theme: 'dark',
@@ -98,6 +100,9 @@ export const GlobalStore = defineStore('globals', {
       'users',
       'partners',
       'auth0_roles',
+
+      // Filters
+      'ucc_filing_filters'
     ],
   },
   actions: {

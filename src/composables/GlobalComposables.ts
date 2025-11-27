@@ -221,8 +221,7 @@ export const theme_modal_style = computed(() => {
 export const theme_panel_color = computed(() => {
   if (backend_theme.value == 'light') {
     return (`
-      background:${cm8_gradient.value};
-      color: #ffffff;
+      background: #f1f1f1;
     `)
   } else {
     return `background:rgba(28, 33, 65, 0.8)`
