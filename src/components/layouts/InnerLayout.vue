@@ -2,13 +2,13 @@
   <div class="d-flex flex-column fill-height">
 
     <v-navigation-drawer
-      :style="theme_drawer_style"
-      v-model="sidebar"
-      class="layout-sidebar"
-      location="left"
       prominent
       scrim="false"
-      :temporary="false">
+      location="left"
+      v-model="sidebar"
+      :temporary="false"
+      class="layout-sidebar"
+      :style="theme_drawer_style">
       <slot name="sidebar"/>
     </v-navigation-drawer>
 
