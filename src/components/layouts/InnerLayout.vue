@@ -1,0 +1,31 @@
+<template>
+  <!-- REMOVE v-app here -->
+  <div class="d-flex flex-column fill-height">
+
+    <v-navigation-drawer
+      v-model="sidebar"
+      class="layout-sidebar"
+      location="left"
+      prominent
+      scrim="false"
+      :temporary="false">
+      <slot name="sidebar"/>
+    </v-navigation-drawer>
+
+    <!-- Content -->
+    <div class="flex-1 overflow-auto">
+      <slot name="content"/>
+    </div>
+
+    <v-footer
+      v-if="$slots.footer"
+      class="layout-footer border-t">
+      <slot name="footer"/>
+    </v-footer>
+
+  </div>
+</template>
+
+<script lang="ts" setup>
+const sidebar = ref(true)
+</script>
