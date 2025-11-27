@@ -38,6 +38,22 @@
 
   <!-- Panels Row -->
   <v-row>
+    <!-- Equipments -->
+    <v-col cols="12">
+      <v-expansion-panels :model-value="0" elevation="0">
+        <panel class="border" title="Equipments">
+          <v-card-text>
+            <v-data-table
+              :style="theme_table_style"
+              :headers="equipment_headers"
+              :items="equipments"
+              density="comfortable">
+            </v-data-table>
+          </v-card-text>
+        </panel>
+      </v-expansion-panels>
+    </v-col>
+
     <!-- Buyer -->
     <v-col cols="12" md="6">
       <v-expansion-panels :model-value="0" elevation="0">
@@ -133,22 +149,6 @@
                 </v-btn>
                 <v-spacer/>
               </template>
-            </v-data-table>
-          </v-card-text>
-        </panel>
-      </v-expansion-panels>
-    </v-col>
-
-    <!-- Equipments -->
-    <v-col cols="12">
-      <v-expansion-panels :model-value="0" elevation="0">
-        <panel class="border" title="Equipments">
-          <v-card-text>
-            <v-data-table
-              :style="theme_table_style"
-              :headers="equipment_headers"
-              :items="equipments"
-              density="comfortable">
             </v-data-table>
           </v-card-text>
         </panel>
