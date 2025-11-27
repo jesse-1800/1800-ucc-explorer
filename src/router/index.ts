@@ -15,9 +15,17 @@ import { createRouter, createWebHistory } from 'vue-router/auto';
 const protected_routes = [
   '/',
   '/dashboard',
-  '/partners',
+  '/assignees',
+  '/buyers',
+  '/contacts',
+  '/equipments',
+  '/ucc-filings',
   '/providers',
+  '/files',
+  '/partners',
   '/users',
+  '/import',
+  '/import',
   '/settings',
 ]
 
