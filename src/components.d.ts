@@ -28,6 +28,8 @@ declare module 'vue' {
     CustomFields: typeof import('./components/shared/settings/CustomFields.vue')['default']
     DragHandle: typeof import('./components/shared/proposals/DragHandle.vue')['default']
     EditProfile: typeof import('./components/shared/settings/EditProfile.vue')['default']
+    Equipments: typeof import('./components/shared/equipments/Equipments.vue')['default']
+    EquipmentsTable: typeof import('./components/shared/equipments/EquipmentsTable.vue')['default']
     Filler: typeof import('./components/misc/Filler.vue')['default']
     FilterInputsForm: typeof import('./components/shared/proposals/filtering/FilterInputsForm.vue')['default']
     FilterLlmForm: typeof import('./components/shared/proposals/filtering/FilterLlmForm.vue')['default']

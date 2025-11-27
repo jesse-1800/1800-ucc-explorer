@@ -43,12 +43,7 @@
       <v-expansion-panels :model-value="0" elevation="0">
         <panel class="border" title="Equipments">
           <v-card-text>
-            <v-data-table
-              :style="theme_table_style"
-              :headers="equipment_headers"
-              :items="equipments"
-              density="comfortable">
-            </v-data-table>
+            <EquipmentsTable :equipments="equipments"/>
           </v-card-text>
         </panel>
       </v-expansion-panels>
@@ -161,10 +156,11 @@
 import {GlobalStore} from "@/stores/globals";
 import {storeToRefs} from "pinia";
 import {theme_table_style} from "@/composables/GlobalComposables.js";
+import EquipmentsTable from "@/components/shared/equipments/EquipmentsTable.vue";
 
 const store = GlobalStore();
 const ucc_filing = computed(() => {
-  return ucc_filings.value.find(ucc => ucc.id === props.ucc_file_id)
+  return ucc_filings.value.find(ucc => ucc.id === props.ucc_filing_id)
 });
 const contacts = computed(() => {
   return ucc_contacts.value.filter(c => c.buyer_id === ucc_filing.value.buyer_id);
@@ -181,7 +177,7 @@ const assignee = computed(() => {
 const equipments = computed(() => {
   return ucc_equipments.value.filter(e => e.ucc_filing_id === ucc_filing.value.id)
 });
-const props = defineProps(['ucc_file_id']);
+const props = defineProps(['ucc_filing_id']);
 const mapped_contacts = computed(() => {
   return contacts.value.map(c => ({
     ...c,
@@ -195,19 +191,6 @@ const contact_headers = [
   {title: 'Phone',  value: 'phone',sortable:true},
   {title: 'Actions',value: 'actions', sortable: false},
 ]
-const equipment_headers = [
-  { title: 'Unit',         value: 'equipment_unit',     sortable: true },
-  { title: 'UCC Year',     value: 'equipment_ucc_year', sortable: true },
-  { title: 'Number',       value: 'equipment_number',   sortable: true },
-  { title: 'Brand',        value: 'equipment_brand',    sortable: true },
-  { title: 'Model',        value: 'equipment_model',    sortable: true },
-  { title: 'Description',  value: 'equipment_desc',     sortable: true },
-  { title: 'Code',         value: 'equipment_code',     sortable: true },
-  { title: 'Serial Number',value: 'equipment_serial_no',sortable: true },
-  { title: 'Size',         value: 'equipment_size',     sortable: true },
-  { title: 'End Year',     value: 'equipment_end_year', sortable: true },
-  { title: 'Value',        value: 'equipment_value',    sortable: true },
-]
 const {
   ucc_buyers,
   ucc_filings,
@@ -216,4 +199,8 @@ const {
   ucc_assignees,
   ucc_equipments,
 } = storeToRefs(store);
+
+onMounted(() => {
+  console.log(props.ucc_filing_id)
+})
 </script>

@@ -20,13 +20,16 @@ declare module 'vue-router/auto-routes' {
   export interface RouteNamedMap {
     '/': RouteRecordInfo<'/', '/', Record<never, never>, Record<never, never>>,
     '/[...notfound]': RouteRecordInfo<'/[...notfound]', '/:notfound(.*)', { notfound: ParamValue<true> }, { notfound: ParamValue<false> }>,
+    '/buyers': RouteRecordInfo<'/buyers', '/buyers', Record<never, never>, Record<never, never>>,
     '/dashboard': RouteRecordInfo<'/dashboard', '/dashboard', Record<never, never>, Record<never, never>>,
+    '/equipments': RouteRecordInfo<'/equipments', '/equipments', Record<never, never>, Record<never, never>>,
     '/import': RouteRecordInfo<'/import', '/import', Record<never, never>, Record<never, never>>,
-    '/importCopy': RouteRecordInfo<'/importCopy', '/importCopy', Record<never, never>, Record<never, never>>,
     '/login': RouteRecordInfo<'/login', '/login', Record<never, never>, Record<never, never>>,
     '/partners': RouteRecordInfo<'/partners', '/partners', Record<never, never>, Record<never, never>>,
     '/providers': RouteRecordInfo<'/providers', '/providers', Record<never, never>, Record<never, never>>,
     '/settings/[settings]': RouteRecordInfo<'/settings/[settings]', '/settings/:settings', { settings: ParamValue<true> }, { settings: ParamValue<false> }>,
+    '/ucc-filing/': RouteRecordInfo<'/ucc-filing/', '/ucc-filing', Record<never, never>, Record<never, never>>,
+    '/ucc-filing/[ucc_filing_id]': RouteRecordInfo<'/ucc-filing/[ucc_filing_id]', '/ucc-filing/:ucc_filing_id', { ucc_filing_id: ParamValue<true> }, { ucc_filing_id: ParamValue<false> }>,
     '/ucc-filings': RouteRecordInfo<'/ucc-filings', '/ucc-filings', Record<never, never>, Record<never, never>>,
     '/users': RouteRecordInfo<'/users', '/users', Record<never, never>, Record<never, never>>,
   }
