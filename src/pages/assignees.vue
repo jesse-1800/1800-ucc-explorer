@@ -1,6 +1,6 @@
 <template>
   <AppLayout>
-    <template #title>Providers</template>
+    <template #title>Assignees</template>
     <template #content>
 
     </template>
