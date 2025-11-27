@@ -3,6 +3,7 @@
 
     <v-navigation-drawer
       prominent
+      width="300"
       scrim="false"
       location="left"
       v-model="sidebar"
