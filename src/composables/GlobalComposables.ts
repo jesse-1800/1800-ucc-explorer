@@ -124,7 +124,7 @@ export const style_defaults = ref({
   elems_dark_theme_gradient: 'linear-gradient(44deg,rgba(4, 0, 110, 1) 0%, rgba(0, 0, 171, 1) 51%, rgba(0, 100, 200, 1) 100%)',
 
   // For body background
-  body_light_theme_gradient: 'radial-gradient(circle, rgb(255, 242, 247) 0%, rgb(230, 241, 255) 100%)',
+  body_light_theme_gradient: '#f1f1f1',
   body_dark_theme_gradient: 'radial-gradient(circle,rgba(13, 11, 79, 1) 0%, rgba(11, 11, 54, 1) 48%, rgba(0, 7, 23, 1) 100%)',
 })
 export const theme_main_background = computed(() => {

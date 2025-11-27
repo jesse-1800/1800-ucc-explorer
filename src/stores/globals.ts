@@ -76,6 +76,13 @@ export const GlobalStore = defineStore('globals', {
 
     // Catalog Server (Only for brands)
     cat_manufacturers: [],
+
+    // UCC Filing Filters
+    ucc_filing_filters: {
+      search: "",
+      start_date: "",
+      end_date: "",
+    }
   }),
   persist: {
     pick: [

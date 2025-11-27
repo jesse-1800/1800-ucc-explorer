@@ -1,8 +1,8 @@
 <template>
-  <!-- REMOVE v-app here -->
   <div class="d-flex flex-column fill-height">
 
     <v-navigation-drawer
+      :style="theme_drawer_style"
       v-model="sidebar"
       class="layout-sidebar"
       location="left"
@@ -27,5 +27,7 @@
 </template>
 
 <script lang="ts" setup>
+import {theme_drawer_style, theme_main_background} from "@/composables/GlobalComposables.ts";
+
 const sidebar = ref(true)
 </script>

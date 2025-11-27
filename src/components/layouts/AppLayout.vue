@@ -1,5 +1,5 @@
 <template>
-  <v-app id="backend-app" :theme="backend_theme" class="outfit-font">
+  <v-app :style="theme_main_background" id="backend-app" :theme="backend_theme" class="outfit-font">
     <v-layout class="d-flex flex-column fill-height">
       <v-app-bar class="layout-appbar elevation-0 border-b" prominent :style="theme_navbar_style">
         <v-app-bar-nav-icon variant="text" @click="ToggleSidebar"/>
