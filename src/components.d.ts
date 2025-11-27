@@ -33,6 +33,7 @@ declare module 'vue' {
     FilterLlmForm: typeof import('./components/shared/proposals/filtering/FilterLlmForm.vue')['default']
     FilterResultsTable: typeof import('./components/shared/proposals/filtering/FilterResultsTable.vue')['default']
     Filters: typeof import('./components/shared/ucc-filings/Filters.vue')['default']
+    FlexedBetween: typeof import('./components/misc/FlexedBetween.vue')['default']
     FloatingBtns: typeof import('./components/shared/templates/floating-btns.vue')['default']
     FooterBtns: typeof import('./components/shared/view-proposal/FooterBtns.vue')['default']
     FooterTotal: typeof import('./components/shared/proposals/FooterTotal.vue')['default']
