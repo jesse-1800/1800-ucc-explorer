@@ -6,12 +6,14 @@
         <AuthorLogoBackend/>
         <v-spacer/>
 
-        <div class="d-flex align-center" v-if="global_loading">
-          <div>Fetching data...</div>
-        </div>
-        <div v-else>
-          <span>{{my_company_name ?? 'Loading'}} &mdash; </span>
-          <slot name="title"/>
+        <div class="d-none d-md-block">
+          <div class="d-flex align-center" v-if="global_loading">
+            <div>Fetching data...</div>
+          </div>
+          <div v-else>
+            <span>{{my_company_name ?? 'Loading'}} &mdash; </span>
+            <slot name="title"/>
+          </div>
         </div>
 
         <v-spacer/>

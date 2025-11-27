@@ -4,7 +4,7 @@
       <v-btn icon="mdi-open-in-new" :href="`/ucc-filing/${ucc_filing_id}`"></v-btn>
       <v-btn icon="mdi-fullscreen" @click="fullscreen=!fullscreen"></v-btn>
     </template>
-    <UccFilingsViewer :ucc_file_id="ucc_filing_id"/>
+    <UccFilingsViewer :ucc_filing_id="ucc_filing_id"/>
   </MyModal>
 </template>
 
