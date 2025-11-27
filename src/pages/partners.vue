@@ -27,9 +27,9 @@
 
       <!--Table-->
       <v-data-table
+        class="border"
         :headers="headers"
         :loading="is_loading"
-        class="elevation-1 border"
         :style="theme_table_style"
         :items="filtered_partners">
         <template v-slot:item="{item}">

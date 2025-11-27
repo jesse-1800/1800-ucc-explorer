@@ -13,9 +13,7 @@
           <v-data-table density="comfortable" :style="theme_table_style" :items="filtered_ucc_filings" :headers="headers">
             <template #item="{item}">
               <tr>
-                <td>
-                  <v-btn class="pl-0 pr-0" density="compact" variant="text">{{item.id}}</v-btn>
-                </td>
+                <td>{{item.id}}</td>
                 <td>{{ item.buyer_company }}</td>
                 <td><v-chip color="primary">{{FindUccEquipments(item.id).length}}</v-chip></td>
                 <td>{{item.ucc_date}}</td>
@@ -75,7 +73,50 @@ const filtered_ucc_filings = computed(() => {
     })
   }
 
+  // Star/End date filter
+  if (filters.value.start_date || filters.value.end_date) {
+    filtered_ucc_list = filtered_ucc_list.filter(row => {
+      if (!row.ucc_date) return false
+
+      const ucc_date = moment(row.ucc_date, 'MM/DD/YYYY')
+      const start_date = filters.value.start_date ? moment(filters.value.start_date) : null;
+      const end_date = filters.value.end_date ? moment(filters.value.end_date) : null;
+
+      if (start_date && end_date) {
+        return ucc_date.isSameOrAfter(start_date, 'day') && ucc_date.isSameOrBefore(end_date, 'day')
+      }
+      if (start_date) {
+        return ucc_date.isSameOrAfter(start_date, 'day')
+      }
+      if (end_date) {
+        return ucc_date.isSameOrBefore(end_date, 'day')
+      }
+      return true
+    });
+  }
+
+  // Provider ID filter
+  if (filters.value.provider_id) {
+    filtered_ucc_list = filtered_ucc_list.filter(row => {
+      return row.provider_id == filters.value.provider_id;
+    });
+  }
+
+  // Assignee ID filter
+  if (filters.value.assignee_id) {
+    filtered_ucc_list = filtered_ucc_list.filter(row => {
+      return row.assignee_id == filters.value.assignee_id;
+    });
+  }
+
+  // UCC Status filter
+  if (filters.value.ucc_status) {
+    filtered_ucc_list = filtered_ucc_list.filter(row => {
+      return row.ucc_status == filters.value.ucc_status;
+    });
+  }
+
   return filtered_ucc_list;
-})
+});
 const {ucc_filing_filters:filters} = storeToRefs(store);
 </script>
