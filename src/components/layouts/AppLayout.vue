@@ -50,7 +50,7 @@
       </v-navigation-drawer>
 
       <v-main style="background:none">
-        <v-card-text>
+        <v-card-text style="background:none">
           <slot name="content"/>
         </v-card-text>
       </v-main>
