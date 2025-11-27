@@ -1,7 +1,18 @@
 <template>
-  <h3 class="font-weight-light mb-3">
-    Filters
-  </h3>
+
+  <FlexedBetween class="mb-5">
+    <h3 class="font-weight-light">
+      Filters
+    </h3>
+    <v-btn
+      size="small"
+      variant="text"
+      class="d-flex"
+      @click="ClearFilters"
+      text="Clear All Filters"
+      prepend-icon="mdi-close">
+    </v-btn>
+  </FlexedBetween>
 
   <v-text-field
     density="compact"
@@ -10,7 +21,7 @@
     v-model="filters.search"
     prepend-inner-icon="mdi-folder-search"
     @click:append-inner="filters.search=''"
-    :append-inner-icon="filters.search.length? 'mdi-close':''">
+    :append-inner-icon="filters.search? 'mdi-close':''">
   </v-text-field>
   <v-text-field
     :readonly="true"
@@ -18,15 +29,19 @@
     variant="outlined"
     @click="date_modal=true"
     placeholder="Date range..."
+    :model-value="date_range_label"
+    @click:append-inner="ClearDates"
     prepend-inner-icon="mdi-calendar-month"
-    :append-inner-icon="filters.start_date.length? 'mdi-close':''">
+    :append-inner-icon="filters.start_date? 'mdi-close':''">
   </v-text-field>
   <v-combobox
     item-value="id"
     density="compact"
     variant="outlined"
-    item-title="provider_company"
+    :return-object="false"
     :items="ucc_providers"
+    v-model="filters.provider_id"
+    item-title="provider_company"
     placeholder="Service Provider"
     prepend-inner-icon="mdi-briefcase-outline">
   </v-combobox>
@@ -34,34 +49,98 @@
     item-value="id"
     density="compact"
     variant="outlined"
-    item-title="assignee_company"
+    :return-object="false"
     :items="ucc_assignees"
     placeholder="Assignee"
+    v-model="filters.assignee_id"
+    item-title="assignee_company"
     prepend-inner-icon="mdi-bank">
+  </v-combobox>
+  <v-combobox
+    item-value="id"
+    density="compact"
+    variant="outlined"
+    v-model="filters.ucc_status"
+    item-title="assignee_company"
+    :items="distinct_statuses"
+    placeholder="UCC Status"
+    prepend-inner-icon="mdi-list-status">
   </v-combobox>
 
   <MyModal color="none" max_width="700" v-model="date_modal" title="Select the date range...">
     <v-row>
       <v-col cols="6">
-        <v-date-picker v-model="filters.start_date" hide-header>
-
+        <v-date-picker
+          hide-weekdays
+          title="Start Date"
+          v-model="filters.start_date"
+          :max="new Date().toISOString()">
         </v-date-picker>
       </v-col>
-      <v-col cols="6">
-        <v-date-picker v-model="filters.end_date" hide-header>
 
+      <v-col cols="6">
+        <v-date-picker
+          hide-weekdays
+          title="End Date"
+          v-model="filters.end_date"
+          :min="filters.start_date"
+          :max="new Date().toISOString()">
         </v-date-picker>
       </v-col>
     </v-row>
+
+    <template #footer>
+      <v-spacer/>
+      <v-btn class="mr-1" size="small" color="default" prepend-icon="mdi-close" @click="ClearDates">Clear</v-btn>
+      <v-btn class="ml-1" size="small" color="primary" prepend-icon="mdi-check" @click="date_modal=false">Done</v-btn>
+      <v-spacer/>
+    </template>
   </MyModal>
 </template>
 
 <script setup>
+import moment from "moment";
 import {storeToRefs} from "pinia";
 import {GlobalStore} from "@/stores/globals";
+import FlexedBetween from "@/components/misc/FlexedBetween.vue";
 
 const store = GlobalStore();
 const date_modal = ref(false);
+const date_range_label = computed(() => {
+  const { start_date, end_date } = filters.value
+
+  if (!start_date && !end_date) return ''
+  if (!start_date) return `Until ${moment(end_date).format('MMM D, YYYY')}`
+  if (!end_date) return `From ${moment(start_date).format('MMM D, YYYY')}`
+
+  const start = moment(start_date)
+  const end = moment(end_date)
+
+  if (start.isSame(end, 'day')) return start.format('MMM D, YYYY')
+
+  return start.year() === end.year()
+    ? `${start.format('MMM D')} - ${end.format('MMM D, YYYY')}`
+    : `${start.format('MMM D, YYYY')} - ${end.format('MMM D, YYYY')}`
+});
+const distinct_statuses = computed(() => {
+  return [...new Set(ucc_filings.value.map(x => x.ucc_status))]
+});
 const {ucc_filing_filters:filters} = storeToRefs(store);
-const {ucc_providers,ucc_assignees} = storeToRefs(store);
+const {ucc_providers,ucc_assignees,ucc_filings} = storeToRefs(store);
+
+const ClearDates = (event) => {
+  event.stopPropagation()
+  filters.value.start_date = "";
+  filters.value.end_date = "";
+}
+const ClearFilters = () => {
+  filters.value = {
+    search:      null,
+    start_date:  "",
+    end_date:    "",
+    provider_id: null,
+    assignee_id: null,
+    ucc_status:  null,
+  }
+}
 </script>
