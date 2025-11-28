@@ -89,7 +89,8 @@ const Refresh = async() => {
   store.FetchAllData(token);
 }
 const EditContact = (contact:any) => {
-  edit_contact.value = contact;
+  // We need the untampered contact here
+  edit_contact.value = {...ucc_contacts.value.find(c => c.id == contact.id)};
   modals.value.contact_form = true;
 }
 </script>
