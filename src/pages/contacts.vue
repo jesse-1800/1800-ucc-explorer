@@ -5,21 +5,29 @@
       <v-card :style="theme_card_style">
         <v-card-text>
           <TableSearch @click="Refresh">
-            <v-btn
-              text="New Contact"
-              color="primary"
-              @click="$emit('refresh')"
-              prepend-icon="mdi-plus-circle">
-            </v-btn>
+            <template #append-right>
+              <v-btn
+                class="ml-2"
+                text="New Contact"
+                color="primary"
+                @click="modals.contact_form=true"
+                prepend-icon="mdi-plus-circle">
+              </v-btn>
+            </template>
           </TableSearch>
           <v-data-table
             :headers="headers"
             density="comfortable"
             :items="mapped_contacts"
             :style="theme_table_style">
+            <template #item.manage="{item}">
+              <v-btn color="primary" prepend-icon="mdi-pencil" variant="outlined" size="small" @click="EditContact(item)">Edit</v-btn>
+            </template>
           </v-data-table>
         </v-card-text>
       </v-card>
+
+      <ContactForm :edit_contact="edit_contact"/>
     </template>
   </AppLayout>
 </template>
@@ -31,6 +39,7 @@ import {FindUccBuyer, theme_card_style, theme_table_style} from "@/composables/G
 import {useAuth0} from "@auth0/auth0-vue";
 
 const store = GlobalStore();
+const edit_contact = ref(null);
 const headers = [
   {title: 'ID',       value: 'id',       sortable: true},
   {title: 'Company',  value: 'company',  sortable: true},
@@ -42,9 +51,10 @@ const headers = [
   {title: 'City',     value: 'city',     sortable: true},
   {title: 'State',    value: 'state',    sortable: true},
   {title: 'Zip',      value: 'zip',      sortable: true},
+  {title: 'Manage',   value: 'manage',   sortable: false},
 ];
 const {getAccessTokenSilently} = useAuth0();
-const {ucc_contacts,table_search} = storeToRefs(store);
+const {ucc_contacts,table_search,modals} = storeToRefs(store);
 const mapped_contacts = computed(() => {
   const search_term = table_search.value.toLowerCase().trim();
 
@@ -77,5 +87,9 @@ const mapped_contacts = computed(() => {
 const Refresh = async() => {
   const token = await getAccessTokenSilently();
   store.FetchAllData(token);
+}
+const EditContact = (contact:any) => {
+  edit_contact.value = contact;
+  modals.value.contact_form = true;
 }
 </script>

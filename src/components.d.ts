@@ -21,6 +21,7 @@ declare module 'vue' {
     BusinessSettings: typeof import('./components/shared/partners/BusinessSettings.vue')['default']
     ColumnOffset: typeof import('./components/misc/ColumnOffset.vue')['default']
     ConfirmDialog: typeof import('./components/misc/ConfirmDialog.vue')['default']
+    ContactForm: typeof import('./components/shared/contacts/ContactForm.vue')['default']
     CopierLineItem: typeof import('./components/shared/proposals/cost-breakdown/copier-lease/CopierLineItem.vue')['default']
     CostAddonsRow: typeof import('./components/shared/proposals/cost-breakdown/copier-lease/CostAddonsRow.vue')['default']
     CostBreakdown: typeof import('./components/shared/proposals/panels/CostBreakdown.vue')['default']
