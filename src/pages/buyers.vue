@@ -5,7 +5,12 @@
       <v-card :style="theme_card_style">
         <v-card-text>
           <TableSearch @click="Refresh"/>
-          <v-data-table density="comfortable" :items="filtered_buyers" :headers="headers"/>
+          <v-data-table
+            :headers="headers"
+            density="comfortable"
+            :items="filtered_buyers"
+            :style="theme_table_style">
+          </v-data-table>
         </v-card-text>
       </v-card>
     </template>
@@ -15,7 +20,7 @@
 <script lang="ts" setup>
 import {storeToRefs} from "pinia";
 import {GlobalStore} from "@/stores/globals";
-import {theme_card_style} from "@/composables/GlobalComposables.ts";
+import {theme_card_style, theme_table_style} from "@/composables/GlobalComposables.ts";
 import {useAuth0} from "@auth0/auth0-vue";
 
 const store = GlobalStore();
