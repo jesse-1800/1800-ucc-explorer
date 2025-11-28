@@ -133,16 +133,19 @@
                 <v-btn
                   text="Edit"
                   size="small"
-                  @click="EditContact(item)"
-                  variant="text">
+                  color="primary"
+                  variant="outlined"
+                  prepend-icon="mdi-pencil"
+                  @click="EditContact(item)">
                 </v-btn>
               </template>
               <template #footer.prepend>
                 <v-btn
                   size="small"
-                  color="primary"
                   variant="flat"
-                  @click="AddContact">
+                  color="primary"
+                  @click="AddContact"
+                  prepend-icon="mdi-plus">
                   Add Contact
                 </v-btn>
                 <v-spacer/>
@@ -154,7 +157,7 @@
     </v-col>
   </v-row>
 
-  <ContactForm :edit_contact="edit_contact"/>
+  <ContactForm :buyer_id="buyer?.id" :edit_contact="edit_contact"/>
 </template>
 
 <script setup>
@@ -211,8 +214,8 @@ const EditContact = (item) => {
   edit_contact.value = ucc_contacts.value.find(c => c.id === item.id);
   modals.value.contact_form = true;
 }
-
-onMounted(() => {
-  console.log(props.ucc_filing_id)
-});
+const AddContact = () => {
+  edit_contact.value = null;
+  modals.value.contact_form = true;
+}
 </script>

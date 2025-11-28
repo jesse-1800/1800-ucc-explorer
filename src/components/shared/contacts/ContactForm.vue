@@ -133,10 +133,10 @@
 <script setup>
 import { ref } from 'vue';
 import {storeToRefs} from "pinia";
-import {GlobalStore} from "@/stores/globals";
-import {UccServer} from "@/plugins/ucc-server.js";
 import {useAuth0} from "@auth0/auth0-vue";
-import {my_partner_id} from "@/composables/GlobalComposables.js";
+import {GlobalStore} from "@/stores/globals";
+import {UccServer} from "@/plugins/ucc-server";
+import {my_partner_id} from "@/composables/GlobalComposables";
 
 const form_ref = ref(null);
 const store = GlobalStore();
@@ -163,7 +163,7 @@ const contact = ref({
   'created_at': "",
   'updated_at': "",
 });
-const props = defineProps(['edit_contact']);
+const props = defineProps(['edit_contact','buyer_id']);
 const {getAccessTokenSilently} = useAuth0();
 const {modals,ucc_buyers} = storeToRefs(store);
 
@@ -176,6 +176,7 @@ const SubmitForm = async () => {
     form.append('contact', JSON.stringify(contact.value));
     UccServer(token).post(`/contacts/${route}`,form).then(res => {
       store.ShowSuccess(res.data.message);
+      store.FetchAllData(token);
       if (res.data.result) {
         modals.value.contact_form = false;
       }
@@ -190,7 +191,7 @@ const ResetForm = () => {
     contact.value = {
       'id':         "",
       'partner_id': my_partner_id.value,
-      'buyer_id':   "",
+      'buyer_id':   props.buyer_id ? props.buyer_id : '',
       'firstname':  "",
       'lastname':   "",
       'title':      "",
@@ -219,4 +220,11 @@ watch(()=>modals.value.contact_form,(new_val)=>{
     ResetForm();
   }
 });
+
+// Watch for buyer_id
+watch(()=>props.buyer_id,(has_buyer_id) => {
+  if (has_buyer_id) {
+    contact.value.buyer_id = has_buyer_id
+  }
+},{immediate:true});
 </script>
