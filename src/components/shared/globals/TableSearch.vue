@@ -6,6 +6,7 @@
         hide-details
         density="compact"
         variant="outlined"
+        placeholder="Search..."
         v-model="table_search"
         prepend-inner-icon="mdi-magnify"
         @click:append-inner="table_search=''"
