@@ -38,6 +38,7 @@
     "v-click-outside": "^3.2.0",
     "vue": "^3.5.13",
     "vue-draggable-next": "^2.1.1",
+    "vue3-google-map": "^0.25.1",
     "vuedraggable": "^4.1.0",
     "vuetify": "^3.8.1"
   },

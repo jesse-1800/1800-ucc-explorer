@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # === CONFIG ===
-DB_NAME="1800proposals"
+DB_NAME="1800-ucc-explorer"
 OUTPUT_FILE="${DB_NAME}_$(date +%Y-%m-%d).sql"
 CSS_FILE="./dist/css/App.css"
 ARCHIVE_FILE="backup_$(date +%Y-%m-%d).tar.gz"
@@ -55,13 +55,5 @@ if [ $? -eq 0 ]; then
 else
   echo "❌ Failed to create backup archive!"
 fi
-
-# === STEP 6: Push dist to Git ===
-echo "Pushing dist folder to deployment git"
-cp -r "./dist/." "/c/Laragon/www/deployment/deploy-1800os-deals/"
-cd "/c/Laragon/www/deployment/deploy-1800os-deals/"
-git add .
-git commit -m "1800 OS Build @ $(date +%Y-%m-%d)"
-echo "✅ Build files pushed successfully!"
 
 echo "🎉 All done!"
