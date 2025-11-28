@@ -36,6 +36,7 @@
           <v-list-item to="/"            prepend-icon="mdi-view-dashboard" title="Dashboard"/>
           <v-list-item to="/equipments"  prepend-icon="mdi-printer-outline" title="Equipments"/>
           <v-list-item to="/buyers"      prepend-icon="mdi-account-supervisor-circle" title="Buyers"/>
+          <v-list-item to="/contacts"    prepend-icon="mdi-account-supervisor" title="Contacts"/>
           <v-list-item to="/assignees"   prepend-icon="mdi-bank-circle-outline" title="Assignees"/>
           <v-list-item to="/providers"   prepend-icon="mdi-domain" title="Providers"/>
           <v-list-item to="/ucc-filings" prepend-icon="mdi-format-list-text" title="UCC Filings"/>
