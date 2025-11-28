@@ -53,7 +53,7 @@
       </v-card>
     </v-window-item>
     <v-window-item value="buyer">
-      <v-card>
+      <v-card class="pb-10">
         <v-card-text>
           <v-row>
             <v-col cols="12">
