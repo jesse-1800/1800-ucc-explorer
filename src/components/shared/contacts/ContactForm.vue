@@ -117,7 +117,8 @@
         color="grey"
         text="Cancel"
         variant="text"
-        @click="ResetForm">
+        class="mr-2"
+        @click="ResetForm;modals.contact_form=false">
       </v-btn>
       <v-btn
         text="Save"
@@ -133,6 +134,9 @@
 import { ref } from 'vue';
 import {storeToRefs} from "pinia";
 import {GlobalStore} from "@/stores/globals";
+import {UccServer} from "@/plugins/ucc-server.js";
+import {useAuth0} from "@auth0/auth0-vue";
+import {my_partner_id} from "@/composables/GlobalComposables.js";
 
 const form_ref = ref(null);
 const store = GlobalStore();
@@ -145,7 +149,7 @@ const rules = {
 };
 const contact = ref({
   'id':         "",
-  'partner_id': "",
+  'partner_id': my_partner_id.value,
   'buyer_id':   "",
   'firstname':  "",
   'lastname':   "",
@@ -160,13 +164,22 @@ const contact = ref({
   'updated_at': "",
 });
 const props = defineProps(['edit_contact']);
+const {getAccessTokenSilently} = useAuth0();
 const {modals,ucc_buyers} = storeToRefs(store);
 
 const SubmitForm = async () => {
   const { valid } = await form_ref.value.validate();
   if (valid) {
-    console.log('Form submitted:', contact.value);
-    // Add your submit logic here
+    const form = new FormData;
+    const route = props.edit_contact ? 'update':'store';
+    const token = await getAccessTokenSilently();
+    form.append('contact', JSON.stringify(contact.value));
+    UccServer(token).post(`/contacts/${route}`,form).then(res => {
+      store.ShowSuccess(res.data.message);
+      if (res.data.result) {
+        modals.value.contact_form = false;
+      }
+    });
   }
 };
 const ResetForm = () => {
@@ -176,7 +189,7 @@ const ResetForm = () => {
   } else {
     contact.value = {
       'id':         "",
-      'partner_id': "",
+      'partner_id': my_partner_id.value,
       'buyer_id':   "",
       'firstname':  "",
       'lastname':   "",
@@ -205,5 +218,5 @@ watch(()=>modals.value.contact_form,(new_val)=>{
   if(new_val === false) {
     ResetForm();
   }
-})
+});
 </script>
