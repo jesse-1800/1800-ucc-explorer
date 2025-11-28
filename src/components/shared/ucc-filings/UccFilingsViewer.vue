@@ -130,8 +130,11 @@
               :items="mapped_contacts"
               density="comfortable">
               <template #item.actions="{ item }">
-                <v-btn size="small" variant="text">
-                  View
+                <v-btn
+                  text="Edit"
+                  size="small"
+                  @click="EditContact(item)"
+                  variant="text">
                 </v-btn>
               </template>
               <template #footer.prepend>
@@ -150,6 +153,8 @@
       </v-expansion-panels>
     </v-col>
   </v-row>
+
+  <ContactForm :edit_contact="edit_contact"/>
 </template>
 
 <script setup>
@@ -191,7 +196,9 @@ const contact_headers = [
   {title: 'Phone',  value: 'phone',sortable:true},
   {title: 'Actions',value: 'actions', sortable: false},
 ]
+const edit_contact = ref(null);
 const {
+  modals,
   ucc_buyers,
   ucc_filings,
   ucc_contacts,
@@ -200,7 +207,12 @@ const {
   ucc_equipments,
 } = storeToRefs(store);
 
+const EditContact = (item) => {
+  edit_contact.value = ucc_contacts.value.find(c => c.id === item.id);
+  modals.value.contact_form = true;
+}
+
 onMounted(() => {
   console.log(props.ucc_filing_id)
-})
+});
 </script>
