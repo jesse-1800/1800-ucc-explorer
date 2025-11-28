@@ -30,4 +30,8 @@ import {GlobalStore} from "@/stores/globals";
 
 const store = GlobalStore();
 const {table_search} = storeToRefs(store);
+
+onUnmounted(() => {
+  table_search.value = "";
+});
 </script>
