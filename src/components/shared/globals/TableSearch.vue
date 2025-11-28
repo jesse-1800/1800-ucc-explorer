@@ -20,7 +20,7 @@
       @click="$emit('refresh')"
       prepend-icon="mdi-refresh">
     </v-btn>
-    <slot></slot>
+    <slot name="append-right"></slot>
   </flexed-between>
 </template>
 
