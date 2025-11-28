@@ -12,7 +12,12 @@
               prepend-icon="mdi-plus-circle">
             </v-btn>
           </TableSearch>
-          <v-data-table density="comfortable" :items="mapped_contacts" :headers="headers"/>
+          <v-data-table
+            :headers="headers"
+            density="comfortable"
+            :items="mapped_contacts"
+            :style="theme_table_style">
+          </v-data-table>
         </v-card-text>
       </v-card>
     </template>
@@ -22,7 +27,7 @@
 <script lang="ts" setup>
 import {storeToRefs} from "pinia";
 import {GlobalStore} from "@/stores/globals";
-import {FindUccBuyer, theme_card_style} from "@/composables/GlobalComposables.ts";
+import {FindUccBuyer, theme_card_style, theme_table_style} from "@/composables/GlobalComposables.ts";
 import {useAuth0} from "@auth0/auth0-vue";
 
 const store = GlobalStore();
