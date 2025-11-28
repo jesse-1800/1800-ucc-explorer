@@ -87,7 +87,10 @@ export const GlobalStore = defineStore('globals', {
       provider_id: null,
       assignee_id: null,
       ucc_status:  null,
-    }
+    },
+
+    // Table Search Input
+    table_search: "",
   }),
   persist: {
     pick: [

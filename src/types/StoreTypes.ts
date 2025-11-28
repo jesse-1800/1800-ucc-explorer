@@ -95,4 +95,7 @@ export interface GlobalStateTypes {
 
   // UCC Filing Filters
   ucc_filing_filters: any;
+
+  // Table Search Input
+  table_search: "",
 }
