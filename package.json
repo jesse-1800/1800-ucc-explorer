@@ -23,7 +23,7 @@
     "@tiptap/starter-kit": "^2.25.1",
     "@tiptap/vue-3": "^2.25.1",
     "animator-css": "^1.0.1",
-    "axios": "1.11.0",
+    "axios": "1.12.0",
     "grapesjs": "^0.22.12",
     "grapesjs-blocks-basic": "^1.0.2",
     "grapesjs-plugin-forms": "^2.0.6",
@@ -44,7 +44,7 @@
   "devDependencies": {
     "@tsconfig/node22": "^22.0.0",
     "@types/node": "^22.9.0",
-    "@vitejs/plugin-vue": "^5.2.3",
+    "@vitejs/plugin-vue": "^6.0.0",
     "@vue/tsconfig": "^0.7.0",
     "eslint": "^9.23.0",
     "eslint-config-prettier": "^10.1.5",
@@ -58,7 +58,7 @@
     "unplugin-fonts": "^1.3.1",
     "unplugin-vue-components": "^28.4.1",
     "unplugin-vue-router": "^0.12.0",
-    "vite": "7.1.11",
+    "vite": "^7.0.0",
     "vite-plugin-vuetify": "^2.1.1",
     "vue-router": "^4.5.0",
     "vue-tsc": "^2.2.8"
