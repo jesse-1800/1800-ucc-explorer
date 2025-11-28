@@ -60,7 +60,4 @@ const Refresh = async() => {
   const token = await getAccessTokenSilently();
   store.FetchAllData(token);
 }
-onUnmounted(() => {
-  table_search.value = "";
-});
 </script>
