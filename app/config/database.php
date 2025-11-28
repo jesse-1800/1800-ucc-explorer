@@ -50,11 +50,29 @@ else {
     Connection::parameters('default', [
         'driver' => 'mysql',
         'hostname' => 'localhost',
-        'database' => 'deals-1800os-com',
+        'database' => '1800-ucc-explorer',
         'username' => 'root',
         'password' => '8800Doral$',
         'charset' => 'utf8',
         'port' => 3306
+    ]);
+    Connection::parameters('identities',[
+        'driver'   => 'mysql',
+        'hostname' => 'localhost',
+        'database' => '1800-identity-provider',
+        'username' => 'root',
+        'password' => '8800Doral$',
+        'charset'  => 'utf8',
+        'port'     => 3306
+    ]);
+    Connection::parameters('catalog',[
+        'driver'   => 'mysql',
+        'hostname' => 'localhost',
+        'database' => 'catalog-server-staging',
+        'username' => 'root',
+        'password' => '8800Doral$',
+        'charset'  => 'utf8',
+        'port'     => 3306
     ]);
 }
 
