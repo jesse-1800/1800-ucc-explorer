@@ -22,7 +22,6 @@
                     <td>{{item.ucc_status}}</td>
                     <td>
                       <v-btn variant="outlined" size="small" prepend-icon="mdi-file-find" color="primary" @click="ViewUcc(item.id)">View</v-btn>
-                      <v-btn variant="outlined" size="small" prepend-icon="mdi-pencil" color="primary" class="ml-1">Edit</v-btn>
                     </td>
                   </tr>
                 </template>
