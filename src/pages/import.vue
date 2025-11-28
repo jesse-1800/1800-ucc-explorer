@@ -152,7 +152,9 @@ const ucc_grouped_data = computed(() => {
 
   actual_data.value.forEach((data) => {
     if (!ids_only_group.includes(data[ucc_key])) {
-      ids_only_group.push(data[ucc_key]);
+      if (data[ucc_key].length>0) {
+        ids_only_group.push(data[ucc_key]);
+      }
     }
   });
 
@@ -283,7 +285,7 @@ const ImportDataToDB = async() => {
   form.append('data', JSON.stringify(ucc_grouped_data.value));
   UccServer(token).post(`/import/import-data`,form).then(res => {
     console.log(res.data);
-    store.ShowSuccess(res.data.result);
+    store.ShowSuccess(res.data.message);
     store.FetchAllData(token);
   });
 }
