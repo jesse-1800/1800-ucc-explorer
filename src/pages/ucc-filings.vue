@@ -10,21 +10,25 @@
           </v-card-text>
         </template>
         <template #content>
-          <v-data-table density="comfortable" :style="theme_table_style" :items="filtered_ucc_filings" :headers="headers">
-            <template #item="{item}">
-              <tr>
-                <td>{{item.id}}</td>
-                <td>{{ item.buyer_company }}</td>
-                <td><v-chip color="primary">{{FindUccEquipments(item.id).length}}</v-chip></td>
-                <td>{{item.ucc_date}}</td>
-                <td>{{item.ucc_status}}</td>
-                <td>
-                  <v-btn variant="outlined" size="small" prepend-icon="mdi-file-find" color="primary" @click="ViewUcc(item.id)">View</v-btn>
-                  <v-btn variant="outlined" size="small" prepend-icon="mdi-pencil" color="primary" class="ml-1">Edit</v-btn>
-                </td>
-              </tr>
-            </template>
-          </v-data-table>
+          <v-card :style="theme_card_style">
+            <v-card-text>
+              <v-data-table density="comfortable" :style="theme_table_style" :items="filtered_ucc_filings" :headers="headers">
+                <template #item="{item}">
+                  <tr>
+                    <td>{{item.id}}</td>
+                    <td>{{ item.buyer_company }}</td>
+                    <td><v-chip color="primary">{{FindUccEquipments(item.id).length}}</v-chip></td>
+                    <td>{{item.ucc_date}}</td>
+                    <td>{{item.ucc_status}}</td>
+                    <td>
+                      <v-btn variant="outlined" size="small" prepend-icon="mdi-file-find" color="primary" @click="ViewUcc(item.id)">View</v-btn>
+                      <v-btn variant="outlined" size="small" prepend-icon="mdi-pencil" color="primary" class="ml-1">Edit</v-btn>
+                    </td>
+                  </tr>
+                </template>
+              </v-data-table>
+            </v-card-text>
+          </v-card>
         </template>
       </InnerLayout>
 
@@ -38,7 +42,7 @@ import moment from "moment";
 import {storeToRefs} from "pinia";
 import {useAuth0} from "@auth0/auth0-vue";
 import {GlobalStore} from "@/stores/globals";
-import {ToggleModal} from "@/composables/GlobalComposables";
+import {theme_card_style, ToggleModal} from "@/composables/GlobalComposables";
 import {FindUccBuyer} from "@/composables/GlobalComposables";
 import {FindUccEquipments} from "@/composables/GlobalComposables";
 import {theme_table_style} from "@/composables/GlobalComposables";
