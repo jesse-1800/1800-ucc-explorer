@@ -3,20 +3,65 @@
     <template #title>Homepage</template>
     <template #content>
       <div ref="map_container" style="width: 100%; height: 500px"></div>
+
+      <pre>{{mapped_ucc_list}}</pre>
     </template>
   </AppLayout>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import {storeToRefs} from "pinia";
+import {GlobalStore} from "@/stores/globals";
 import {state_centers} from "@/composables/GlobalComposables";
 
-const map_container = ref(null)
-const map = ref(null)
+const map = ref(null);
+const store = GlobalStore();
+const {ucc_filings,ucc_buyers} = storeToRefs(store);
+const map_container = ref(null);
 const state_data = ref([
-  { name: "Florida", value: 100 },
-  { name: "Texas", value: 90 }
-])
+  { name: "FL", value: 100 },
+  { name: "TX", value: 90 }
+]);
+
+const mapped_ucc_list = computed(() => {
+  const reduced_ucc_list = [];
+  ucc_filings.value.forEach(ucc_item => {
+    const buyer = ucc_buyers.value.find(b=>b.id === ucc_item.buyer_id);
+    reduced_ucc_list.push({
+      ucc_filing_id: ucc_item.id,
+      buyer_id: buyer.buyer_id,
+      buyer_city: buyer.buyer_city,
+      buyer_state: buyer.buyer_state,
+    })
+  });
+
+  // Group of state abbrevs and UCC profiles from that state
+  const grouped = {};
+
+  // Group items by state
+  reduced_ucc_list.forEach(item => {
+    const state = item.buyer_state;
+
+    // If this state doesn't exist yet, create it
+    if (!grouped[state]) {
+      grouped[state] = [];
+    }
+
+    // Add the item to this state's array
+    grouped[state].push(item);
+  });
+
+  // Convert to array format
+  const result = [];
+  for (const state_name in grouped) {
+    result.push({
+      state_name: state_name,
+      state_items: grouped[state_name]
+    });
+  }
+
+  return result;
+});
 
 const InitializeMap = () => {
   // Initialize the map with transparent background
@@ -62,13 +107,13 @@ const InitializeMap = () => {
     fillOpacity: 0.7
   })
 
-  // Create a Set of state names that have data
+  // Create a Set of state abbreviations that have data
   const statesWithData = new Set(state_data.value.map(s => s.name))
 
   // Add custom state labels for states WITHOUT data
-  Object.entries(state_centers).forEach(([stateName, stateInfo]) => {
+  state_centers.forEach(stateInfo => {
     // Skip if this state has data (will be shown with red circle)
-    if (statesWithData.has(stateName)) return
+    if (statesWithData.has(stateInfo.abbrev)) return
 
     new google.maps.Marker({
       position: { lat: stateInfo.lat, lng: stateInfo.lng },
@@ -89,7 +134,7 @@ const InitializeMap = () => {
 
   // Add markers with red circles ONLY for states in your array
   state_data.value.forEach(state => {
-    const stateInfo = state_centers[state.name]
+    const stateInfo = state_centers.find(s => s.abbrev === state.name)
     if (stateInfo) {
       // Outer ripple layer (largest, most transparent)
       new google.maps.Marker({
@@ -142,7 +187,6 @@ const LoadGoogleMaps = () => {
   if (window.google && window.google.maps) {
     return InitializeMap()
   }
-
   const script = document.createElement('script')
   script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyBof785oPijCcynKX2ckPT8JKF6LYSKO8g`
   script.async = true
