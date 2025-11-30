@@ -112,6 +112,8 @@
           </template>
         </v-data-table>
 
+        <pre>{{ucc_grouped_data[0]}}</pre>
+
       </squeeze>
     </template>
   </AppLayout>
@@ -158,10 +160,11 @@ const ucc_grouped_data = computed(() => {
     }
   });
 
-  ids_only_group.forEach((ucc_id:string) => {
+  ids_only_group.forEach((ucc_id:string,ucc_index:number) => {
     const selected_ucc_rows = actual_data.value.filter(d => d[ucc_key] == ucc_id);
     const first_row = selected_ucc_rows[0];
     const equipments_list = <any>[];
+    const unique_buyer_id = `FILL-${Date.now().toString(36).toUpperCase()}-${ucc_index}`;
     selected_ucc_rows.forEach(row => {
       equipments_list.push({
         equipment_unit:      row[GetBoundColumn('equipment_unit')],
@@ -194,7 +197,7 @@ const ucc_grouped_data = computed(() => {
         ucc_batch:           first_row[GetBoundColumn('ucc_batch')],
       },
       buyer:    {
-        buyer_id:       first_row[GetBoundColumn('buyer_id')],
+        buyer_id:       first_row[GetBoundColumn('buyer_id')] ?? unique_buyer_id,
         buyer_company:  first_row[GetBoundColumn('buyer_company')],
         buyer_adress1:  first_row[GetBoundColumn('buyer_adress1')],
         buyer_adress2:  first_row[GetBoundColumn('buyer_adress2')],
