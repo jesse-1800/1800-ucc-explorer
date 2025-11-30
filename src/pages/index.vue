@@ -18,12 +18,7 @@ const map = ref(null);
 const store = GlobalStore();
 const {ucc_filings,ucc_buyers} = storeToRefs(store);
 const map_container = ref(null);
-const state_data = ref([
-  { name: "FL", value: 100 },
-  { name: "TX", value: 90 }
-]);
-
-const mapped_ucc_list = computed(() => {
+const state_data = computed(() => {
   const reduced_ucc_list = [];
   ucc_filings.value.forEach(ucc_item => {
     const buyer = ucc_buyers.value.find(b=>b.id === ucc_item.buyer_id);
@@ -108,7 +103,7 @@ const InitializeMap = () => {
   })
 
   // Create a Set of state abbreviations that have data
-  const statesWithData = new Set(state_data.value.map(s => s.name))
+  const statesWithData = new Set(state_data.value.map(s => s.state_name))
 
   // Add custom state labels for states WITHOUT data
   state_centers.forEach(stateInfo => {
@@ -134,8 +129,10 @@ const InitializeMap = () => {
 
   // Add markers with red circles ONLY for states in your array
   state_data.value.forEach(state => {
-    const stateInfo = state_centers.find(s => s.abbrev === state.name)
+    const stateInfo = state_centers.find(s => s.abbrev === state.state_name)
     if (stateInfo) {
+      const itemCount = state.state_items.length
+
       // Outer ripple layer (largest, most transparent)
       new google.maps.Marker({
         position: { lat: stateInfo.lat, lng: stateInfo.lng },
@@ -167,7 +164,7 @@ const InitializeMap = () => {
         position: { lat: stateInfo.lat, lng: stateInfo.lng },
         map: map.value,
         label: {
-          text: state.value.toString(),
+          text: itemCount.toString(),
           color: 'white',
           fontSize: '16px',
           fontWeight: 'bold'

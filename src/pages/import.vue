@@ -38,7 +38,7 @@
                     variant="outlined"
                     v-if="column.display"
                     label="Select a header"
-                    :items="target_headers"
+                    :items="column.column=='buyer_id'? modified_headers : target_headers"
                     v-model="column.mapped_to">
                     <template #item="{item}">
                       <v-list-item @click="column.mapped_to = item.value">
@@ -111,9 +111,6 @@
             </tr>
           </template>
         </v-data-table>
-
-        <pre>{{ucc_grouped_data[0]}}</pre>
-
       </squeeze>
     </template>
   </AppLayout>
@@ -134,6 +131,9 @@ import {theme_table_style} from "@/composables/GlobalComposables";
 const store = GlobalStore();
 const actual_data = ref([]);
 const target_headers = ref([]);
+const modified_headers = computed(() => {
+  return ['[AUTO-GENERATE]', ...target_headers.value];
+});
 const headers = [
   {title:"ID",       value: "id",  sortable:true},
   {title:"File name",value: "name",sortable:true},
@@ -152,7 +152,7 @@ const ucc_grouped_data = computed(() => {
   const ids_only_group = <any>[];
   const final_list = <any>[];
 
-  actual_data.value.forEach((data) => {
+  actual_data.value.forEach((data:any) => {
     if (!ids_only_group.includes(data[ucc_key])) {
       if (data[ucc_key].length>0) {
         ids_only_group.push(data[ucc_key]);
@@ -164,7 +164,6 @@ const ucc_grouped_data = computed(() => {
     const selected_ucc_rows = actual_data.value.filter(d => d[ucc_key] == ucc_id);
     const first_row = selected_ucc_rows[0];
     const equipments_list = <any>[];
-    const unique_buyer_id = `FILL-${Date.now().toString(36).toUpperCase()}-${ucc_index}`;
     selected_ucc_rows.forEach(row => {
       equipments_list.push({
         equipment_unit:      row[GetBoundColumn('equipment_unit')],
@@ -197,7 +196,7 @@ const ucc_grouped_data = computed(() => {
         ucc_batch:           first_row[GetBoundColumn('ucc_batch')],
       },
       buyer:    {
-        buyer_id:       first_row[GetBoundColumn('buyer_id')] ?? unique_buyer_id,
+        buyer_id:       GetOrCreateBuyerID(first_row,GetBoundColumn('buyer_id'),ucc_index),
         buyer_company:  first_row[GetBoundColumn('buyer_company')],
         buyer_adress1:  first_row[GetBoundColumn('buyer_adress1')],
         buyer_adress2:  first_row[GetBoundColumn('buyer_adress2')],
@@ -242,6 +241,14 @@ const ucc_grouped_data = computed(() => {
   return final_list;
 });
 
+const GetOrCreateBuyerID = (first_row:any,bound_csv_column:string,ucc_index:number) => {
+  const unique_buyer_id = `FILL-${Date.now().toString(36).toUpperCase()}-${ucc_index}`;
+  if (bound_csv_column == "[AUTO-GENERATE]") {
+    return unique_buyer_id;
+  } else {
+    return first_row[bound_csv_column];
+  }
+}
 const HandleDrop = (event:any) => {
   const dropped_file = event.dataTransfer.files[0]
   if (dropped_file) UploadToGCS(dropped_file)
@@ -282,6 +289,17 @@ const ImportDataToDB = async() => {
   const form = new FormData;
   const file_id = has_pending_tasks.value.id;
   const token = await getAccessTokenSilently();
+  const required_map = ['buyer_id','ucc_id'];
+  const has_errors = <any>[];
+
+  ucc_map_columns.value.forEach((column: any) => {
+    if (required_map.includes(column.column) && !column.mapped_to) {
+      has_errors.push(`'${column.label}' is required.`);
+    }
+  });
+  if (has_errors.length > 0) {
+    return store.ShowError(has_errors.join('<br>'));
+  }
 
   form.append('partner_id', my_partner_id.value);
   form.append('file_id', file_id);
