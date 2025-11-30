@@ -56,6 +56,7 @@
 
           <div class="text-center mt-5">
             <v-btn
+              :loading="is_loading"
               @click="ImportDataToDB"
               text="Ready to Import"
               prepend-icon="mdi-import"
@@ -130,10 +131,8 @@ import {theme_table_style} from "@/composables/GlobalComposables";
 
 const store = GlobalStore();
 const actual_data = ref([]);
+const is_loading = ref(false);
 const target_headers = ref([]);
-const modified_headers = computed(() => {
-  return ['[AUTO-GENERATE]', ...target_headers.value];
-});
 const headers = [
   {title:"ID",       value: "id",  sortable:true},
   {title:"File name",value: "name",sortable:true},
@@ -141,6 +140,9 @@ const headers = [
 ];
 const file_input = ref<any>(null);
 const {getAccessTokenSilently} = useAuth0();
+const modified_headers = computed(() => {
+  return ['[AUTO-GENERATE]', ...target_headers.value];
+});
 const has_pending_tasks = computed(() => {
   return ucc_files.value.find(f => f.is_imported == 0);
 });
@@ -301,6 +303,7 @@ const ImportDataToDB = async() => {
     return store.ShowError(has_errors.join('<br>'));
   }
 
+  is_loading.value = true;
   form.append('partner_id', my_partner_id.value);
   form.append('file_id', file_id);
   form.append('data', JSON.stringify(ucc_grouped_data.value));
@@ -308,6 +311,8 @@ const ImportDataToDB = async() => {
     console.log(res.data);
     store.ShowSuccess(res.data.message);
     store.FetchAllData(token);
+  }).finally(() => {
+    is_loading.value = false;
   });
 }
 const FindSampleValue = (csv_header:string) => {
