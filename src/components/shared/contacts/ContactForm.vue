@@ -163,6 +163,7 @@ const contact = ref({
   'created_at': "",
   'updated_at': "",
 });
+const emits = defineEmits(['onUpdate']);
 const props = defineProps(['edit_contact','buyer_id']);
 const {getAccessTokenSilently} = useAuth0();
 const {modals,ucc_buyers} = storeToRefs(store);
@@ -177,6 +178,7 @@ const SubmitForm = async () => {
     UccServer(token).post(`/contacts/${route}`,form).then(res => {
       store.ShowSuccess(res.data.message);
       store.FetchAllData(token);
+      emits('onUpdate');
       if (res.data.result) {
         modals.value.contact_form = false;
       }

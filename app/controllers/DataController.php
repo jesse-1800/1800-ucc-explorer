@@ -40,4 +40,21 @@ class DataController {
         );
         return json($data);
     }
+
+    public function find_ucc_data($ucc_filing_id)
+    {
+        $ucc_filing = UccFilings::find($ucc_filing_id);
+        $buyer      = UccBuyers::find($ucc_filing->buyer_id);
+        $provider   = UccProviders::find($ucc_filing->provider_id);
+        $assignee   = UccAssignees::find($ucc_filing->assignee_id);
+        $data = (object) [
+            "ucc_filing" => $ucc_filing->data,
+            "buyer"      => $buyer->data,
+            "contacts"   => UccContacts::where('buyer_id',$buyer->id)->get(),
+            "provider"   => $provider ? $provider->data : null,
+            "assignee"   => $assignee ? $assignee->data : null,
+            "equipments" => UccEquipments::where('ucc_filing_id',$ucc_filing->id)->get(),
+        ];
+        return json($data);
+    }
 }
