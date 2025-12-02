@@ -35,8 +35,7 @@
       "kernel",
       "kernel/database",
       "kernel/security",
-      "app/models",
-      "app/migrations"
+      "app/models"
     ],
     "files": [
       "app/config/application.php",
