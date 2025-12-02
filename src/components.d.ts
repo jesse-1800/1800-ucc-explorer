@@ -21,7 +21,6 @@ declare module 'vue' {
     EquipmentsTable: typeof import('./components/shared/equipments/EquipmentsTable.vue')['default']
     Filler: typeof import('./components/misc/Filler.vue')['default']
     FlexedBetween: typeof import('./components/misc/FlexedBetween.vue')['default']
-    GrapeJS: typeof import('./components/misc/GrapeJS.vue')['default']
     InnerLayout: typeof import('./components/layouts/InnerLayout.vue')['default']
     LinkCard: typeof import('./components/shared/dashboard/LinkCard.vue')['default']
     LoginBtn: typeof import('./components/auth0/LoginBtn.vue')['default']
