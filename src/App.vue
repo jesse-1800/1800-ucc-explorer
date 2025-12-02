@@ -19,14 +19,10 @@ const { isAuthenticated } = useAuth0();
 const {getAccessTokenSilently} = useAuth0();
 
 const DetectScreenOnResize = () => {
-  const isMobile = window.innerWidth <= 768;
-  store.SetState({is_mobile: isMobile});
+  store.SetState({is_mobile: window.innerWidth <= 768});
 };
 
 onMounted(async() => {
-  // Open sidebar by default
-  sidebar.value = true;
-
   // Redirect from a dirty Auth0 URL
   const url = new URL(window.location.href);
 
