@@ -42,7 +42,7 @@ const router = createRouter({
 });
 
 // Validate with Auth0 and set "profile" in pinia
-router.beforeEach(async (to, from, next) => {
+router.beforeEach(async (to:any, from:any, next:any) => {
   const store = GlobalStore()
   const { isAuthenticated, user, isLoading } = useAuth0()
   const { SetProfile } = store
@@ -63,7 +63,7 @@ router.beforeEach(async (to, from, next) => {
 })
 
 // Workaround for https://github.com/vitejs/vite/issues/11804
-router.onError((err, to) => {
+router.onError((err:any, to:any) => {
   if (err?.message?.includes?.('Failed to fetch dynamically imported module')) {
     if (localStorage.getItem('vuetify:dynamic-reload')) {
       console.error('Dynamic import error, reloading page did not fix it', err)
