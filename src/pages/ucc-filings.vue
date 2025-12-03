@@ -108,7 +108,6 @@ const FetchRows = async() => {
   UccServer(token).post('/uccfilings/paginate',form).then(res=>{
     ucc_filings.value = res.data.items;
     items_length.value = res.data.total;
-
   }).finally(()=>{
     is_loading.value = false;
   });
