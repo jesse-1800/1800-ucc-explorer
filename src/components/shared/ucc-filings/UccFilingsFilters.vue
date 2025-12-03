@@ -90,10 +90,10 @@
     variant="outlined"
     placeholder="Equipment Count..."
     @click="equipment_modal=true"
-    :model-value="date_range_label"
+    :model-value="equipment_label"
     prepend-inner-icon="mdi-printer-outline"
-    @click:append-inner="filters.equipment_count=null"
-    :append-inner-icon="filters.equipment_count?'mdi-close':''">
+    @click:append-inner="ClearEquipmentCounts"
+    :append-inner-icon="equipment_label?'mdi-close':''">
   </v-text-field>
 
   <MyModal color="transparent" max_width="700" v-model="date_modal" title="Select the date range...">
@@ -130,14 +130,18 @@
       <v-col cols="6">
         <v-text-field
           variant="outlined"
-          v-model="filters.equipment_min"
+          type="number"
+          :min="0"
+          v-model.number="filters.equipment_min"
           label="Equipment Count (min)">
         </v-text-field>
       </v-col>
       <v-col cols="6">
         <v-text-field
           variant="outlined"
-          v-model="filters.equipment_max"
+          type="number"
+          :min="filters.equipment_min"
+          v-model.number="filters.equipment_max"
           label="Equipment Count (max)">
         </v-text-field>
       </v-col>
@@ -145,7 +149,7 @@
 
     <template #footer>
       <v-spacer/>
-      <v-btn class="mr-1" size="small" color="default" prepend-icon="mdi-close" @click="filters.equipment_min=null;filters.equipment_max=null">Clear</v-btn>
+      <v-btn class="mr-1" size="small" color="default" prepend-icon="mdi-close" @click="ClearEquipmentCounts">Clear</v-btn>
       <v-btn class="ml-1" size="small" color="primary" prepend-icon="mdi-check" @click="equipment_modal=false">Done</v-btn>
       <v-spacer/>
     </template>
@@ -167,6 +171,12 @@ const mapped_statuses = computed(() => {
     value: ucc_status,
     title: ucc_status,
   }))
+});
+const equipment_label = computed(() => {
+  if (filters.value.equipment_min != null && filters.value.equipment_max != null) {
+    return `${filters.value.equipment_min} to ${filters.value.equipment_max} Equipments`
+  }
+  return null;
 });
 const date_range_label = computed(() => {
   const { start_date, end_date } = filters.value
@@ -192,6 +202,11 @@ const ClearDates = (event) => {
   filters.value.start_date = "";
   filters.value.end_date = "";
 }
+const ClearEquipmentCounts = (event) => {
+  event.stopPropagation()
+  filters.value.equipment_min = null;
+  filters.value.equipment_max = null;
+}
 const ClearFilters = () => {
   filters.value = <FiltersType>{
     search:      null,
@@ -203,8 +218,4 @@ const ClearFilters = () => {
     buyer_state: null,
   }
 }
-
-watch(()=>filters.value.ucc_status,(n) => {
-  console.log(n)
-})
 </script>
