@@ -9,14 +9,15 @@ import { useAuth0 } from "@auth0/auth0-vue";
 import { GlobalStore } from "@/stores/globals";
 import { routes } from 'vue-router/auto-routes';
 import type { ProfileType } from "@/types/StoreTypes";
-import { createRouter, createWebHistory } from 'vue-router/auto';
+// @ts-expect-error vue-router/auto types are provided by unplugin-vue-router
+import { createRouter, createWebHistory } from "vue-router/auto"
 
 // List of routes to protect
 const protected_routes = [
   '/',
   '/dashboard',
   '/assignees',
-  '/buyers',
+  '/customers',
   '/contacts',
   '/equipments',
   '/ucc-filings',
