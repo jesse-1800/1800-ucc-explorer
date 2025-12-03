@@ -35,6 +35,7 @@ class DataController {
             'ucc_files'         => UccFileManager::where('partner_id',$partner_id)->get(),
             'ucc_map_columns'   => json_decode(file_get_contents("$path/ucc_filings.json")),
             'ucc_statuses'      => UccFilings::select('ucc_status')->distinct('ucc_status')->get(),
+            'ucc_cities'        => UccBuyers::select('buyer_city')->distinct('buyer_city')->get(),
             'ucc_assignees'     => UccAssignees::select('id,assignee_company')->where('partner_id',$partner_id)->get(),
             'ucc_providers'     => UccProviders::select('id,provider_company')->where('partner_id',$partner_id)->get(),
         );
