@@ -26,6 +26,7 @@
                   <tr>
                     <td>{{item.id}}</td>
                     <td>{{ item.buyer_company }}</td>
+                    <td>{{ item.buyer_state }}</td>
                     <td><v-chip color="primary">{{item.equipment_count}}</v-chip></td>
                     <td>{{item.ucc_date}}</td>
                     <td>{{item.ucc_status}}</td>
@@ -61,6 +62,7 @@ const view_ucc_id = ref<any>(null);
 const headers = <any>[
   {title: "UCC ID",     value: "id",              sortable: true},
   {title: "Company",    value: "buyer_company",   sortable: true},
+  {title: "State",      value: "buyer_state",     sortable: true},
   {title: "Equipments", value: "equipment_count", sortable: true},
   {title: "UCC Date",   value: "ucc_date",        sortable: true},
   {title: "UCC Status", value: "ucc_status",      sortable: true},
