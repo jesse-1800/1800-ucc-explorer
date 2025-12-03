@@ -208,6 +208,9 @@ export const GlobalStore = defineStore('globals', {
         this.ucc_files         = res.data.ucc_files;
         this.ucc_statuses      = res.data.ucc_statuses;
         this.ucc_map_columns   = res.data.ucc_map_columns;
+        this.ucc_assignees     = res.data.ucc_assignees;
+        this.ucc_providers     = res.data.ucc_providers;
+        this.ucc_contacts      = res.data.ucc_contacts;
 
         this.is_data_loaded    = true;
       });
