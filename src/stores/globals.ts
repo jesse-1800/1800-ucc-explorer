@@ -68,7 +68,8 @@ export const GlobalStore = defineStore('globals', {
     idp_partner_users: [],
 
     // Ucc Explorer Data
-    ucc_statuses: [],
+    ucc_statuses: [], // for filters
+    ucc_cities: [],   // for filters
     ucc_assignees: [],
     ucc_buyers: [],
     ucc_contacts: [],
@@ -92,6 +93,14 @@ export const GlobalStore = defineStore('globals', {
       buyer_state:    null,
       equipment_min:  null,
       equipment_max:  null,
+    },
+
+    // UCC Buyers Filters
+    ucc_buyers_filters: {
+      search:   null,
+      city:     null,
+      state:    null,
+      county:   null,
     },
 
     // Table Search Input
