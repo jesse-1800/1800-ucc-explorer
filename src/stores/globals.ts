@@ -90,8 +90,8 @@ export const GlobalStore = defineStore('globals', {
       assignee_id:    null,
       ucc_status:     null,
       buyer_state:    null,
-      equipments_min: null,
-      equipments_max: null,
+      equipment_min:  null,
+      equipment_max:  null,
     },
 
     // Table Search Input
