@@ -75,7 +75,7 @@ const curr_page      = ref<any>(1);
 const sort_by        = ref(<any>[]);
 const is_loading     = ref(false);
 const items_length   = ref(0);
-const items_per_page = ref<any>(100);
+const items_per_page = ref<any>(25);
 const sort_key       = computed(()=>(sort_by.value[0] ? sort_by.value[0].key:"id"));
 const sort_order     = computed(()=>(sort_by.value[0] ? sort_by.value[0].order:"asc"));
 
