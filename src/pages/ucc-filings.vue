@@ -51,11 +51,10 @@ import moment from "moment";
 import {storeToRefs} from "pinia";
 import {useAuth0} from "@auth0/auth0-vue";
 import {GlobalStore} from "@/stores/globals";
-import {theme_card_style, ToggleModal} from "@/composables/GlobalComposables";
-import {FindUccBuyer} from "@/composables/GlobalComposables";
-import {FindUccEquipments} from "@/composables/GlobalComposables";
+import {UccServer} from "@/plugins/ucc-server";
+import {ToggleModal} from "@/composables/GlobalComposables";
+import {theme_card_style} from "@/composables/GlobalComposables";
 import {theme_table_style} from "@/composables/GlobalComposables";
-import {UccServer} from "@/plugins/ucc-server.ts";
 
 const store = GlobalStore();
 const view_ucc_id = ref<any>(null);
