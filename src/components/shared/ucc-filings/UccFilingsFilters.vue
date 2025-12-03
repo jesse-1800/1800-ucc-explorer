@@ -9,7 +9,7 @@
       variant="text"
       class="d-flex"
       @click="ClearFilters"
-      text="Clear All Filters"
+      text="Clear Filters"
       prepend-icon="mdi-close">
     </v-btn>
   </FlexedBetween>
