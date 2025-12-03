@@ -9,7 +9,7 @@ class UccfilingsController
         $curr_page = (int)($_POST['curr_page'] ?? 1);
         $page_size = (int)($_POST['page_size'] ?? 100);
         $offset    = ($curr_page - 1) * $page_size;
-        $sort_map = array(
+        $sort_map  = array(
             'id'              => 'UF.id',
             'ucc_date'        => "STR_TO_DATE(UF.ucc_date,'%m/%d/%Y')",
             'ucc_status'      => 'UF.ucc_status',
