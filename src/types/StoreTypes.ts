@@ -41,7 +41,7 @@ export interface ManufacturerType {
   created_at: string;
   updated_at: string;
 }
-export interface FiltersType {
+export interface UccFilingFiltersType {
   search: string | null;
   start_date: string | null;
   end_date: string | null;
@@ -51,6 +51,12 @@ export interface FiltersType {
   buyer_state: string | null;
   equipment_min: number | null;
   equipment_max: number | null;
+}
+export interface UccBuyersFiltersType {
+  search:   string|null,
+  city:     string|null,
+  state:    string|null,
+  county:   string|null,
 }
 
 /**
@@ -107,6 +113,9 @@ export interface GlobalStateTypes {
 
   // UCC Filing Filters
   ucc_filing_filters: any;
+
+  // UCC Buyers Filters
+  ucc_buyers_filters: any;
 
   // Table Search Input
   table_search: "",
