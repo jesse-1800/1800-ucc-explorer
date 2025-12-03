@@ -35,7 +35,7 @@
         <v-list>
           <v-list-item to="/"            prepend-icon="mdi-view-dashboard" title="Dashboard"/>
           <v-list-item to="/ucc-filings" prepend-icon="mdi-format-list-text" title="UCC Filings"/>
-          <v-list-item to="/buyers"      prepend-icon="mdi-account-supervisor-circle" title="Buyers"/>
+          <v-list-item to="/buyers"      prepend-icon="mdi-account-supervisor-circle" title="Customers"/>
           <v-list-item to="/contacts"    prepend-icon="mdi-account-supervisor" title="Contacts"/>
           <v-list-item to="/import"      prepend-icon="mdi-import" title="Import Data..."/>
 
