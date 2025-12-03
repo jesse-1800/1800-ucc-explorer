@@ -89,6 +89,7 @@ export const GlobalStore = defineStore('globals', {
       provider_id: null,
       assignee_id: null,
       ucc_status:  null,
+      buyer_state: null,
     },
 
     // Table Search Input
@@ -184,14 +185,6 @@ export const GlobalStore = defineStore('globals', {
         this.FetchPartners(token).finally(() => {
           this.partner_loading = false;
         });
-      });
-    },
-    async FetchAuth0Roles(token:any) {
-      if (this.auth0_roles.length) {
-        return;
-      }
-      return await UccServer(token).get('/users/fetch-roles').then(response => {
-        this.auth0_roles = response.data;
       });
     },
 
