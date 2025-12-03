@@ -18,10 +18,47 @@ class UccfilingsController
         $sort_by   = $sort_map[$_POST['sort_by']] ?? 'id';
         $order_by  = $_POST['order_by'];
         $total     = $db->row("SELECT COUNT(*) AS 'total' FROM ucc_filings")->total;
+
+        // where queries
+        $where = array();
+        $search = trim($_POST['search'] ?? '');
+        $start_date   = trim($_POST['start_date'] ?? '');
+        $end_date     = trim($_POST['end_date'] ?? '');
+        $provider_id  = trim($_POST['provider_id'] ?? '');
+        $assignee_id  = trim($_POST['assignee_id'] ?? '');
+        $ucc_status   = trim($_POST['ucc_status'] ?? '');
+
+        if($search      !== ""){
+            $search_input = addslashes($search);
+            $where[] = ("
+                (UB.buyer_company LIKE '%$search_input%'
+                OR UF.ucc_status LIKE '%$search_input%'
+                OR UF.id LIKE '%$search_input%')
+            ");
+        }
+        if($start_date  !== "" && $end_date !== ""){
+            $where[] = ("
+                STR_TO_DATE(UF.ucc_date,'%m/%d/%Y')
+                BETWEEN STR_TO_DATE('$start_date','%m/%d/%Y')
+                AND STR_TO_DATE('$end_date','%m/%d/%Y')
+            ");
+        }
+        if($provider_id !== ""){
+            $where[] = "UF.provider_id = '$provider_id'";
+        }
+        if($assignee_id !== ""){
+            $where[] = "UF.assignee_id = '$assignee_id'";
+        }
+        if($ucc_status  !== ""){
+            $where[] = "UF.ucc_status = '$ucc_status'";
+        }
+
+        $where_sql = count($where) ? "WHERE " . implode(" AND ", $where) : "";
         $result = $db->query("
           SELECT UF.*,UB.buyer_company AS buyer_company,(SELECT COUNT(*) FROM ucc_equipments EQ WHERE EQ.ucc_filing_id = UF.id) AS equipment_count
           FROM ucc_filings UF
           LEFT JOIN ucc_buyers UB ON UF.buyer_id = UB.id
+          $where_sql
           ORDER BY $sort_by $order_by
           LIMIT $page_size
           OFFSET $offset;

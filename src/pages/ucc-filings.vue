@@ -2,7 +2,6 @@
   <AppLayout>
     <template #title>UCC Filings</template>
     <template #content>
-
       <InnerLayout>
         <template #sidebar>
           <v-card-text>
@@ -12,12 +11,22 @@
         <template #content>
           <v-card :style="theme_card_style">
             <v-card-text>
-              <v-data-table density="comfortable" :style="theme_table_style" :items="filtered_ucc_filings" :headers="headers">
+              <v-data-table-server
+                :headers="headers"
+                :items="ucc_filings"
+                density="comfortable"
+                :loading="is_loading"
+                v-model:page="curr_page"
+                v-model:sort-by="sort_by"
+                :style="theme_table_style"
+                :items-length="items_length"
+                :items-per-page-options="[25,50,100]"
+                v-model:items-per-page="items_per_page">
                 <template #item="{item}">
                   <tr>
                     <td>{{item.id}}</td>
                     <td>{{ item.buyer_company }}</td>
-                    <td><v-chip color="primary">{{FindUccEquipments(item.id).length}}</v-chip></td>
+                    <td><v-chip color="primary">{{item.equipment_count}}</v-chip></td>
                     <td>{{item.ucc_date}}</td>
                     <td>{{item.ucc_status}}</td>
                     <td>
@@ -25,7 +34,7 @@
                     </td>
                   </tr>
                 </template>
-              </v-data-table>
+              </v-data-table-server>
             </v-card-text>
           </v-card>
         </template>
@@ -45,6 +54,7 @@ import {theme_card_style, ToggleModal} from "@/composables/GlobalComposables";
 import {FindUccBuyer} from "@/composables/GlobalComposables";
 import {FindUccEquipments} from "@/composables/GlobalComposables";
 import {theme_table_style} from "@/composables/GlobalComposables";
+import {UccServer} from "@/plugins/ucc-server.ts";
 
 const store = GlobalStore();
 const view_ucc_id = ref<any>(null);
@@ -57,77 +67,78 @@ const headers = <any>[
   {title: "Manage",     value: "manage",       sortable: false},
 ]
 const {ucc_filings} = storeToRefs(store);
-const filtered_ucc_filings = computed(() => {
-  // Add extra properties for table sort to work.
-  let filtered_ucc_list = ucc_filings.value.map(filing => ({
-    ...filing,
-    buyer_company: FindUccBuyer(filing.buyer_id)?.buyer_company || '(None)',
-    equipments: FindUccEquipments(filing.id).length
-  }));
-
-  // Search filter
-  const search = filters.value.search?.toLowerCase().trim() || ''
-  if (search) {
-    filtered_ucc_list = filtered_ucc_list.filter(row => {
-      return (
-        row.id.toString().toLowerCase().includes(search) ||
-        row.buyer_company.toLowerCase().includes(search) ||
-        row.equipments.toString().includes(search) ||
-        row.ucc_date?.toLowerCase().includes(search) ||
-        row.ucc_status?.toLowerCase().includes(search)
-      )
-    })
-  }
-
-  // Star/End date filter
-  if (filters.value.start_date || filters.value.end_date) {
-    filtered_ucc_list = filtered_ucc_list.filter(row => {
-      if (!row.ucc_date) return false
-
-      const ucc_date = moment(row.ucc_date, 'MM/DD/YYYY')
-      const start_date = filters.value.start_date ? moment(filters.value.start_date) : null;
-      const end_date = filters.value.end_date ? moment(filters.value.end_date) : null;
-
-      if (start_date && end_date) {
-        return ucc_date.isSameOrAfter(start_date, 'day') && ucc_date.isSameOrBefore(end_date, 'day')
-      }
-      if (start_date) {
-        return ucc_date.isSameOrAfter(start_date, 'day')
-      }
-      if (end_date) {
-        return ucc_date.isSameOrBefore(end_date, 'day')
-      }
-      return true
-    });
-  }
-
-  // Provider ID filter
-  if (filters.value.provider_id) {
-    filtered_ucc_list = filtered_ucc_list.filter(row => {
-      return row.provider_id == filters.value.provider_id;
-    });
-  }
-
-  // Assignee ID filter
-  if (filters.value.assignee_id) {
-    filtered_ucc_list = filtered_ucc_list.filter(row => {
-      return row.assignee_id == filters.value.assignee_id;
-    });
-  }
-
-  // UCC Status filter
-  if (filters.value.ucc_status) {
-    filtered_ucc_list = filtered_ucc_list.filter(row => {
-      return row.ucc_status == filters.value.ucc_status;
-    });
-  }
-
-  return filtered_ucc_list;
-});
+const {getAccessTokenSilently} = useAuth0();
 const {ucc_filing_filters:filters} = storeToRefs(store);
+
+// For server-based datatable
+const curr_page      = ref<any>(1);
+const sort_by        = ref(<any>[]);
+const is_loading     = ref(false);
+const items_length   = ref(0);
+const items_per_page = ref<any>(100);
+const sort_key       = computed(()=>(sort_by.value[0] ? sort_by.value[0].key:"id"));
+const sort_order     = computed(()=>(sort_by.value[0] ? sort_by.value[0].order:"asc"));
+
 
 const ViewUcc = (ucc_filing_id:string) => {
   view_ucc_id.value = ucc_filing_id;
   ToggleModal('ucc_filing_viewer',true);
 }
+const FetchRows = async() => {
+  is_loading.value = true;
+  const form = new FormData();
+  const token = await getAccessTokenSilently();
+
+  form.append("curr_page",  curr_page.value);
+  form.append("sort_by",    sort_key.value);
+  form.append("order_by",   sort_order.value);
+  form.append("page_size",  items_per_page.value);
+
+  form.append('search',     filters.value.search ?? '');
+  form.append('start_date', filters.value.start_date ? moment(filters.value.start_date).format("MM/DD/YYYY"):"");
+  form.append('end_date',   filters.value.end_date   ? moment(filters.value.end_date).format("MM/DD/YYYY"):"");
+  form.append('provider_id',filters.value.provider_id ?? '');
+  form.append('assignee_id',filters.value.assignee_id ?? '');
+  form.append('ucc_status', filters.value.ucc_status ?? '');
+
+  UccServer(token).post('/uccfilings/paginate',form).then(res=>{
+    ucc_filings.value = res.data.items;
+    items_length.value = res.data.total;
+
+  }).finally(()=>{
+    is_loading.value = false;
+  });
+}
+
+// sorting watcher
+watch([filters,curr_page,items_per_page,sort_by],FetchRows,{immediate:true});
+
+// filters watcher
+watch(
+  [
+    () => filters.value.provider_id,
+    () => filters.value.assignee_id,
+    () => filters.value.ucc_status,
+    () => filters.value.start_date,
+    () => filters.value.end_date,
+  ],
+  () => {
+    curr_page.value = 1;
+    FetchRows();
+  }
+);
+
+// separate search watcher to prevent
+// spamming xhr requests
+let search_timer = <any>null;
+watch(
+  () => filters.value.search,
+  () => {
+    clearTimeout(search_timer);
+    search_timer = setTimeout(() => {
+      curr_page.value = 1;
+      FetchRows();
+    }, 300);
+  }
+);
 </script>
