@@ -69,7 +69,6 @@ export const GlobalStore = defineStore('globals', {
 
     // Ucc Explorer Data
     ucc_statuses: [], // for filters
-    ucc_cities: [],   // for filters
     ucc_assignees: [],
     ucc_buyers: [],
     ucc_contacts: [],
