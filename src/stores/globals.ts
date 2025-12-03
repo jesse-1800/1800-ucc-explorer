@@ -83,13 +83,15 @@ export const GlobalStore = defineStore('globals', {
 
     // UCC Filing Filters
     ucc_filing_filters: {
-      search:      null,
-      start_date:  "",
-      end_date:    "",
-      provider_id: null,
-      assignee_id: null,
-      ucc_status:  null,
-      buyer_state: null,
+      search:         null,
+      start_date:     "",
+      end_date:       "",
+      provider_id:    null,
+      assignee_id:    null,
+      ucc_status:     null,
+      buyer_state:    null,
+      equipments_min: null,
+      equipments_max: null,
     },
 
     // Table Search Input
