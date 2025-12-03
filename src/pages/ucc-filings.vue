@@ -59,12 +59,12 @@ import {UccServer} from "@/plugins/ucc-server.ts";
 const store = GlobalStore();
 const view_ucc_id = ref<any>(null);
 const headers = <any>[
-  {title: "UCC ID",     value: "id",           sortable: true},
-  {title: "Company",    value: "buyer_company",sortable: true},
-  {title: "Equipments", value: "equipments",   sortable: true},
-  {title: "UCC Date",   value: "ucc_date",     sortable: true},
-  {title: "UCC Status", value: "ucc_status",   sortable: true},
-  {title: "Manage",     value: "manage",       sortable: false},
+  {title: "UCC ID",     value: "id",              sortable: true},
+  {title: "Company",    value: "buyer_company",   sortable: true},
+  {title: "Equipments", value: "equipment_count", sortable: true},
+  {title: "UCC Date",   value: "ucc_date",        sortable: true},
+  {title: "UCC Status", value: "ucc_status",      sortable: true},
+  {title: "Manage",     value: "manage",          sortable: false},
 ]
 const {ucc_filings} = storeToRefs(store);
 const {getAccessTokenSilently} = useAuth0();
