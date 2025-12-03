@@ -77,8 +77,12 @@
             @click="TriggerFileInput"
             @drop.prevent="HandleDrop"
             style="background:transparent;border: 2px dashed #9e9e9e; cursor: pointer;">
-            <v-icon size="56" color="grey">mdi-upload</v-icon>
-            <div class="text-grey mt-3">Drag & drop CSV file here or click to upload</div>
+            <v-progress-circular v-if="is_uploading" :indeterminate="true"/>
+            <v-icon v-else size="56" color="grey">mdi-upload</v-icon>
+            <div class="text-grey mt-3">
+              <span v-if="is_uploading">Uploading. Please wait...</span>
+              <span v-else>Drag & drop CSV file here or click to upload</span>
+            </div>
             <input
               type="file"
               ref="file_input"
@@ -132,6 +136,7 @@ import {theme_table_style} from "@/composables/GlobalComposables";
 const store = GlobalStore();
 const actual_data = ref([]);
 const is_loading = ref(false);
+const is_uploading = ref(false);
 const target_headers = ref([]);
 const headers = [
   {title:"ID",       value: "id",  sortable:true},
@@ -252,6 +257,9 @@ const GetOrCreateBuyerID = (first_row:any,bound_csv_column:string,ucc_index:numb
   }
 }
 const HandleDrop = (event:any) => {
+  if (is_uploading.value) {
+    return store.ShowError("An upload is still in progress...")
+  }
   const dropped_file = event.dataTransfer.files[0]
   if (dropped_file) UploadToGCS(dropped_file)
 }
@@ -259,14 +267,20 @@ const UploadToGCS = async(file_obj:any) => {
   const form = new FormData;
   const token = await getAccessTokenSilently();
 
+  is_uploading.value = true;
+
+  return false;
+
   form.append('file', file_obj);
   form.append('user_id', my_user_id.value);
   form.append('partner_id', my_partner_id.value);
-  form.append('folder_name', SluggifyText(my_company_name.value));
+  form.append('folder_name', SluggifyText(<any>my_company_name.value));
 
   UccServer(token).post("/import/upload-to-gcs",form).then(()=>{
     store.ShowSuccess("File has been uploaded!")
     store.FetchFiles(token);
+  }).finally(() => {
+    is_uploading.value = false;
   });
 }
 const ParseContents = async() => {
@@ -331,6 +345,9 @@ const GetBoundColumn = (db_column:string) => {
   return null;
 }
 const TriggerFileInput = () => {
+  if (is_uploading.value) {
+    return store.ShowError("An upload is still in progress...")
+  }
   file_input.value?.click()
 }
 const HandleFileSelect = (event:any) => {
