@@ -202,11 +202,6 @@ const ClearDates = (event) => {
   filters.value.start_date = "";
   filters.value.end_date = "";
 }
-const ClearEquipmentCounts = (event) => {
-  event.stopPropagation()
-  filters.value.equipment_min = null;
-  filters.value.equipment_max = null;
-}
 const ClearFilters = () => {
   filters.value = <FiltersType>{
     search:        null,
@@ -219,5 +214,10 @@ const ClearFilters = () => {
     equipment_min: null,
     equipment_max: null,
   }
+}
+const ClearEquipmentCounts = (event) => {
+  event.stopPropagation()
+  filters.value.equipment_min = null;
+  filters.value.equipment_max = null;
 }
 </script>
