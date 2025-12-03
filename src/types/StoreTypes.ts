@@ -49,6 +49,8 @@ export interface FiltersType {
   assignee_id: string | null;
   ucc_status: string | null;
   buyer_state: string | null;
+  equipment_min: number | null;
+  equipment_max: number | null;
 }
 
 /**
