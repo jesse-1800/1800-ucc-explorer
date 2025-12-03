@@ -31,7 +31,6 @@ declare module 'vue-router/auto-routes' {
     '/partners': RouteRecordInfo<'/partners', '/partners', Record<never, never>, Record<never, never>>,
     '/providers': RouteRecordInfo<'/providers', '/providers', Record<never, never>, Record<never, never>>,
     '/settings/[settings]': RouteRecordInfo<'/settings/[settings]', '/settings/:settings', { settings: ParamValue<true> }, { settings: ParamValue<false> }>,
-    '/ucc-filing/': RouteRecordInfo<'/ucc-filing/', '/ucc-filing', Record<never, never>, Record<never, never>>,
     '/ucc-filing/[ucc_filing_id]': RouteRecordInfo<'/ucc-filing/[ucc_filing_id]', '/ucc-filing/:ucc_filing_id', { ucc_filing_id: ParamValue<true> }, { ucc_filing_id: ParamValue<false> }>,
     '/ucc-filings': RouteRecordInfo<'/ucc-filings', '/ucc-filings', Record<never, never>, Record<never, never>>,
     '/users': RouteRecordInfo<'/users', '/users', Record<never, never>, Record<never, never>>,
