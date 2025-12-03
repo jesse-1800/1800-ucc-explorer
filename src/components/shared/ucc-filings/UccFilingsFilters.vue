@@ -56,16 +56,16 @@
     item-title="assignee_company"
     prepend-inner-icon="mdi-bank">
   </v-combobox>
-  <v-combobox
-    item-value="id"
+  <v-select
     density="compact"
     variant="outlined"
+    :items="ucc_statuses"
+    item-value="ucc_status"
     v-model="filters.ucc_status"
-    item-title="assignee_company"
-    :items="distinct_statuses"
+    item-title="ucc_status"
     placeholder="UCC Status"
     prepend-inner-icon="mdi-list-status">
-  </v-combobox>
+  </v-select>
 
   <MyModal color="none" max_width="700" v-model="date_modal" title="Select the date range...">
     <v-row>
@@ -122,11 +122,8 @@ const date_range_label = computed(() => {
     ? `${start.format('MMM D')} - ${end.format('MMM D, YYYY')}`
     : `${start.format('MMM D, YYYY')} - ${end.format('MMM D, YYYY')}`
 });
-const distinct_statuses = computed(() => {
-  return [...new Set(ucc_filings.value.map(x => x.ucc_status))]
-});
 const {ucc_filing_filters:filters} = storeToRefs(store);
-const {ucc_providers,ucc_assignees,ucc_filings} = storeToRefs(store);
+const {ucc_providers,ucc_assignees,ucc_statuses} = storeToRefs(store);
 
 const ClearDates = (event) => {
   event.stopPropagation()
