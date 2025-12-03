@@ -70,7 +70,20 @@
     :append-inner-icon="filters.ucc_status? 'mdi-close':''"
     prepend-inner-icon="mdi-list-status">
   </v-combobox>
-
+  <v-select
+    density="compact"
+    variant="outlined"
+    :items="state_centers"
+    v-model="filters.buyer_state"
+    label="State"
+    item-title="abbrev"
+    item-value="abbrev"
+    :return-object="false"
+    placeholder="State"
+    @click:append-inner="filters.buyer_state=null"
+    :append-inner-icon="filters.buyer_state?'mdi-close':''"
+    prepend-inner-icon="mdi-city">
+  </v-select>
 
   <MyModal color="none" max_width="700" v-model="date_modal" title="Select the date range...">
     <v-row>
@@ -103,11 +116,12 @@
   </MyModal>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import moment from "moment";
 import {storeToRefs} from "pinia";
 import {GlobalStore} from "@/stores/globals";
-import FlexedBetween from "@/components/misc/FlexedBetween.vue";
+import {FiltersType} from "@/types/StoreTypes";
+import {state_centers} from "@/composables/GlobalComposables";
 
 const store = GlobalStore();
 const date_modal = ref(false);
@@ -141,13 +155,14 @@ const ClearDates = (event) => {
   filters.value.end_date = "";
 }
 const ClearFilters = () => {
-  filters.value = {
+  filters.value = <FiltersType>{
     search:      null,
     start_date:  "",
     end_date:    "",
     provider_id: null,
     assignee_id: null,
     ucc_status:  null,
+    buyer_state: null,
   }
 }
 
