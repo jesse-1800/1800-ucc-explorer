@@ -62,6 +62,9 @@
               prepend-icon="mdi-import"
               :style="theme_btn_style">
             </v-btn>
+            <div class="mt-3" v-if="is_loading">
+              Import in-progress, don't close this tab until completion...
+            </div>
           </div>
         </template>
 
@@ -268,9 +271,6 @@ const UploadToGCS = async(file_obj:any) => {
   const token = await getAccessTokenSilently();
 
   is_uploading.value = true;
-
-  return false;
-
   form.append('file', file_obj);
   form.append('user_id', my_user_id.value);
   form.append('partner_id', my_partner_id.value);
@@ -316,18 +316,22 @@ const ImportDataToDB = async() => {
   if (has_errors.length > 0) {
     return store.ShowError(has_errors.join('<br>'));
   }
-
   is_loading.value = true;
-  form.append('partner_id', my_partner_id.value);
-  form.append('file_id', file_id);
-  form.append('data', JSON.stringify(ucc_grouped_data.value));
-  UccServer(token).post(`/import/import-data`,form).then(res => {
-    console.log(res.data);
-    store.ShowSuccess(res.data.message);
-    store.FetchAllData(token);
-  }).finally(() => {
-    is_loading.value = false;
-  });
+
+  // We're delaying this so browser would
+  // show the progress already instead of hang.
+  setTimeout(() => {
+    form.append('partner_id', my_partner_id.value);
+    form.append('file_id', file_id);
+    form.append('data', JSON.stringify(ucc_grouped_data.value));
+    UccServer(token).post(`/import/import-data`,form).then(res => {
+      console.log(res.data);
+      store.ShowSuccess(res.data.message);
+      store.FetchAllData(token);
+    }).finally(() => {
+      is_loading.value = false;
+    });
+  },300);
 }
 const FindSampleValue = (csv_header:string) => {
   const single_row = actual_data.value[0];
