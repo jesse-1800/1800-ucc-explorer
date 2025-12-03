@@ -1,24 +1,25 @@
 <?php
 
+use App\Models\UccBuyers;
+use Auth as Authenticator;
+use App\Models\UccFilings;
+use App\Models\UccContacts;
+use App\Models\UccAssignees;
+use App\Models\UccProviders;
+use App\Models\UccEquipments;
+use App\Models\UccFileManager;
 use App\Models\IDProviderPartners;
 use App\Models\CatalogManufacturers;
 use App\Models\IDProviderPartnerUsers;
-use App\Models\UccAssignees;
-use App\Models\UccBuyers;
-use App\Models\UccContacts;
-use App\Models\UccEquipments;
-use App\Models\UccFileManager;
-use App\Models\UccFilings;
-use App\Models\UccProviders;
-use Auth as PropAuth;
 
 class DataController {
-
-
+    /**
+     * Initial data fetch on App.vue mount.
+     */
     public function fetch($partner_id)
     {
         # Authenticate
-        $auth = new PropAuth();
+        $auth = new Authenticator();
         $auth->isLoggedIn();
         $path = "{$_SERVER['DOCUMENT_ROOT']}/app/config/mapping";
         $data = array(
