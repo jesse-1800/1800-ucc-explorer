@@ -1,7 +1,7 @@
 import {defineStore} from 'pinia';
-import type {PartnerType, ProfileType} from '@/types/StoreTypes';
+import {UccServer} from "@/plugins/ucc-server";
+import type {ProfileType} from '@/types/StoreTypes';
 import type {GlobalStateTypes} from '@/types/StoreTypes';
-import {UccServer} from "@/plugins/ucc-server.ts";
 
 export const GlobalStore = defineStore('globals', {
   state: (): GlobalStateTypes => ({
@@ -98,7 +98,6 @@ export const GlobalStore = defineStore('globals', {
     ucc_buyers_filters: {
       search:   null,
       state:    null,
-      county:   null,
     },
 
     // Table Search Input

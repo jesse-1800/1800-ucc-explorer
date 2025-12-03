@@ -99,7 +99,6 @@ export interface GlobalStateTypes {
 
   // Ucc Explorer Data
   ucc_statuses: any[]; // for filters
-  ucc_cities: any[]; // for filters
   ucc_assignees: any[];
   ucc_buyers: any[];
   ucc_contacts: any[];
