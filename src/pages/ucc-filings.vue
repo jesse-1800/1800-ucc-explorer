@@ -100,6 +100,7 @@ const FetchRows = async() => {
   form.append('provider_id',filters.value.provider_id ?? '');
   form.append('assignee_id',filters.value.assignee_id ?? '');
   form.append('ucc_status', filters.value.ucc_status ?? '');
+  form.append('buyer_state',filters.value.buyer_state ?? '');
 
   UccServer(token).post('/uccfilings/paginate',form).then(res=>{
     ucc_filings.value = res.data.items;
@@ -111,7 +112,7 @@ const FetchRows = async() => {
 }
 
 // sorting watcher
-watch([filters,curr_page,items_per_page,sort_by],FetchRows,{immediate:true});
+watch([curr_page,items_per_page,sort_by],FetchRows,{immediate:true});
 
 // filters watcher
 watch(
@@ -121,6 +122,7 @@ watch(
     () => filters.value.ucc_status,
     () => filters.value.start_date,
     () => filters.value.end_date,
+    () => filters.value.buyer_state,
   ],
   () => {
     curr_page.value = 1;
