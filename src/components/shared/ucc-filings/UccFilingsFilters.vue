@@ -160,7 +160,7 @@
 import moment from "moment";
 import {storeToRefs} from "pinia";
 import {GlobalStore} from "@/stores/globals";
-import {FiltersType} from "@/types/StoreTypes";
+import type {UccFilingFiltersType} from "@/types/StoreTypes";
 import {state_centers} from "@/composables/GlobalComposables";
 
 const store = GlobalStore();
@@ -197,13 +197,13 @@ const date_range_label = computed(() => {
 const {ucc_filing_filters:filters} = storeToRefs(store);
 const {ucc_providers,ucc_assignees,ucc_statuses} = storeToRefs(store);
 
-const ClearDates = (event) => {
+const ClearDates = (event:any) => {
   event.stopPropagation()
   filters.value.start_date = "";
   filters.value.end_date = "";
 }
 const ClearFilters = () => {
-  filters.value = <FiltersType>{
+  filters.value = <UccFilingFiltersType>{
     search:        null,
     start_date:    "",
     end_date:      "",
@@ -215,7 +215,7 @@ const ClearFilters = () => {
     equipment_max: null,
   }
 }
-const ClearEquipmentCounts = (event) => {
+const ClearEquipmentCounts = (event:any) => {
   event.stopPropagation()
   filters.value.equipment_min = null;
   filters.value.equipment_max = null;
