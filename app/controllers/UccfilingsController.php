@@ -22,13 +22,13 @@ class UccfilingsController
         $total     = $db->row("SELECT COUNT(*) AS 'total' FROM ucc_filings")->total;
 
         // where queries
-        $where = array();
-        $search = trim($_POST['search'] ?? '');
-        $start_date   = trim($_POST['start_date'] ?? '');
-        $end_date     = trim($_POST['end_date'] ?? '');
+        $where        = array();
+        $search       = trim($_POST['search']      ?? '');
+        $start_date   = trim($_POST['start_date']  ?? '');
+        $end_date     = trim($_POST['end_date']    ?? '');
         $provider_id  = trim($_POST['provider_id'] ?? '');
         $assignee_id  = trim($_POST['assignee_id'] ?? '');
-        $ucc_status   = trim($_POST['ucc_status'] ?? '');
+        $ucc_status   = trim($_POST['ucc_status']  ?? '');
         $buyer_state  = trim($_POST['buyer_state'] ?? '');
 
         if($search      !== ""){
