@@ -42,6 +42,7 @@
     :items="ucc_providers"
     v-model="filters.provider_id"
     item-title="provider_company"
+    label="Service Provider"
     placeholder="Service Provider"
     prepend-inner-icon="mdi-briefcase-outline">
   </v-combobox>
@@ -51,21 +52,25 @@
     variant="outlined"
     :return-object="false"
     :items="ucc_assignees"
+    label="Assignee"
     placeholder="Assignee"
     v-model="filters.assignee_id"
     item-title="assignee_company"
     prepend-inner-icon="mdi-bank">
   </v-combobox>
-  <v-select
+  <v-combobox
     density="compact"
     variant="outlined"
-    :items="ucc_statuses"
-    item-value="ucc_status"
+    :items="[{title:'None',value:null},...mapped_statuses]"
     v-model="filters.ucc_status"
-    item-title="ucc_status"
+    label="UCC Status"
+    :return-object="false"
     placeholder="UCC Status"
+    @click:append-inner="filters.ucc_status=null"
+    :append-inner-icon="filters.ucc_status? 'mdi-close':''"
     prepend-inner-icon="mdi-list-status">
-  </v-select>
+  </v-combobox>
+
 
   <MyModal color="none" max_width="700" v-model="date_modal" title="Select the date range...">
     <v-row>
@@ -124,7 +129,12 @@ const date_range_label = computed(() => {
 });
 const {ucc_filing_filters:filters} = storeToRefs(store);
 const {ucc_providers,ucc_assignees,ucc_statuses} = storeToRefs(store);
-
+const mapped_statuses = computed(() => {
+  return ucc_statuses.value.map(({ ucc_status }) => ({
+    value: ucc_status,
+    title: ucc_status,
+  }))
+})
 const ClearDates = (event) => {
   event.stopPropagation()
   filters.value.start_date = "";
@@ -140,4 +150,8 @@ const ClearFilters = () => {
     ucc_status:  null,
   }
 }
+
+watch(()=>filters.value.ucc_status,(n) => {
+  console.log(n)
+})
 </script>
