@@ -131,7 +131,7 @@
         <v-text-field
           variant="outlined"
           type="number"
-          :min="0"
+          :min="1"
           v-model.number="filters.equipment_min"
           label="Equipment Count (min)">
         </v-text-field>
@@ -209,13 +209,15 @@ const ClearEquipmentCounts = (event) => {
 }
 const ClearFilters = () => {
   filters.value = <FiltersType>{
-    search:      null,
-    start_date:  "",
-    end_date:    "",
-    provider_id: null,
-    assignee_id: null,
-    ucc_status:  null,
-    buyer_state: null,
+    search:        null,
+    start_date:    "",
+    end_date:      "",
+    provider_id:   null,
+    assignee_id:   null,
+    ucc_status:    null,
+    buyer_state:   null,
+    equipment_min: null,
+    equipment_max: null,
   }
 }
 </script>
