@@ -81,6 +81,7 @@ export interface GlobalStateTypes {
   idp_partner_users: any[];
 
   // Ucc Explorer Data
+  ucc_statuses: any[];
   ucc_assignees: any[];
   ucc_buyers: any[];
   ucc_contacts: any[];

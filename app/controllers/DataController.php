@@ -13,6 +13,8 @@ use App\Models\UccProviders;
 use Auth as PropAuth;
 
 class DataController {
+
+
     public function fetch($partner_id)
     {
         # Authenticate
@@ -29,18 +31,16 @@ class DataController {
             'cat_manufacturers' => (new CatalogManufacturers)::fetch(),
 
             // UCC Data
-            'ucc_assignees'     => (new UccAssignees)::where('partner_id',$partner_id)->get(),
-            'ucc_buyers'        => UccBuyers::where('partner_id',$partner_id)->get(),
-            'ucc_contacts'      => UccContacts::where('partner_id',$partner_id)->get(),
-            'ucc_equipments'    => UccEquipments::where('partner_id',$partner_id)->get(),
             'ucc_files'         => UccFileManager::where('partner_id',$partner_id)->get(),
-            'ucc_filings'       => UccFilings::where('partner_id',$partner_id)->get(),
-            'ucc_providers'     => UccProviders::where('partner_id',$partner_id)->get(),
             'ucc_map_columns'   => json_decode(file_get_contents("$path/ucc_filings.json")),
+            'ucc_statuses'      => UccFilings::select('ucc_status')->distinct('ucc_status')->get()
         );
         return json($data);
     }
 
+    /**
+     * This is used by UccFilingsViewer.vue
+     */
     public function find_ucc_data($ucc_filing_id)
     {
         $ucc_filing = UccFilings::find($ucc_filing_id);

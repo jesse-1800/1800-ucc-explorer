@@ -68,6 +68,7 @@ export const GlobalStore = defineStore('globals', {
     idp_partner_users: [],
 
     // Ucc Explorer Data
+    ucc_statuses: [],
     ucc_assignees: [],
     ucc_buyers: [],
     ucc_contacts: [],
@@ -204,13 +205,8 @@ export const GlobalStore = defineStore('globals', {
         this.idp_partner_users = res.data.idp_partner_users;
         this.cat_manufacturers = res.data.cat_manufacturers;
 
-        this.ucc_assignees     = res.data.ucc_assignees;
-        this.ucc_buyers        = res.data.ucc_buyers;
-        this.ucc_contacts      = res.data.ucc_contacts;
-        this.ucc_equipments    = res.data.ucc_equipments;
         this.ucc_files         = res.data.ucc_files;
-        this.ucc_filings       = res.data.ucc_filings;
-        this.ucc_providers     = res.data.ucc_providers;
+        this.ucc_statuses      = res.data.ucc_statuses;
         this.ucc_map_columns   = res.data.ucc_map_columns;
 
         this.is_data_loaded    = true;
