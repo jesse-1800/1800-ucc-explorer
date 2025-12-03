@@ -61,7 +61,7 @@
   <v-combobox
     density="compact"
     variant="outlined"
-    :items="[{title:'None',value:null},...mapped_statuses]"
+    :items="mapped_statuses"
     v-model="filters.ucc_status"
     label="UCC Status"
     :return-object="false"
