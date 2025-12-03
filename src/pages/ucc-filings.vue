@@ -81,7 +81,6 @@ const items_per_page = ref<any>(25);
 const sort_key       = computed(()=>(sort_by.value[0] ? sort_by.value[0].key:"id"));
 const sort_order     = computed(()=>(sort_by.value[0] ? sort_by.value[0].order:"asc"));
 
-
 const ViewUcc = (ucc_filing_id:string) => {
   view_ucc_id.value = ucc_filing_id;
   ToggleModal('ucc_filing_viewer',true);
@@ -91,18 +90,20 @@ const FetchRows = async() => {
   const form = new FormData();
   const token = await getAccessTokenSilently();
 
-  form.append("curr_page",  curr_page.value);
-  form.append("sort_by",    sort_key.value);
-  form.append("order_by",   sort_order.value);
-  form.append("page_size",  items_per_page.value);
+  form.append("curr_page",    curr_page.value);
+  form.append("sort_by",      sort_key.value);
+  form.append("order_by",     sort_order.value);
+  form.append("page_size",    items_per_page.value);
 
-  form.append('search',     filters.value.search ?? '');
-  form.append('start_date', filters.value.start_date ? moment(filters.value.start_date).format("MM/DD/YYYY"):"");
-  form.append('end_date',   filters.value.end_date   ? moment(filters.value.end_date).format("MM/DD/YYYY"):"");
-  form.append('provider_id',filters.value.provider_id ?? '');
-  form.append('assignee_id',filters.value.assignee_id ?? '');
-  form.append('ucc_status', filters.value.ucc_status ?? '');
-  form.append('buyer_state',filters.value.buyer_state ?? '');
+  form.append('search',       filters.value.search     ?? '');
+  form.append('start_date',   filters.value.start_date ? moment(filters.value.start_date).format("MM/DD/YYYY"):"");
+  form.append('end_date',     filters.value.end_date   ? moment(filters.value.end_date).format("MM/DD/YYYY"):"");
+  form.append('provider_id',  filters.value.provider_id   ?? '');
+  form.append('assignee_id',  filters.value.assignee_id   ?? '');
+  form.append('ucc_status',   filters.value.ucc_status    ?? '');
+  form.append('buyer_state',  filters.value.buyer_state   ?? '');
+  form.append('equipment_min',filters.value.equipment_min ?? '');
+  form.append('equipment_max',filters.value.equipment_max ?? '');
 
   UccServer(token).post('/uccfilings/paginate',form).then(res=>{
     ucc_filings.value = res.data.items;
@@ -125,6 +126,8 @@ watch(
     () => filters.value.start_date,
     () => filters.value.end_date,
     () => filters.value.buyer_state,
+    () => filters.value.equipment_min,
+    () => filters.value.equipment_max,
   ],
   () => {
     curr_page.value = 1;
