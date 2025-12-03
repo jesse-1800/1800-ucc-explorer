@@ -41,6 +41,15 @@ export interface ManufacturerType {
   created_at: string;
   updated_at: string;
 }
+export interface FiltersType {
+  search: string | null;
+  start_date: string | null;
+  end_date: string | null;
+  provider_id: string | null;
+  assignee_id: string | null;
+  ucc_status: string | null;
+  buyer_state: string | null;
+}
 
 /**
  * TYPES FOR GLOBAL STATE
