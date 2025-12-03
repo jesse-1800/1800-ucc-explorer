@@ -84,8 +84,19 @@
     :append-inner-icon="filters.buyer_state?'mdi-close':''"
     prepend-inner-icon="mdi-city">
   </v-select>
+  <v-text-field
+    :readonly="true"
+    density="compact"
+    variant="outlined"
+    placeholder="Equipment Count..."
+    @click="equipment_modal=true"
+    :model-value="date_range_label"
+    prepend-inner-icon="mdi-printer-outline"
+    @click:append-inner="filters.equipment_count=null"
+    :append-inner-icon="filters.equipment_count?'mdi-close':''">
+  </v-text-field>
 
-  <MyModal color="none" max_width="700" v-model="date_modal" title="Select the date range...">
+  <MyModal color="transparent" max_width="700" v-model="date_modal" title="Select the date range...">
     <v-row>
       <v-col cols="6">
         <v-date-picker
@@ -114,6 +125,31 @@
       <v-spacer/>
     </template>
   </MyModal>
+  <MyModal color="transparent" max_width="500" v-model="equipment_modal" title="Select range Equipment Count...">
+    <v-row>
+      <v-col cols="6">
+        <v-text-field
+          variant="outlined"
+          v-model="filters.equipment_min"
+          label="Equipment Count (min)">
+        </v-text-field>
+      </v-col>
+      <v-col cols="6">
+        <v-text-field
+          variant="outlined"
+          v-model="filters.equipment_max"
+          label="Equipment Count (max)">
+        </v-text-field>
+      </v-col>
+    </v-row>
+
+    <template #footer>
+      <v-spacer/>
+      <v-btn class="mr-1" size="small" color="default" prepend-icon="mdi-close" @click="filters.equipment_min=null;filters.equipment_max=null">Clear</v-btn>
+      <v-btn class="ml-1" size="small" color="primary" prepend-icon="mdi-check" @click="equipment_modal=false">Done</v-btn>
+      <v-spacer/>
+    </template>
+  </MyModal>
 </template>
 
 <script lang="ts" setup>
@@ -125,6 +161,13 @@ import {state_centers} from "@/composables/GlobalComposables";
 
 const store = GlobalStore();
 const date_modal = ref(false);
+const equipment_modal = ref(false);
+const mapped_statuses = computed(() => {
+  return ucc_statuses.value.map(({ ucc_status }) => ({
+    value: ucc_status,
+    title: ucc_status,
+  }))
+});
 const date_range_label = computed(() => {
   const { start_date, end_date } = filters.value
 
@@ -143,12 +186,7 @@ const date_range_label = computed(() => {
 });
 const {ucc_filing_filters:filters} = storeToRefs(store);
 const {ucc_providers,ucc_assignees,ucc_statuses} = storeToRefs(store);
-const mapped_statuses = computed(() => {
-  return ucc_statuses.value.map(({ ucc_status }) => ({
-    value: ucc_status,
-    title: ucc_status,
-  }))
-})
+
 const ClearDates = (event) => {
   event.stopPropagation()
   filters.value.start_date = "";
