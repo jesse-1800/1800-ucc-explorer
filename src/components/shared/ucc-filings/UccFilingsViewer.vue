@@ -3,7 +3,7 @@
   <v-tabs v-model="active_tab" grow>
     <v-tab value="ucc-filing">UCC Filing</v-tab>
     <v-tab value="equipments">Equipments</v-tab>
-    <v-tab value="buyer">Buyer</v-tab>
+    <v-tab value="buyer">Customer</v-tab>
     <v-tab value="provider">Service Provider</v-tab>
     <v-tab value="assignee">Assignee</v-tab>
     <v-tab value="contacts">Contacts</v-tab>
@@ -192,11 +192,13 @@ const contact_headers = [
   {title: 'Actions',value: 'actions', sortable: false},
 ];
 const edit_contact = ref(null);
+const {modals} = storeToRefs(store);
 const {getAccessTokenSilently} = useAuth0();
-const {modals,ucc_contacts} = storeToRefs(store);
 
 const EditContact = (item) => {
-  edit_contact.value = ucc_contacts.value.find(c => c.id === item.id);
+  const the_contact = {...item};
+  delete the_contact.name;
+  edit_contact.value = the_contact;
   modals.value.contact_form = true;
 }
 const AddContact = () => {
