@@ -1,4 +1,10 @@
 <template>
+  <template>
+    <ContactForm
+      :buyer_id="buyer_id"
+      :edit_contact="edit_contact">
+    </ContactForm>
+  </template>
   <v-data-table
     :style="theme_table_style"
     :headers="headers"
@@ -16,6 +22,7 @@
     </template>
     <template #footer.prepend>
       <v-btn
+        class="ml-3"
         size="small"
         variant="flat"
         color="primary"
@@ -26,12 +33,6 @@
       <v-spacer/>
     </template>
   </v-data-table>
-
-  <ContactForm
-    @onUpdate="1===1"
-    :buyer_id="buyer_id"
-    :edit_contact="edit_contact">
-  </ContactForm>
 </template>
 
 <script setup>
