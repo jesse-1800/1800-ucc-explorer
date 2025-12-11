@@ -14,7 +14,7 @@ import {storeToRefs} from "pinia";
 import {GlobalStore} from "@/stores/globals";
 
 const store = GlobalStore();
-const fullscreen = ref(true);
+const fullscreen = ref(false);
 const {modals} = storeToRefs(store);
 const props = defineProps(['ucc_filing_id']);
 </script>
