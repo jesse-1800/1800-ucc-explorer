@@ -11,52 +11,16 @@
 
 <script setup>
 import {storeToRefs} from "pinia";
+import {useAuth0} from "@auth0/auth0-vue";
 import {GlobalStore} from "@/stores/globals";
+import {UccServer} from "@/plugins/ucc-server";
 import {state_centers} from "@/composables/GlobalComposables";
+import {my_partner_id} from "@/composables/GlobalComposables";
 
 const map = ref(null);
-const store = GlobalStore();
-const {ucc_filings,ucc_buyers} = storeToRefs(store);
+const state_data = ref([]);
 const map_container = ref(null);
-const state_data = computed(() => {
-  const reduced_ucc_list = [];
-  ucc_filings.value.forEach(ucc_item => {
-    const buyer = ucc_buyers.value.find(b=>b.id === ucc_item.buyer_id);
-    reduced_ucc_list.push({
-      ucc_filing_id: ucc_item.id,
-      buyer_id: buyer.buyer_id,
-      buyer_city: buyer.buyer_city,
-      buyer_state: buyer.buyer_state,
-    })
-  });
-
-  // Group of state abbrevs and UCC profiles from that state
-  const grouped = {};
-
-  // Group items by state
-  reduced_ucc_list.forEach(item => {
-    const state = item.buyer_state;
-
-    // If this state doesn't exist yet, create it
-    if (!grouped[state]) {
-      grouped[state] = [];
-    }
-
-    // Add the item to this state's array
-    grouped[state].push(item);
-  });
-
-  // Convert to array format
-  const result = [];
-  for (const state_name in grouped) {
-    result.push({
-      state_name: state_name,
-      state_items: grouped[state_name]
-    });
-  }
-
-  return result;
-});
+const {getAccessTokenSilently} = useAuth0();
 
 const InitializeMap = () => {
   // Initialize the map with transparent background
@@ -102,19 +66,16 @@ const InitializeMap = () => {
     fillOpacity: 0.7
   })
 
-  // Create a Set of state abbreviations that have data
-  const statesWithData = new Set(state_data.value.map(s => s.state_name))
-
-  // Add custom state labels for states WITHOUT data
-  state_centers.forEach(stateInfo => {
-    // Skip if this state has data (will be shown with red circle)
-    if (statesWithData.has(stateInfo.abbrev)) return
-
+  // Add custom state labels for states (just labels)
+  state_centers.forEach(state_center => {
+    // We will not display this label if state data has value
+    // because the state data creates a new label for itself.
+    if (state_data.value.filter(s=>s.state===state_center.abbrev).length>0) return;
     new google.maps.Marker({
-      position: { lat: stateInfo.lat, lng: stateInfo.lng },
+      position: { lat: state_center.lat, lng: state_center.lng },
       map: map.value,
       label: {
-        text: stateInfo.abbrev,
+        text: state_center.abbrev,
         color: 'white',
         fontSize: '11px',
         fontWeight: '600'
@@ -125,17 +86,63 @@ const InitializeMap = () => {
         scale: 1
       }
     })
-  })
+  });
+}
+const LoadGoogleMaps = () => {
+  const script = document.createElement('script')
+  script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyBof785oPijCcynKX2ckPT8JKF6LYSKO8g`
+  script.async = true
+  script.defer = true
+  document.head.appendChild(script)
+}
+const FetchBuyersData = async () => {
+  const token = await getAccessTokenSilently();
+  UccServer(token).get(`/data/map-data/${my_partner_id.value}`).then(res=>{
+    console.log(res.data);
+    state_data.value = res.data;
+    InitializeMap();
+    AddStateMarkers();
+  });
+}
+const CreateCustomMarker = (state, count) => {
+  const marker_div = document.createElement('div');
+  marker_div.style.cssText = `
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    background-color: rgb(255,60,24);
+    border-radius: 50%;
+    color: white;
+    font-weight: bold;
+  `;
 
-  // Add markers with red circles ONLY for states in your array
-  state_data.value.forEach(state => {
-    const stateInfo = state_centers.find(s => s.abbrev === state.state_name)
-    if (stateInfo) {
-      const itemCount = state.state_items.length
+  const state_label = document.createElement('div');
+  state_label.textContent = state;
+  state_label.style.fontSize = '12px';
+
+  const count_label = document.createElement('div');
+  count_label.textContent = count.toString();
+  count_label.style.fontSize = '16px';
+
+  marker_div.appendChild(state_label);
+  marker_div.appendChild(count_label);
+
+  return marker_div;
+}
+const AddStateMarkers = () => {
+  // Add markers with red circles ONLY for states
+  // This will put a new label on top of the original one.
+
+  state_data.value.forEach(state_item => {
+    const state_center = state_centers.find(s => s.abbrev === state_item.state)
+    if (state_center) {
 
       // Outer ripple layer (largest, most transparent)
       new google.maps.Marker({
-        position: { lat: stateInfo.lat, lng: stateInfo.lng },
+        position: { lat: state_center.lat, lng: state_center.lng },
         map: map.value,
         icon: {
           path: google.maps.SymbolPath.CIRCLE,
@@ -148,7 +155,7 @@ const InitializeMap = () => {
 
       // Middle ripple layer
       new google.maps.Marker({
-        position: { lat: stateInfo.lat, lng: stateInfo.lng },
+        position: { lat: state_center.lat, lng: state_center.lng },
         map: map.value,
         icon: {
           path: google.maps.SymbolPath.CIRCLE,
@@ -161,12 +168,12 @@ const InitializeMap = () => {
 
       // Inner circle with number (main, most opaque)
       new google.maps.Marker({
-        position: { lat: stateInfo.lat, lng: stateInfo.lng },
+        position: { lat: state_center.lat, lng: state_center.lng },
         map: map.value,
         label: {
-          text: itemCount.toString(),
+          text: `${state_item.state} (${state_item.count.toString()})`,
           color: 'white',
-          fontSize: '16px',
+          fontSize: '12px',
           fontWeight: 'bold'
         },
         icon: {
@@ -180,17 +187,9 @@ const InitializeMap = () => {
     }
   })
 }
-const LoadGoogleMaps = () => {
-  if (window.google && window.google.maps) {
-    return InitializeMap()
-  }
-  const script = document.createElement('script')
-  script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyBof785oPijCcynKX2ckPT8JKF6LYSKO8g`
-  script.async = true
-  script.defer = true
-  script.onload = InitializeMap
-  document.head.appendChild(script)
-}
 
-onMounted(() => LoadGoogleMaps());
+onMounted(() => {
+  LoadGoogleMaps();
+  FetchBuyersData();
+});
 </script>
