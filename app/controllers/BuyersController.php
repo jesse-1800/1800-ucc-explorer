@@ -15,6 +15,7 @@ class BuyersController
         $sort_map  = array(
             'id'             => 'id',
             'buyer_company'  => 'buyer_company',
+            'buyer_city'     => 'buyer_city',
             'buyer_state'    => 'buyer_state',
             'buyer_sic_desc' => 'buyer_sic_desc',
         );
