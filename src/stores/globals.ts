@@ -98,6 +98,7 @@ export const GlobalStore = defineStore('globals', {
     ucc_buyers_filters: {
       search:   null,
       state:    null,
+      industry: null,
     },
 
     // Table Search Input

@@ -54,9 +54,8 @@ export interface UccFilingFiltersType {
 }
 export interface UccBuyersFiltersType {
   search:   string|null,
-  city:     string|null,
   state:    string|null,
-  county:   string|null,
+  industry: string|null,
 }
 
 /**
