@@ -31,10 +31,12 @@ class BuyersController
         if($search !== "") {
             $search_input = addslashes($search);
             $where[] = ("
-                (buyer_company LIKE '%$search_input%'
-                OR buyer_state LIKE '%$search_input%'
-                OR UF.ucc_status LIKE '%$search_input%'
-                OR UF.id LIKE '%$search_input%')
+                (
+                    id LIKE '%$search_input%' OR
+                    buyer_company LIKE '%$search_input%' OR
+                    buyer_state LIKE '%$search_input%' OR
+                    buyer_sic_desc LIKE '%$search_input%'
+                )
             ");
         }
         if($state !== "") {
