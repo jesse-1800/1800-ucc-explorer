@@ -25,35 +25,82 @@
   </v-text-field>
 
   <v-select
+    label="City"
     density="compact"
     variant="outlined"
-    :items="state_centers"
-    v-model="filters.buyer_state"
+    placeholder="City"
+    item-title="buyer_city"
+    item-value="buyer_city"
+    :return-object="false"
+    :items="buyer_cities"
+    v-model="filters.city"
+    prepend-inner-icon="mdi-city"
+    @click:append-inner="filters.city=null"
+    :append-inner-icon="filters.city?'mdi-close':''">
+  </v-select>
+
+  <v-select
     label="State"
+    density="compact"
+    variant="outlined"
+    placeholder="State"
     item-title="abbrev"
     item-value="abbrev"
     :return-object="false"
-    placeholder="State"
-    @click:append-inner="filters.buyer_state=null"
-    :append-inner-icon="filters.buyer_state?'mdi-close':''"
-    prepend-inner-icon="mdi-city">
+    :items="state_centers"
+    v-model="filters.state"
+    prepend-inner-icon="mdi-city"
+    @click:append-inner="filters.state=null"
+    :append-inner-icon="filters.state?'mdi-close':''">
+  </v-select>
+
+  <v-select
+    label="Industry"
+    density="compact"
+    variant="outlined"
+    placeholder="Industry"
+    :return-object="false"
+    :items="buyer_industries"
+    v-model="filters.industry"
+    item-title="buyer_sic_desc"
+    item-value="buyer_sic_desc"
+    prepend-inner-icon="mdi-domain"
+    @click:append-inner="filters.industry=null"
+    :append-inner-icon="filters.industry?'mdi-close':''">
   </v-select>
 
 </template>
 
 <script lang="ts" setup>
 import {storeToRefs} from "pinia";
+import {useAuth0} from "@auth0/auth0-vue";
 import {GlobalStore} from "@/stores/globals";
+import {UccServer} from "@/plugins/ucc-server";
 import type {UccBuyersFiltersType} from "@/types/StoreTypes";
 import {state_centers} from "@/composables/GlobalComposables";
 
 const store = GlobalStore();
+const buyer_cities = ref([]);
+const buyer_industries = ref([]);
+const {getAccessTokenSilently} = useAuth0();
 const {ucc_buyers_filters:filters} = storeToRefs(store);
 
 const ClearFilters = () => {
   filters.value = <UccBuyersFiltersType>{
-    search:   null,
-    state:    null,
+    search:  null,
+    state:   null,
+    industry:null,
   }
 }
+const FetchFilteringList = async() => {
+  const token = await getAccessTokenSilently();
+  UccServer(token).get('/buyers/filter-data').then(res => {
+    buyer_industries.value = res.data.industries;
+    buyer_cities.value = res.data.cities;
+  });
+}
+
+onMounted(() => {
+  FetchFilteringList();
+})
 </script>
