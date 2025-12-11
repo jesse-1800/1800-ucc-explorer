@@ -9,7 +9,7 @@
       :max-height="max_height"
       transition="dialog-bottom-transition">
       <v-card :style="modal_style" class="global-radius outfit-font d-flex flex-column">
-        <v-toolbar :density="density" v-if="show_toolbar" dark :color="color ? color : 'primary'" class="flex-shrink-0" style="position: sticky; top: 0; z-index: 1;">
+        <v-toolbar :density="density" v-if="show_toolbar" dark :color="color ? color : 'primary'" class="flex-shrink-0 border-b" style="position: sticky; top: 0; z-index: 1;">
           <template v-if="$slots.toolbar">
             <slot name="toolbar"/>
           </template>
