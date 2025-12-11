@@ -2,17 +2,17 @@
   <AppLayout>
     <template #title>Homepage</template>
     <template #content>
+      <div v-if="is_loading" class="text-center" style="margin-top: 200px;">
+        <v-progress-circular indeterminate color="primary" size="150"/>
+        <h3 class="font-weight-light">Loading map data...</h3>
+      </div>
       <div ref="map_container" style="width: 100%; height: 500px"></div>
-
-      <pre>{{mapped_ucc_list}}</pre>
     </template>
   </AppLayout>
 </template>
 
 <script setup>
-import {storeToRefs} from "pinia";
 import {useAuth0} from "@auth0/auth0-vue";
-import {GlobalStore} from "@/stores/globals";
 import {UccServer} from "@/plugins/ucc-server";
 import {state_centers} from "@/composables/GlobalComposables";
 import {my_partner_id} from "@/composables/GlobalComposables";
@@ -20,6 +20,7 @@ import {my_partner_id} from "@/composables/GlobalComposables";
 const map = ref(null);
 const state_data = ref([]);
 const map_container = ref(null);
+const is_loading = ref(false);
 const {getAccessTokenSilently} = useAuth0();
 
 const InitializeMap = () => {
@@ -96,41 +97,16 @@ const LoadGoogleMaps = () => {
   document.head.appendChild(script)
 }
 const FetchBuyersData = async () => {
+  is_loading.value = true;
   const token = await getAccessTokenSilently();
   UccServer(token).get(`/data/map-data/${my_partner_id.value}`).then(res=>{
     console.log(res.data);
     state_data.value = res.data;
     InitializeMap();
     AddStateMarkers();
+  }).finally(()=> {
+    is_loading.value = false;
   });
-}
-const CreateCustomMarker = (state, count) => {
-  const marker_div = document.createElement('div');
-  marker_div.style.cssText = `
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 60px;
-    height: 60px;
-    background-color: rgb(255,60,24);
-    border-radius: 50%;
-    color: white;
-    font-weight: bold;
-  `;
-
-  const state_label = document.createElement('div');
-  state_label.textContent = state;
-  state_label.style.fontSize = '12px';
-
-  const count_label = document.createElement('div');
-  count_label.textContent = count.toString();
-  count_label.style.fontSize = '16px';
-
-  marker_div.appendChild(state_label);
-  marker_div.appendChild(count_label);
-
-  return marker_div;
 }
 const AddStateMarkers = () => {
   // Add markers with red circles ONLY for states
