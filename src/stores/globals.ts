@@ -97,6 +97,7 @@ export const GlobalStore = defineStore('globals', {
     // UCC Buyers Filters
     ucc_buyers_filters: {
       search:   null,
+      city:     null,
       state:    null,
       industry: null,
     },
