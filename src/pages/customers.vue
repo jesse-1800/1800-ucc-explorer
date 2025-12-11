@@ -1,6 +1,6 @@
 <template>
   <AppLayout>
-    <template #title>Customers</template>
+    <template #title>({{ items_length }}) Customers</template>
     <template #content>
       <InnerLayout>
         <template #sidebar>
