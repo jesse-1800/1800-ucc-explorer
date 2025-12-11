@@ -100,7 +100,5 @@ const FetchFilteringList = async() => {
   });
 }
 
-onMounted(() => {
-  FetchFilteringList();
-})
+onMounted(() => FetchFilteringList());
 </script>
