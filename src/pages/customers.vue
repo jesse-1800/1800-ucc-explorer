@@ -1,6 +1,6 @@
 <template>
   <AppLayout>
-    <template #title>UCC Filings</template>
+    <template #title>Customers</template>
     <template #content>
       <InnerLayout>
         <template #sidebar>
@@ -26,10 +26,8 @@
                   <tr>
                     <td>{{item.id}}</td>
                     <td>{{ item.buyer_company }}</td>
+                    <td>{{ item.buyer_sic_desc }}</td>
                     <td>{{ item.buyer_state }}</td>
-                    <td><v-chip color="primary">{{item.equipment_count}}</v-chip></td>
-                    <td>{{item.ucc_date}}</td>
-                    <td>{{item.ucc_status}}</td>
                     <td>
                       <v-btn variant="outlined" size="small" prepend-icon="mdi-file-find" color="primary" @click="ViewUcc(item.id)">View</v-btn>
                     </td>
@@ -47,27 +45,22 @@
 </template>
 
 <script lang="ts" setup>
-import moment from "moment";
 import {storeToRefs} from "pinia";
 import {useAuth0} from "@auth0/auth0-vue";
 import {GlobalStore} from "@/stores/globals";
-import {theme_card_style, ToggleModal} from "@/composables/GlobalComposables";
-import {FindUccBuyer} from "@/composables/GlobalComposables";
-import {FindUccEquipments} from "@/composables/GlobalComposables";
+import {UccServer} from "@/plugins/ucc-server";
+import {ToggleModal} from "@/composables/GlobalComposables";
+import {theme_card_style} from "@/composables/GlobalComposables";
 import {theme_table_style} from "@/composables/GlobalComposables";
-import {UccServer} from "@/plugins/ucc-server.ts";
 
 const store = GlobalStore();
 const view_ucc_id = ref<any>(null);
 const headers = [
-  { title: 'ID',              value: 'id',            sortable: true },
-  { title: 'Company',         value: 'buyer_company', sortable: true },
-  { title: 'Phone',           value: 'buyer_phone',   sortable: true },
-  { title: 'Fax',             value: 'buyer_fax',     sortable: true },
-  { title: 'FIPS Code',       value: 'buyer_fips',    sortable: true },
-  { title: 'SIC Code',        value: 'buyer_sic',     sortable: true },
-  { title: 'SIC Description', value: 'buyer_sic_desc',sortable: true },
-  { title: 'DUNS Number',     value: 'buyer_duns',    sortable: true },
+  { title: 'ID',       value: 'id',            sortable: true },
+  { title: 'Company',  value: 'buyer_company', sortable: true },
+  { title: 'Industry', value: 'buyer_sic_desc',sortable: true },
+  { title: 'State',    value: 'buyer_state',   sortable: true },
+  { title: 'Manage',   value: 'manage',        sortable: false },
 ];
 const {ucc_buyers} = storeToRefs(store);
 const {getAccessTokenSilently} = useAuth0();
@@ -91,23 +84,19 @@ const FetchRows = async() => {
   const form = new FormData();
   const token = await getAccessTokenSilently();
 
-  form.append("curr_page",    curr_page.value);
-  form.append("sort_by",      sort_key.value);
-  form.append("order_by",     sort_order.value);
-  form.append("page_size",    items_per_page.value);
+  form.append("curr_page", curr_page.value);
+  form.append("sort_by",   sort_key.value);
+  form.append("order_by",  sort_order.value);
+  form.append("page_size", items_per_page.value);
 
-  form.append('search',       filters.value.search     ?? '');
-  form.append('start_date',   filters.value.start_date ? moment(filters.value.start_date).format("MM/DD/YYYY"):"");
-  form.append('end_date',     filters.value.end_date   ? moment(filters.value.end_date).format("MM/DD/YYYY"):"");
-  form.append('provider_id',  filters.value.provider_id   ?? '');
-  form.append('assignee_id',  filters.value.assignee_id   ?? '');
-  form.append('ucc_status',   filters.value.ucc_status    ?? '');
-  form.append('buyer_state',  filters.value.buyer_state   ?? '');
-  form.append('equipment_min',filters.value.equipment_min ?? '');
-  form.append('equipment_max',filters.value.equipment_max ?? '');
+  // Filters
+  form.append('search',    filters.value.search ?? '');
+  form.append('industry',  filters.value.industry ?? '');
+  form.append('state',     filters.value.state ?? '');
 
-  UccServer(token).post('/uccfilings/paginate',form).then(res=>{
-    ucc_filings.value = res.data.items;
+  UccServer(token).post('/buyers/paginate',form).then(res=>{
+    console.log(res.data);
+    ucc_buyers.value = res.data.items;
     items_length.value = res.data.total;
   }).finally(()=>{
     is_loading.value = false;
@@ -118,34 +107,18 @@ const FetchRows = async() => {
 watch([curr_page,items_per_page,sort_by],FetchRows,{immediate:true});
 
 // filters watcher
-watch(
-  [
-    () => filters.value.provider_id,
-    () => filters.value.assignee_id,
-    () => filters.value.ucc_status,
-    () => filters.value.start_date,
-    () => filters.value.end_date,
-    () => filters.value.buyer_state,
-    () => filters.value.equipment_min,
-    () => filters.value.equipment_max,
-  ],
-  () => {
+watch([()=>filters.value.state,()=>filters.value.industry],()=>{
+  curr_page.value = 1;
+  FetchRows();
+});
+
+// delay prevent xhr spamming
+let search_timer = <any>null;
+watch(()=>filters.value.search,()=>{
+  clearTimeout(search_timer);
+  search_timer = setTimeout(() => {
     curr_page.value = 1;
     FetchRows();
-  }
-);
-
-// separate search watcher to prevent
-// spamming xhr requests
-let search_timer = <any>null;
-watch(
-  () => filters.value.search,
-  () => {
-    clearTimeout(search_timer);
-    search_timer = setTimeout(() => {
-      curr_page.value = 1;
-      FetchRows();
-    }, 300);
-  }
-);
+  }, 300);
+});
 </script>
