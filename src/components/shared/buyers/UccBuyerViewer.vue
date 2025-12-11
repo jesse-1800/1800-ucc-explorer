@@ -1,15 +1,18 @@
 <template>
   <MyModal
+    v-if="buyer"
     max_width="800"
     color="transparent"
     v-model="modals.customer_profile"
-    title="Customer Profile">
-    <v-card-text class="border rounded-lg p-5">
-      <BuyerForm :condensed="true" :buyer="buyer"/>
-    </v-card-text>
-
-    <v-expansion-panels elevation="0" class="mt-5">
-      <panel icon="mdi-contacts" title="Contacts">
+    :title="buyer.buyer_company ?? 'Customer Profile'">
+    <v-expansion-panels elevation="0">
+      <panel icon="mdi-domain" :title="`Buyer Profile`">
+        <v-card-text class="border">
+          <BuyerForm :condensed="true" :buyer="buyer"/>
+        </v-card-text>
+      </panel>
+      <panel icon="mdi-contacts" :title="`Contacts (${contacts.length})`">
+        <template ></template>
         <ContactsTable class="border" :contacts="contacts" :buyer_id="buyer.id"/>
       </panel>
       <panel icon="mdi-text-box-multiple-outline" :title="`UCC Filings (${ucc_filings.length})`">

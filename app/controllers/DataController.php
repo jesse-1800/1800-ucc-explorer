@@ -41,6 +41,36 @@ class DataController {
         return json($data);
     }
 
+    public function map_data($partner_id)
+    {
+        $states = UccBuyers::select('distinct buyer_state as state')
+            ->where('partner_id',$partner_id)
+            ->get();
+
+        foreach($states as $state) {
+            // Loop each state and add its count
+            $state->count = UccBuyers::where('buyer_state',$state->state)
+                ->where('partner_id',$partner_id)
+                ->count();
+
+            // Bind the city to its state
+            $state->cities = UccBuyers::select('distinct buyer_city as city')
+                ->where('buyer_state',$state->state)
+                ->where('partner_id',$partner_id)
+                ->get();
+
+            // Loop each city and add its count
+            foreach ($state->cities as $city) {
+                $city->count = UccBuyers::where('buyer_city',$city->city)
+                    ->where('buyer_state',$state->state)
+                    ->where('partner_id',$partner_id)
+                    ->count();
+            }
+        }
+
+        return json($states);
+    }
+
     /**
      * This is used by UccFilingsViewer.vue
      */
