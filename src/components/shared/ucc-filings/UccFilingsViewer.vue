@@ -97,33 +97,7 @@
       <v-window-item value="contacts">
         <v-card>
           <v-card-text>
-            <v-data-table
-              :style="theme_table_style"
-              :headers="contact_headers"
-              :items="mapped_contacts"
-              density="comfortable">
-              <template #item.actions="{ item }">
-                <v-btn
-                  text="Edit"
-                  size="small"
-                  color="primary"
-                  variant="outlined"
-                  prepend-icon="mdi-pencil"
-                  @click="EditContact(item)">
-                </v-btn>
-              </template>
-              <template #footer.prepend>
-                <v-btn
-                  size="small"
-                  variant="flat"
-                  color="primary"
-                  @click="AddContact"
-                  prepend-icon="mdi-plus">
-                  Add Contact
-                </v-btn>
-                <v-spacer/>
-              </template>
-            </v-data-table>
+            <ContactsTable :contacts="contacts" :buyer_id="buyer?.id"/>
           </v-card-text>
         </v-card>
       </v-window-item>
@@ -160,12 +134,6 @@ const contacts   = ref([]);
 const equipments = ref([]);
 
 const {ucc_filing_id} = defineProps(['ucc_filing_id']);
-const mapped_contacts = computed(() => {
-  return contacts.value.map(c => ({
-    ...c,
-    name: `${c.firstname} ${c.lastname}`,
-  }))
-})
 const contact_headers = [
   {title: 'Name',   value: 'name',sortable:true},
   {title: 'Title',  value: 'title',sortable:true},
