@@ -1,6 +1,11 @@
 <?php
 
+use App\Models\UccAssignees;
 use App\Models\UccBuyers;
+use App\Models\UccContacts;
+use App\Models\UccEquipments;
+use App\Models\UccFileManager;
+use App\Models\UccProviders;
 use Kernel\Database\Database;
 
 class BuyersController
@@ -74,13 +79,22 @@ class BuyersController
         ]);
     }
 
-    public function find_buyer($buyer_id)
+    public function buyer_profile($buyer_id)
     {
         $buyer = UccBuyers::find($buyer_id);
-        if ($buyer) return json($buyer->data);
+        $contacts = UccContacts::where('buyer_id',$buyer_id)->get();
+        $ucc_filings = UccContacts::where('buyer_id',$buyer_id)->get();
+
+        foreach ($ucc_filings as $ucc) {
+            $ucc->equipments = UccEquipments::where('ucc_filing_id',$ucc->id)->get();
+            $ucc->assignee   = UccAssignees::find($ucc->assignee_id);
+            $ucc->provider   = UccProviders::find($ucc->provider_id);
+        }
+
         return json([
-            'result' => false,
-            'message' => "Buyer not found."
+            'buyer'       => $buyer,
+            'contacts'    => $contacts,
+            'ucc_filings' => $ucc_filings,
         ]);
     }
 }
