@@ -56,26 +56,7 @@
       <v-window-item value="buyer">
         <v-card class="pb-10">
           <v-card-text>
-            <v-row>
-              <v-col cols="12">
-                <v-text-field variant="underlined" label="Company" :model-value="buyer.buyer_company" readonly/>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field variant="underlined" label="Address" :model-value="buyer.buyer_adress1" readonly/>
-              </v-col>
-              <v-col cols="12" sm="4">
-                <v-text-field variant="underlined" label="City" :model-value="buyer.buyer_city" readonly/>
-              </v-col>
-              <v-col cols="12" sm="4">
-                <v-text-field variant="underlined" label="State" :model-value="buyer.buyer_state" readonly/>
-              </v-col>
-              <v-col cols="12" sm="4">
-                <v-text-field variant="underlined" label="ZIP" :model-value="buyer.buyer_zip" readonly/>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field variant="underlined" label="Phone" :model-value="buyer.buyer_phone" readonly/>
-              </v-col>
-            </v-row>
+            <BuyerForm :buyer="buyer"/>
           </v-card-text>
         </v-card>
       </v-window-item>
@@ -165,6 +146,7 @@ import {GlobalStore} from "@/stores/globals";
 import {UccServer} from "@/plugins/ucc-server";
 import {theme_table_style} from "@/composables/GlobalComposables";
 import EquipmentsTable from "@/components/shared/equipments/EquipmentsTable";
+import BuyerForm from "@/components/shared/shared-forms/BuyerForm.vue";
 
 const store = GlobalStore();
 const is_loading = ref(false);
