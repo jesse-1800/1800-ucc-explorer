@@ -25,6 +25,7 @@ class BuyersController
         // where queries
         $where    = array();
         $search   = trim($_POST['search'] ?? '');
+        $city     = trim($_POST['city'] ?? '');
         $state    = trim($_POST['state'] ?? '');
         $industry = trim($_POST['industry'] ?? '');
 
@@ -34,10 +35,14 @@ class BuyersController
                 (
                     id LIKE '%$search_input%' OR
                     buyer_company LIKE '%$search_input%' OR
+                    buyer_city LIKE '%$search_input%' OR
                     buyer_state LIKE '%$search_input%' OR
                     buyer_sic_desc LIKE '%$search_input%'
                 )
             ");
+        }
+        if($city !== "") {
+            $where[] = "buyer_city = '$city'";
         }
         if($state !== "") {
             $where[] = "buyer_state = '$state'";
@@ -58,10 +63,11 @@ class BuyersController
         return json(['items' => $result, 'total' => $total]);
     }
 
-    public function industries()
+    public function filter_data()
     {
-        return json(
-            UccBuyers::distinct('buyer_sic_desc')->get()
-        );
+        return json([
+            'industries' => UccBuyers::distinct('buyer_sic_desc')->get(),
+            'cities' => UccBuyers::distinct('buyer_city')->get(),
+        ]);
     }
 }
