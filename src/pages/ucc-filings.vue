@@ -57,7 +57,6 @@ import {theme_card_style} from "@/composables/GlobalComposables";
 import {theme_table_style} from "@/composables/GlobalComposables";
 
 const store = GlobalStore();
-const view_ucc_id = ref<any>(null);
 const headers = <any>[
   {title: "UCC ID",     value: "id",              sortable: true},
   {title: "Company",    value: "buyer_company",   sortable: true},
@@ -69,7 +68,7 @@ const headers = <any>[
 ]
 const {ucc_filings} = storeToRefs(store);
 const {getAccessTokenSilently} = useAuth0();
-const {ucc_filing_filters:filters} = storeToRefs(store);
+const {ucc_filing_filters:filters,view_ucc_id} = storeToRefs(store);
 
 // For server-based datatable
 const curr_page      = ref<any>(1);
