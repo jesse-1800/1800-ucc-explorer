@@ -5,10 +5,9 @@ use Kernel\Database\Database;
 
 class BuyersController
 {
-    public function paginate()
+    public function paginate($partner_id)
     {
-        $db = new Database();
-
+        $database  = new Database();
         $curr_page = (int)($_POST['curr_page'] ?? 1);
         $page_size = (int)($_POST['page_size'] ?? 100);
         $offset    = ($curr_page - 1) * $page_size;
@@ -21,7 +20,7 @@ class BuyersController
         );
         $sort_by   = $sort_map[$_POST['sort_by']] ?? 'id';
         $order_by  = $_POST['order_by'];
-        $total     = $db->row("SELECT COUNT(*) AS 'total' FROM ucc_buyers")->total;
+        $total     = $database->row("SELECT COUNT(*) AS 'total' FROM ucc_buyers WHERE partner_id='$partner_id'")->total;
 
         // where queries
         $where    = array();
@@ -30,7 +29,10 @@ class BuyersController
         $state    = trim($_POST['state'] ?? '');
         $industry = trim($_POST['industry'] ?? '');
 
-        if($search !== "") {
+        if ($partner_id !== "") {
+            $where[] = "partner_id = '$partner_id'";
+        }
+        if ($search !== "") {
             $search_input = addslashes($search);
             $where[] = ("
                 (
@@ -42,18 +44,18 @@ class BuyersController
                 )
             ");
         }
-        if($city !== "") {
+        if ($city !== "") {
             $where[] = "buyer_city = '$city'";
         }
-        if($state !== "") {
+        if ($state !== "") {
             $where[] = "buyer_state = '$state'";
         }
-        if($industry !== ""){
+        if ($industry !== ""){
             $where[] = "buyer_sic_desc = '$industry'";
         }
 
         $where_sql = count($where) ? "WHERE " .implode(" AND ", $where) : "";
-        $result = $db->query("
+        $result = $database->query("
           SELECT * FROM ucc_buyers
           $where_sql
           ORDER BY $sort_by $order_by
