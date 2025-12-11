@@ -57,8 +57,7 @@
             type="email"
             variant="outlined"
             density="comfortable"
-            v-model="contact.email"
-            :rules="[rules.required,rules.email]">
+            v-model="contact.email">
           </v-text-field>
         </v-col>
 
@@ -68,8 +67,7 @@
             label="Phone"
             variant="outlined"
             density="comfortable"
-            v-model="contact.phone"
-            :rules="[rules.required]">
+            v-model="contact.phone">
           </v-text-field>
         </v-col>
 
