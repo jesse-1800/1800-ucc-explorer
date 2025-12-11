@@ -30,7 +30,7 @@
                     <td>{{ item.buyer_city }}</td>
                     <td>{{ item.buyer_state }}</td>
                     <td>
-                      <v-btn variant="outlined" size="small" prepend-icon="mdi-file-find" color="primary" @click="ViewUcc(item.id)">View</v-btn>
+                      <v-btn variant="outlined" size="small" prepend-icon="mdi-file-find" color="primary" @click="ViewBuyer(item.id)">View</v-btn>
                     </td>
                   </tr>
                 </template>
@@ -39,8 +39,7 @@
           </v-card>
         </template>
       </InnerLayout>
-
-      <UccFilingsViewModal :ucc_filing_id="view_ucc_id"/>
+      <UccBuyerViewer :buyer_id="view_buyer_id"/>
     </template>
   </AppLayout>
 </template>
@@ -55,7 +54,6 @@ import {theme_card_style} from "@/composables/GlobalComposables";
 import {theme_table_style} from "@/composables/GlobalComposables";
 
 const store = GlobalStore();
-const view_ucc_id = ref<any>(null);
 const headers = [
   { title: 'ID',       value: 'id',            sortable: true },
   { title: 'Company',  value: 'buyer_company', sortable: true },
@@ -64,6 +62,7 @@ const headers = [
   { title: 'State',    value: 'buyer_state',   sortable: true },
   { title: 'Manage',   value: 'manage',        sortable: false },
 ];
+const view_buyer_id = ref<any>(null);
 const {ucc_buyers} = storeToRefs(store);
 const {getAccessTokenSilently} = useAuth0();
 const {ucc_buyers_filters:filters} = storeToRefs(store);
@@ -77,8 +76,8 @@ const items_per_page = ref<any>(25);
 const sort_key       = computed(()=>(sort_by.value[0] ? sort_by.value[0].key:"id"));
 const sort_order     = computed(()=>(sort_by.value[0] ? sort_by.value[0].order:"asc"));
 
-const ViewUcc = (ucc_filing_id:string) => {
-  view_ucc_id.value = ucc_filing_id;
+const ViewBuyer = (ucc_filing_id:string) => {
+  view_buyer_id.value = ucc_filing_id;
   ToggleModal('ucc_filing_viewer',true);
 }
 const FetchRows = async() => {
