@@ -1,6 +1,6 @@
 <template>
   <AppLayout>
-    <template #title>UCC Filings</template>
+    <template #title>({{items_length}}) UCC Filings</template>
     <template #content>
       <InnerLayout>
         <template #sidebar>
