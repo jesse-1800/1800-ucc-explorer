@@ -78,7 +78,7 @@ const sort_order     = computed(()=>(sort_by.value[0] ? sort_by.value[0].order:"
 
 const ViewBuyer = (ucc_filing_id:string) => {
   view_buyer_id.value = ucc_filing_id;
-  ToggleModal('ucc_filing_viewer',true);
+  ToggleModal('customer_profile',true);
 }
 const FetchRows = async() => {
   is_loading.value = true;
