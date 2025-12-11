@@ -49,7 +49,7 @@ import {storeToRefs} from "pinia";
 import {useAuth0} from "@auth0/auth0-vue";
 import {GlobalStore} from "@/stores/globals";
 import {UccServer} from "@/plugins/ucc-server";
-import {ToggleModal} from "@/composables/GlobalComposables";
+import {my_partner_id, ToggleModal} from "@/composables/GlobalComposables";
 import {theme_card_style} from "@/composables/GlobalComposables";
 import {theme_table_style} from "@/composables/GlobalComposables";
 
@@ -96,7 +96,7 @@ const FetchRows = async() => {
   form.append('city',      filters.value.city ?? '');
   form.append('state',     filters.value.state ?? '');
 
-  UccServer(token).post('/buyers/paginate',form).then(res=>{
+  UccServer(token).post(`/buyers/paginate/${my_partner_id.value}`,form).then(res=>{
     console.log(res.data);
     ucc_buyers.value = res.data.items;
     items_length.value = res.data.total;
