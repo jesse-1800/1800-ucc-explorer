@@ -4,11 +4,16 @@
     color="transparent"
     v-model="modals.customer_profile"
     title="Customer Profile">
-    <BuyerForm :buyer="buyer"/>
+    <v-card-text class="border rounded-lg p-5">
+      <BuyerForm :condensed="true" :buyer="buyer"/>
+    </v-card-text>
 
-    <v-expansion-panels>
+    <v-expansion-panels elevation="0" class="mt-5">
       <panel icon="mdi-contacts" title="Contacts">
-        <ContactsTable :contacts="contacts" :buyer_id="buyer.id"/>
+        <ContactsTable class="border" :contacts="contacts" :buyer_id="buyer.id"/>
+      </panel>
+      <panel icon="mdi-text-box-multiple-outline" :title="`UCC Filings (${ucc_filings.length})`">
+        <UccFilingTable :ucc_filings="ucc_filings"/>
       </panel>
     </v-expansion-panels>
   </MyModal>
@@ -20,6 +25,7 @@ import {useAuth0} from "@auth0/auth0-vue";
 import {GlobalStore} from "@/stores/globals";
 import {UccServer} from "@/plugins/ucc-server";
 import BuyerForm from "@/components/shared/shared-forms/BuyerForm.vue";
+import UccFilingTable from "@/components/shared/shared-forms/UccFilingTable.vue";
 
 const buyer = ref(null);
 const contacts = ref([]);

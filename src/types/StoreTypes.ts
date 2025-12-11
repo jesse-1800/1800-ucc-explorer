@@ -72,6 +72,9 @@ export interface GlobalStateTypes {
   // Modals
   modals: any;
 
+  // For UCC Viewer
+  view_ucc_id: any;
+
   // Theming
   backend_theme: string;
   frontend_theme: string;
