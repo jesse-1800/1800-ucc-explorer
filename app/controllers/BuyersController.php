@@ -71,4 +71,14 @@ class BuyersController
             'cities' => UccBuyers::distinct('buyer_city')->get(),
         ]);
     }
+
+    public function find_buyer($buyer_id)
+    {
+        $buyer = UccBuyers::find($buyer_id);
+        if ($buyer) return json($buyer->data);
+        return json([
+            'result' => false,
+            'message' => "Buyer not found."
+        ]);
+    }
 }
