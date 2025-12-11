@@ -48,6 +48,7 @@ declare module 'vue' {
     ThemeSwitcher: typeof import('./components/misc/ThemeSwitcher.vue')['default']
     Tooltip: typeof import('./components/misc/Tooltip.vue')['default']
     UccBuyersFilters: typeof import('./components/shared/buyers/UccBuyersFilters.vue')['default']
+    UccBuyerViewer: typeof import('./components/shared/buyers/UccBuyerViewer.vue')['default']
     UccFilingsFilters: typeof import('./components/shared/ucc-filings/UccFilingsFilters.vue')['default']
     UccFilingsViewer: typeof import('./components/shared/ucc-filings/UccFilingsViewer.vue')['default']
     UccFilingsViewModal: typeof import('./components/shared/ucc-filings/UccFilingsViewModal.vue')['default']

@@ -21,6 +21,7 @@ export const GlobalStore = defineStore('globals', {
     modals: {
       ucc_filing_viewer: false,
       contact_form: false,
+      customer_profile: false,
     },
 
     // Theming
