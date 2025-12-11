@@ -106,32 +106,14 @@ const assignee   = ref(null);
 const contacts   = ref([]);
 const equipments = ref([]);
 
-const {ucc_filing_id} = defineProps(['ucc_filing_id']);
-const contact_headers = [
-  {title: 'Name',   value: 'name',sortable:true},
-  {title: 'Title',  value: 'title',sortable:true},
-  {title: 'Email',  value: 'email',sortable:true},
-  {title: 'Phone',  value: 'phone',sortable:true},
-  {title: 'Actions',value: 'actions', sortable: false},
-];
 const edit_contact = ref(null);
-const {modals} = storeToRefs(store);
+const {modals,view_ucc_id} = storeToRefs(store);
 const {getAccessTokenSilently} = useAuth0();
 
-const EditContact = (item) => {
-  const the_contact = {...item};
-  delete the_contact.name;
-  edit_contact.value = the_contact;
-  modals.value.contact_form = true;
-}
-const AddContact = () => {
-  edit_contact.value = null;
-  modals.value.contact_form = true;
-}
 const FetchUccData = async() => {
   is_loading.value = true;
   const token = await getAccessTokenSilently();
-  UccServer(token).get(`/data/find_ucc_data/${ucc_filing_id}`).then(res=>{
+  UccServer(token).get(`/data/find_ucc_data/${view_ucc_id.value}`).then(res=>{
     console.log(res.data);
     ucc_filing.value = res.data.ucc_filing;
     buyer.value      = res.data.buyer;
@@ -144,7 +126,7 @@ const FetchUccData = async() => {
   });
 }
 
-watch(()=>ucc_filing_id,(v)=> {
+watch(()=>view_ucc_id.value,(v)=> {
   if (v) FetchUccData();
 },{immediate:true});
 </script>
