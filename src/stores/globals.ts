@@ -24,6 +24,9 @@ export const GlobalStore = defineStore('globals', {
       customer_profile: false,
     },
 
+    // For UCC Viewer
+    view_ucc_id: null,
+
     // Theming
     backend_theme: 'dark',
     frontend_theme: 'dark',
