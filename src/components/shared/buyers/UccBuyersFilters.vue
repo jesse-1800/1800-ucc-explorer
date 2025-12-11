@@ -49,8 +49,8 @@
     :return-object="false"
     :items="state_centers"
     v-model="filters.state"
-    prepend-inner-icon="mdi-city"
     @click:append-inner="filters.state=null"
+    prepend-inner-icon="mdi-map-marker-outline"
     :append-inner-icon="filters.state?'mdi-close':''">
   </v-select>
 
