@@ -27,6 +27,7 @@
                     <td>{{item.id}}</td>
                     <td>{{ item.buyer_company }}</td>
                     <td>{{ item.buyer_sic_desc }}</td>
+                    <td>{{ item.buyer_city }}</td>
                     <td>{{ item.buyer_state }}</td>
                     <td>
                       <v-btn variant="outlined" size="small" prepend-icon="mdi-file-find" color="primary" @click="ViewUcc(item.id)">View</v-btn>
@@ -59,6 +60,7 @@ const headers = [
   { title: 'ID',       value: 'id',            sortable: true },
   { title: 'Company',  value: 'buyer_company', sortable: true },
   { title: 'Industry', value: 'buyer_sic_desc',sortable: true },
+  { title: 'City',     value: 'buyer_city',    sortable: true },
   { title: 'State',    value: 'buyer_state',   sortable: true },
   { title: 'Manage',   value: 'manage',        sortable: false },
 ];
@@ -92,6 +94,7 @@ const FetchRows = async() => {
   // Filters
   form.append('search',    filters.value.search ?? '');
   form.append('industry',  filters.value.industry ?? '');
+  form.append('city',      filters.value.city ?? '');
   form.append('state',     filters.value.state ?? '');
 
   UccServer(token).post('/buyers/paginate',form).then(res=>{
@@ -107,7 +110,7 @@ const FetchRows = async() => {
 watch([curr_page,items_per_page,sort_by],FetchRows,{immediate:true});
 
 // filters watcher
-watch([()=>filters.value.state,()=>filters.value.industry],()=>{
+watch([()=>filters.value.state,()=>filters.value.city,()=>filters.value.industry],()=>{
   curr_page.value = 1;
   FetchRows();
 });
