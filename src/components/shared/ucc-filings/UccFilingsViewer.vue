@@ -14,35 +14,7 @@
       <v-window-item value="ucc-filing">
         <v-card>
           <v-card-text>
-            <v-row>
-              <v-col cols="12" sm="4">
-                <v-text-field variant="underlined" label="Transaction ID" :model-value="ucc_filing.ucc_transaction_id" readonly/>
-              </v-col>
-
-              <v-col cols="12" sm="4">
-                <v-text-field variant="underlined" label="Filing Date" :model-value="ucc_filing.ucc_date" readonly/>
-              </v-col>
-
-              <v-col cols="12" sm="4">
-                <v-text-field variant="underlined" label="Lease Acq. Date" :model-value="ucc_filing.ucc_lease_acqui_date" readonly/>
-              </v-col>
-
-              <v-col cols="12" sm="4">
-                <v-text-field variant="underlined" label="Status" :model-value="ucc_filing.ucc_status" readonly/>
-              </v-col>
-
-              <v-col cols="12" sm="4">
-                <v-text-field variant="underlined" label="Lien" :model-value="ucc_filing.ucc_lien" readonly/>
-              </v-col>
-
-              <v-col cols="12" sm="4">
-                <v-text-field variant="underlined" label="Batch" :model-value="ucc_filing.ucc_batch" readonly/>
-              </v-col>
-
-              <v-col cols="12">
-                <v-textarea variant="outlined" rows="2" label="Comments" :model-value="ucc_filing.ucc_comments" readonly/>
-              </v-col>
-            </v-row>
+            <UccFilingForm :ucc_filing="ucc_filing"/>
           </v-card-text>
         </v-card>
       </v-window-item>
@@ -121,6 +93,7 @@ import {UccServer} from "@/plugins/ucc-server";
 import {theme_table_style} from "@/composables/GlobalComposables";
 import EquipmentsTable from "@/components/shared/equipments/EquipmentsTable";
 import BuyerForm from "@/components/shared/shared-forms/BuyerForm.vue";
+import UccFilingForm from "@/components/shared/shared-forms/UccFilingForm.vue";
 
 const store = GlobalStore();
 const is_loading = ref(false);
