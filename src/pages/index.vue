@@ -32,7 +32,7 @@
                   </div>
 
                   <v-list class="pa-1" density="compact">
-                    <v-list-item class="border-b" density="compact" @click="1==1" v-for="buyer in buyers_data">
+                    <v-list-item class="border-b" density="compact" @click="ViewBuyer(buyer.id)" v-for="buyer in buyers_data">
                       <flexed-between>
                         <div>{{buyer.buyer_company ?? '(Unknown)'}}</div>
                         <v-icon size="x-small">mdi-open-in-new</v-icon>
@@ -52,6 +52,7 @@
           <div ref="map_container" style="width: 100%; height: 500px"></div>
         </template>
       </InnerLayout>
+      <UccBuyerViewer :buyer_id="view_buyer_id"/>
     </template>
   </AppLayout>
 </template>
@@ -61,6 +62,8 @@ import {useAuth0} from "@auth0/auth0-vue";
 import {UccServer} from "@/plugins/ucc-server";
 import {state_centers} from "@/composables/GlobalComposables";
 import {my_partner_id} from "@/composables/GlobalComposables";
+import {GlobalStore} from "@/stores/globals.ts";
+import {storeToRefs} from "pinia";
 interface StateData {
   state: string;
   count: number;
@@ -69,15 +72,21 @@ interface StateData {
 
 const map = ref(null);
 const sidebar = ref(false);
+const store = GlobalStore();
 const is_loading = ref(false);
 const selected_city = ref(null);
 const map_container = ref(null);
 const buyers_loading = ref(false);
 const buyers_data = ref<any[]>([]);
+const {modals} = storeToRefs(store);
+const view_buyer_id = ref<any>(null);
 const selected_state = ref<any>(null);
 const state_data = ref<StateData>([]);
 const {getAccessTokenSilently} = useAuth0();
-
+const ViewBuyer = (buyer_id:string) => {
+  modals.value.customer_profile = true;
+  view_buyer_id.value = buyer_id;
+}
 const InitializeMap = () => {
   // Initialize the map with transparent background
   map.value = new google.maps.Map(map_container.value, {
