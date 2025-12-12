@@ -98,4 +98,14 @@ class BuyersController
             'ucc_filings' => $ucc_filings,
         ]);
     }
+
+    public function find_by_city($partner_id)
+    {
+        return json(
+            UccBuyers::where('partner_id',$partner_id)
+                ->where('buyer_state',$_POST['state'])
+                ->where('buyer_city',$_POST['city'])
+                ->get()
+        );
+    }
 }
