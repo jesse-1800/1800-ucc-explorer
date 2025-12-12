@@ -44,7 +44,7 @@
                     color="primary"
                     variant="outlined"
                     prepend-icon="mdi-file-find"
-                    @click="ViewContact(item.id)">
+                    @click="ViewEditContact(item)">
                   </v-btn>
                 </td>
               </tr>
@@ -62,6 +62,14 @@
       </MyModal>
 
       <UccBuyerViewer :buyer_id="view_buyer_id"/>
+
+      <ContactForm
+        v-if="edit_contact"
+        @onUpdate="FetchRows"
+        :edit_contact="edit_contact"
+        :buyer_id="edit_contact?.buyer_id">
+      </ContactForm>
+
     </template>
   </AppLayout>
 </template>
@@ -88,10 +96,10 @@ const headers = [
 ];
 
 const interactive_map = ref(false);
+const edit_contact = ref<any>(null);
 const search_filter = ref<string>("");
 const view_buyer_id = ref<any>(null);
-const view_contact_id = ref<any>(null);
-const {ucc_contacts} = storeToRefs(store);
+const {ucc_contacts,modals} = storeToRefs(store);
 const {getAccessTokenSilently} = useAuth0();
 
 // For server-based datatable
@@ -108,9 +116,12 @@ const ViewBuyer = (buyer_id:string) => {
   console.log(buyer_id)
   ToggleModal('customer_profile',true);
 }
-const ViewContact = (contact_id:string) => {
-  view_contact_id.value = contact_id;
-  ToggleModal('contact_profile',true);
+const ViewEditContact = (contact:any) => {
+  const contact_copy = {...contact};
+  delete contact_copy.fullname;
+  delete contact_copy.buyer_company;
+  edit_contact.value = contact_copy;
+  ToggleModal('contact_form',true);
 }
 const FetchRows = async() => {
   is_loading.value = true;
