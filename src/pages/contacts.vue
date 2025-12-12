@@ -1,96 +1,146 @@
 <template>
   <AppLayout>
-    <template #title>Contacts</template>
+    <template #title>({{ items_length }}) Contacts</template>
     <template #content>
       <v-card :style="theme_card_style">
         <v-card-text>
-          <TableSearch @click="Refresh">
-            <template #append-right>
-              <v-btn
-                class="ml-2"
-                text="New Contact"
-                color="primary"
-                @click="modals.contact_form=true"
-                prepend-icon="mdi-plus-circle">
-              </v-btn>
-            </template>
-          </TableSearch>
-          <v-data-table
+          <v-text-field
+            width="300"
+            variant="underlined"
+            v-model="search_filter"
+            placeholder="Search..."
+            prepend-inner-icon="mdi-magnify">
+          </v-text-field>
+
+          <v-data-table-server
             :headers="headers"
+            :items="ucc_contacts"
             density="comfortable"
-            :items="mapped_contacts"
-            :style="theme_table_style">
-            <template #item.manage="{item}">
-              <v-btn color="primary" prepend-icon="mdi-pencil" variant="outlined" size="small" @click="EditContact(item)">Edit</v-btn>
+            :loading="is_loading"
+            v-model:page="curr_page"
+            v-model:sort-by="sort_by"
+            :style="theme_table_style"
+            :items-length="items_length"
+            :items-per-page-options="[25,50,100]"
+            v-model:items-per-page="items_per_page">
+            <template #item="{item}">
+              <tr>
+                <td>{{item.id}}</td>
+                <td>{{ item.fullname }}</td>
+                <td>
+                  <a href="javascript:;" @click="ViewBuyer(item.buyer_id)">
+                    {{item.buyer_company}}
+                  </a>
+                </td>
+                <td>{{ item.title.length ? item.title : '-' }}</td>
+                <td>{{ item.phone.length?item.phone:'-' }}</td>
+                <td>{{ item.email.length?item.email:'-' }}</td>
+                <td>
+                  <v-btn
+                    text="View"
+                    size="small"
+                    color="primary"
+                    variant="outlined"
+                    prepend-icon="mdi-file-find"
+                    @click="ViewContact(item.id)">
+                  </v-btn>
+                </td>
+              </tr>
             </template>
-          </v-data-table>
+          </v-data-table-server>
         </v-card-text>
       </v-card>
 
-      <ContactForm :edit_contact="edit_contact"/>
+      <MyModal color="transparent" :fullscreen="true" title="Customer's Interactive Map" v-model="interactive_map">
+        <v-app style="background:none">
+          <v-main style="background:none">
+            <BuyersInteractiveMap/>
+          </v-main>
+        </v-app>
+      </MyModal>
+
+      <UccBuyerViewer :buyer_id="view_buyer_id"/>
     </template>
   </AppLayout>
 </template>
 
 <script lang="ts" setup>
 import {storeToRefs} from "pinia";
-import {GlobalStore} from "@/stores/globals";
-import {FindUccBuyer, theme_card_style, theme_table_style} from "@/composables/GlobalComposables.ts";
 import {useAuth0} from "@auth0/auth0-vue";
+import {GlobalStore} from "@/stores/globals";
+import {UccServer} from "@/plugins/ucc-server";
+import {ToggleModal} from "@/composables/GlobalComposables";
+import {my_partner_id} from "@/composables/GlobalComposables";
+import {theme_card_style} from "@/composables/GlobalComposables";
+import {theme_table_style} from "@/composables/GlobalComposables";
 
 const store = GlobalStore();
-const edit_contact = ref(null);
 const headers = [
-  {title: 'ID',       value: 'id',       sortable: true},
-  {title: 'Company',  value: 'company',  sortable: true},
-  {title: 'Name',     value: 'name',     sortable: true},
-  {title: 'Title',    value: 'title',    sortable: true},
-  {title: 'Email',    value: 'email',    sortable: true},
-  {title: 'Phone',    value: 'phone',    sortable: true},
-  {title: 'Address',  value: 'address',  sortable: true},
-  {title: 'City',     value: 'city',     sortable: true},
-  {title: 'State',    value: 'state',    sortable: true},
-  {title: 'Zip',      value: 'zip',      sortable: true},
-  {title: 'Manage',   value: 'manage',   sortable: false},
+  {title: 'ID',       value: 'id',      sortable: true},
+  {title: 'Name',     value: 'fullname',sortable: true},
+  {title: 'Company',  value: 'company', sortable: true},
+  {title: 'Title',    value: 'title',   sortable: true},
+  {title: 'Email',    value: 'email',   sortable: true},
+  {title: 'Phone',    value: 'phone',   sortable: true},
+  {title: 'Manage',   value: 'manage',  sortable: false},
 ];
+
+const interactive_map = ref(false);
+const search_filter = ref<string>("");
+const view_buyer_id = ref<any>(null);
+const view_contact_id = ref<any>(null);
+const {ucc_contacts} = storeToRefs(store);
 const {getAccessTokenSilently} = useAuth0();
-const {ucc_contacts,table_search,modals} = storeToRefs(store);
-const mapped_contacts = computed(() => {
-  const search_term = table_search.value.toLowerCase().trim();
 
-  // Map the contacts first
-  const mapped = ucc_contacts.value.map((c: any) => ({
-    ...c,
-    name: `${c.firstname} ${c.lastname}`,
-    company: FindUccBuyer(c.buyer_id)?.buyer_company || '(None)',
-  }));
+// For server-based datatable
+const curr_page      = ref<any>(1);
+const sort_by        = ref(<any>[]);
+const is_loading     = ref(false);
+const items_length   = ref(0);
+const items_per_page = ref<any>(25);
+const sort_key       = computed(()=>(sort_by.value[0] ? sort_by.value[0].key:"id"));
+const sort_order     = computed(()=>(sort_by.value[0] ? sort_by.value[0].order:"asc"));
 
-  // If search is empty, return all mapped items
-  if (!search_term) return mapped;
-
-  // Search across all specified properties
-  return mapped.filter((contact: any) => {
-    return (
-      contact.id?.toString().toLowerCase().includes(search_term) ||
-      contact.company?.toString().toLowerCase().includes(search_term) ||
-      contact.name?.toString().toLowerCase().includes(search_term) ||
-      contact.title?.toString().toLowerCase().includes(search_term) ||
-      contact.email?.toString().toLowerCase().includes(search_term) ||
-      contact.phone?.toString().toLowerCase().includes(search_term) ||
-      contact.address?.toString().toLowerCase().includes(search_term) ||
-      contact.city?.toString().toLowerCase().includes(search_term) ||
-      contact.state?.toString().toLowerCase().includes(search_term) ||
-      contact.zip?.toString().toLowerCase().includes(search_term)
-    );
-  });
-});
-const Refresh = async() => {
+const ViewBuyer = (buyer_id:string) => {
+  view_buyer_id.value = buyer_id;
+  console.log(buyer_id)
+  ToggleModal('customer_profile',true);
+}
+const ViewContact = (contact_id:string) => {
+  view_contact_id.value = contact_id;
+  ToggleModal('contact_profile',true);
+}
+const FetchRows = async() => {
+  is_loading.value = true;
+  const form = new FormData();
   const token = await getAccessTokenSilently();
-  store.FetchAllData(token);
+
+  form.append("curr_page", curr_page.value);
+  form.append("sort_by",   sort_key.value);
+  form.append("order_by",  sort_order.value);
+  form.append("page_size", items_per_page.value);
+
+  // Filters
+  form.append('search', search_filter.value);
+  UccServer(token).post(`/contacts/paginate/${my_partner_id.value}`,form).then(res=>{
+    console.log(res.data);
+    ucc_contacts.value = res.data.items;
+    items_length.value = res.data.total;
+  }).finally(()=>{
+    is_loading.value = false;
+  });
 }
-const EditContact = (contact:any) => {
-  // We need the untampered contact here
-  edit_contact.value = {...ucc_contacts.value.find(c => c.id == contact.id)};
-  modals.value.contact_form = true;
-}
+
+// sorting watcher
+watch([curr_page,items_per_page,sort_by],FetchRows,{immediate:true});
+
+// delay prevent xhr spamming
+let search_timer = <any>null;
+watch(search_filter,()=>{
+  clearTimeout(search_timer);
+  search_timer = setTimeout(() => {
+    curr_page.value = 1;
+    FetchRows();
+  }, 300);
+});
 </script>
