@@ -27,8 +27,6 @@ import {storeToRefs} from "pinia";
 import {useAuth0} from "@auth0/auth0-vue";
 import {GlobalStore} from "@/stores/globals";
 import {UccServer} from "@/plugins/ucc-server";
-import BuyerForm from "@/components/shared/shared-forms/BuyerForm.vue";
-import UccFilingTable from "@/components/shared/shared-forms/UccFilingTable.vue";
 
 const buyer = ref(null);
 const contacts = ref([]);
