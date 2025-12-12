@@ -2,25 +2,80 @@
   <AppLayout>
     <template #title>Homepage</template>
     <template #content>
-      <div v-if="is_loading" class="text-center" style="margin-top: 200px;">
-        <v-progress-circular indeterminate color="primary" size="150"/>
-        <h3 class="font-weight-light">Loading map data...</h3>
-      </div>
-      <div ref="map_container" style="width: 100%; height: 500px"></div>
+      <InnerLayout :sidebar="sidebar">
+        <template #sidebar>
+
+          <v-card-text>
+            <flexed-between class="mb-5">
+              <h3 class="font-weight-light">
+                ({{selected_state?.count}}) Customers in {{selected_state?.state}}
+              </h3>
+              <v-btn
+                size="x-small"
+                elevation="0"
+                variant="tonal"
+                icon="mdi-close"
+                @click="sidebar=false">
+              </v-btn>
+            </flexed-between>
+
+            <v-expansion-panels variant="accordion" v-model="selected_city" elevation="0">
+              <panel v-for="city in selected_state?.cities" :value="city">
+                <template #title>
+                  <span>{{city.city}}, {{selected_state.state}}</span>
+                  <v-chip class="position-absolute" style="right:50px" size="x-small"> {{city.count}}</v-chip>
+                </template>
+                <v-card elevation="0" class="pa-1">
+                  <div class="text-center" v-if="buyers_loading">
+                    <v-progress-circular class="mr-2" size="20" indeterminate/>
+                    <span style="position:relative;top:2px">Loading customers...</span>
+                  </div>
+
+                  <v-list class="pa-1" density="compact">
+                    <v-list-item class="border-b" density="compact" @click="1==1" v-for="buyer in buyers_data">
+                      <flexed-between>
+                        <div>{{buyer.buyer_company ?? '(Unknown)'}}</div>
+                        <v-icon size="x-small">mdi-open-in-new</v-icon>
+                      </flexed-between>
+                    </v-list-item>
+                  </v-list>
+                </v-card>
+              </panel>
+            </v-expansion-panels>
+          </v-card-text>
+        </template>
+        <template #content>
+          <div v-if="is_loading" class="text-center" style="margin-top: 200px;">
+            <v-progress-circular indeterminate color="primary" size="150"/>
+            <h3 class="font-weight-light">Loading map data...</h3>
+          </div>
+          <div ref="map_container" style="width: 100%; height: 500px"></div>
+        </template>
+      </InnerLayout>
     </template>
   </AppLayout>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import {useAuth0} from "@auth0/auth0-vue";
 import {UccServer} from "@/plugins/ucc-server";
 import {state_centers} from "@/composables/GlobalComposables";
 import {my_partner_id} from "@/composables/GlobalComposables";
+interface StateData {
+  state: string;
+  count: number;
+  cities: any[];
+}
 
 const map = ref(null);
-const state_data = ref([]);
-const map_container = ref(null);
+const sidebar = ref(false);
 const is_loading = ref(false);
+const selected_city = ref(null);
+const map_container = ref(null);
+const buyers_loading = ref(false);
+const buyers_data = ref<any[]>([]);
+const selected_state = ref<any>(null);
+const state_data = ref<StateData>([]);
 const {getAccessTokenSilently} = useAuth0();
 
 const InitializeMap = () => {
@@ -142,7 +197,7 @@ const AddStateMarkers = () => {
         }
       })
 
-      // Inner circle with number (main, most opaque)
+      // Inner circle with number (Contains the value itself)
       new google.maps.Marker({
         position: { lat: state_center.lat, lng: state_center.lng },
         map: map.value,
@@ -159,6 +214,9 @@ const AddStateMarkers = () => {
           strokeWeight: 0,
           scale: 30
         }
+      }).addListener('click', () => {
+        selected_state.value = state_item;
+        sidebar.value = true;
       })
     }
   })
@@ -167,5 +225,24 @@ const AddStateMarkers = () => {
 onMounted(() => {
   LoadGoogleMaps();
   FetchBuyersData();
+});
+
+// Fetch customers by state->city
+watch(selected_city, async (new_city)=>{
+  if (new_city) {
+    const form = new FormData;
+    const city = selected_city.value.city;
+    const state = selected_state.value.state;
+    const token = await getAccessTokenSilently();
+    form.append('city',city);
+    form.append('state',state);
+    buyers_loading.value = true;
+    UccServer(token).post(`/buyers/find-by-city/${my_partner_id.value}`,form).then(res=>{
+      console.log(res.data);
+      buyers_data.value = res.data;
+    }).finally(() => {
+      buyers_loading.value = false;
+    });
+  }
 });
 </script>
