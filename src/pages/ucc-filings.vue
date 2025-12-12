@@ -2,7 +2,7 @@
   <AppLayout>
     <template #title>({{items_length}}) UCC Filings</template>
     <template #content>
-      <InnerLayout>
+      <InnerLayout :sidebar="true">
         <template #sidebar>
           <v-card-text>
             <UccFilingsFilters/>
