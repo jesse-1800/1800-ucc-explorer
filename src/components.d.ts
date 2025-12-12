@@ -15,6 +15,7 @@ declare module 'vue' {
     BrandSettings: typeof import('./components/shared/partners/BrandSettings.vue')['default']
     BusinessSettings: typeof import('./components/shared/partners/BusinessSettings.vue')['default']
     BuyerForm: typeof import('./components/shared/shared-forms/BuyerForm.vue')['default']
+    BuyersInteractiveMap: typeof import('./components/shared/buyers/BuyersInteractiveMap.vue')['default']
     ColumnOffset: typeof import('./components/misc/ColumnOffset.vue')['default']
     ConfirmDialog: typeof import('./components/misc/ConfirmDialog.vue')['default']
     ContactForm: typeof import('./components/shared/contacts/ContactForm.vue')['default']
