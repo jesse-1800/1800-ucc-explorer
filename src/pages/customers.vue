@@ -48,8 +48,7 @@
         </template>
       </InnerLayout>
       <UccBuyerViewer :buyer_id="view_buyer_id"/>
-
-      <MyModal :fullscreen="true" title="Customer's Interactive Map" v-model="interactive_map">
+      <MyModal color="transparent" :fullscreen="true" title="Customer's Interactive Map" v-model="interactive_map">
         <v-app style="background:none">
           <v-main style="background:none">
             <BuyersInteractiveMap/>
