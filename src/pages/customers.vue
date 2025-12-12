@@ -92,8 +92,8 @@ const items_per_page = ref<any>(25);
 const sort_key       = computed(()=>(sort_by.value[0] ? sort_by.value[0].key:"id"));
 const sort_order     = computed(()=>(sort_by.value[0] ? sort_by.value[0].order:"asc"));
 
-const ViewBuyer = (ucc_filing_id:string) => {
-  view_buyer_id.value = ucc_filing_id;
+const ViewBuyer = (buyer_id:string) => {
+  view_buyer_id.value = buyer_id;
   ToggleModal('customer_profile',true);
 }
 const FetchRows = async() => {
