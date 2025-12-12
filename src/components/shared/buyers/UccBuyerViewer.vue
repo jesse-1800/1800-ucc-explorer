@@ -5,7 +5,7 @@
     color="transparent"
     v-model="modals.customer_profile"
     :title="buyer.buyer_company ?? 'Customer Profile'">
-    <v-expansion-panels elevation="0">
+    <v-expansion-panels :model-value="0" elevation="0">
       <panel icon="mdi-domain" :title="`Buyer Profile`">
         <v-card-text class="border">
           <BuyerForm :condensed="true" :buyer="buyer"/>
