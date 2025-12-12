@@ -31,7 +31,7 @@
               <v-list class="pa-1" density="compact">
                 <v-list-item class="border-b" density="compact" @click="ViewBuyer(buyer.id)" v-for="buyer in buyers_data">
                   <flexed-between>
-                    <div>{{buyer.buyer_company ?? '(Unknown)'}}</div>
+                    <div>{{buyer.buyer_company.replace('',"(Unknown)")}}</div>
                     <v-icon size="x-small">mdi-open-in-new</v-icon>
                   </flexed-between>
                 </v-list-item>
@@ -46,7 +46,7 @@
         <v-progress-circular indeterminate color="primary" size="150"/>
         <h3 class="font-weight-light">Loading map data...</h3>
       </div>
-      <div ref="map_container" style="width: 100%; height: 500px"></div>
+      <div ref="map_container" style="width: 100%; height: 800px"></div>
     </template>
   </InnerLayout>
   <UccBuyerViewer :buyer_id="view_buyer_id"/>
