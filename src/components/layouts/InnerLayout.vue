@@ -5,8 +5,8 @@
       prominent
       width="300"
       scrim="false"
+      v-if="sidebar"
       location="left"
-      v-model="sidebar"
       :temporary="false"
       class="layout-sidebar"
       :style="theme_drawer_style">
@@ -28,7 +28,6 @@
 </template>
 
 <script lang="ts" setup>
-import {theme_drawer_style, theme_main_background} from "@/composables/GlobalComposables.ts";
-
-const sidebar = ref(true)
+import {theme_drawer_style} from "@/composables/GlobalComposables";
+const {sidebar} = defineProps({sidebar:Boolean})
 </script>
