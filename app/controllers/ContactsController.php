@@ -32,11 +32,11 @@ class ContactsController {
             $search_input = addslashes($search);
             $where[] = ("
                 (
-                    id LIKE '%$search_input%' OR
-                    name LIKE '%$search_input%' OR
-                    company LIKE '%$search_input%' OR
-                    title LIKE '%$search_input%' OR
-                    email LIKE '%$search_input%'
+                    CT.id LIKE '%$search_input%' OR
+                    CONCAT(CT.firstname,' ',CT.lastname) LIKE '%$search_input%' OR
+                    UB.buyer_company LIKE '%$search_input%' OR
+                    CT.title LIKE '%$search_input%' OR
+                    CT.email LIKE '%$search_input%'
                 )
             ");
         }
