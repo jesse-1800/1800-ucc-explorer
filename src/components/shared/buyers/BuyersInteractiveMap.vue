@@ -31,7 +31,7 @@
               <v-list class="pa-1" density="compact">
                 <v-list-item class="border-b" density="compact" @click="ViewBuyer(buyer.id)" v-for="buyer in buyers_data">
                   <flexed-between>
-                    <div>{{buyer.buyer_company.replace('',"(Unknown)")}}</div>
+                    <div>{{buyer.buyer_company.length? buyer.buyer_company : '(Unknown)'}}</div>
                     <v-icon size="x-small">mdi-open-in-new</v-icon>
                   </flexed-between>
                 </v-list-item>
@@ -78,6 +78,7 @@ const view_buyer_id = ref<any>(null);
 const selected_state = ref<any>(null);
 const state_data = ref<StateData>([]);
 const {getAccessTokenSilently} = useAuth0();
+
 const ViewBuyer = (buyer_id:string) => {
   modals.value.customer_profile = true;
   view_buyer_id.value = buyer_id;
