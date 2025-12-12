@@ -232,7 +232,13 @@ export const theme_panel_color = computed(() => {
 export const timestamp_now = ref(moment().format("YYYY-MM-DD hh:mm A"));
 
 // Google Maps Specifics
-export const state_centers = [
+interface StateCenter {
+  name: string;
+  lat: number;
+  lng: number;
+  abbrev: string;
+}
+export const state_centers = <StateCenter>[
   { name: "Alabama", lat: 32.806671, lng: -86.791130, abbrev: "AL" },
   { name: "Alaska", lat: 61.370716, lng: -152.404419, abbrev: "AK" },
   { name: "Arizona", lat: 33.729759, lng: -111.431221, abbrev: "AZ" },
