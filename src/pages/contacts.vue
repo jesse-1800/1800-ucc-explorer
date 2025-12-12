@@ -9,7 +9,9 @@
             variant="underlined"
             v-model="search_filter"
             placeholder="Search..."
-            prepend-inner-icon="mdi-magnify">
+            prepend-inner-icon="mdi-magnify"
+            @click:appendInner="search_filter=''"
+            :append-inner-icon="search_filter?'mdi-close':''">
           </v-text-field>
 
           <v-data-table-server
