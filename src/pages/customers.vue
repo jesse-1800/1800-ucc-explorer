@@ -2,7 +2,7 @@
   <AppLayout>
     <template #title>({{ items_length }}) Customers</template>
     <template #content>
-      <InnerLayout>
+      <InnerLayout :sidebar="true">
         <template #sidebar>
           <v-card-text>
             <UccBuyersFilters/>
