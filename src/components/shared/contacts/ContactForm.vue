@@ -175,7 +175,6 @@ const SubmitForm = async () => {
     form.append('contact', JSON.stringify(contact.value));
     UccServer(token).post(`/contacts/${route}`,form).then(res => {
       store.ShowSuccess(res.data.message);
-      store.FetchAllData(token);
       emits('onUpdate');
       if (res.data.result) {
         modals.value.contact_form = false;
