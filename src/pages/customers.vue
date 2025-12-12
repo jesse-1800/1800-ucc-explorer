@@ -6,6 +6,14 @@
         <template #sidebar>
           <v-card-text>
             <UccBuyersFilters/>
+            <v-btn
+              width="100%"
+              prepend-icon="mdi-map-search-outline"
+              class="d-flex ma-auto"
+              :style="theme_btn_style"
+              text="Open Interactive Map"
+              @click="interactive_map=true">
+            </v-btn>
           </v-card-text>
         </template>
         <template #content>
@@ -40,6 +48,14 @@
         </template>
       </InnerLayout>
       <UccBuyerViewer :buyer_id="view_buyer_id"/>
+
+      <MyModal :fullscreen="true" title="Customer's Interactive Map" v-model="interactive_map">
+        <v-app style="background:none">
+          <v-main style="background:none">
+            <BuyersInteractiveMap/>
+          </v-main>
+        </v-app>
+      </MyModal>
     </template>
   </AppLayout>
 </template>
@@ -49,7 +65,7 @@ import {storeToRefs} from "pinia";
 import {useAuth0} from "@auth0/auth0-vue";
 import {GlobalStore} from "@/stores/globals";
 import {UccServer} from "@/plugins/ucc-server";
-import {my_partner_id, ToggleModal} from "@/composables/GlobalComposables";
+import {my_partner_id, theme_btn_style, ToggleModal} from "@/composables/GlobalComposables";
 import {theme_card_style} from "@/composables/GlobalComposables";
 import {theme_table_style} from "@/composables/GlobalComposables";
 
@@ -62,6 +78,7 @@ const headers = [
   { title: 'State',    value: 'buyer_state',   sortable: true },
   { title: 'Manage',   value: 'manage',        sortable: false },
 ];
+const interactive_map = ref(false);
 const view_buyer_id = ref<any>(null);
 const {ucc_buyers} = storeToRefs(store);
 const {getAccessTokenSilently} = useAuth0();
