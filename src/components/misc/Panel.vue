@@ -1,5 +1,5 @@
 <template>
-  <v-expansion-panel :style="theme_table_style">
+  <v-expansion-panel :value="value" :style="theme_table_style">
     <v-expansion-panel-title :style="theme_panel_color">
       <slot name="icon"/>
       <v-icon v-if="icon" :icon="icon"/>
@@ -21,7 +21,7 @@
 
 <script lang="ts" setup>
 import {theme_panel_color, theme_table_style} from "@/composables/GlobalComposables";
-defineProps(['title', 'icon', 'color'])
+defineProps(['title', 'icon', 'color','value'])
 </script>
 <style scoped>
 ::v-deep(.v-expansion-panel-text__wrapper) {
