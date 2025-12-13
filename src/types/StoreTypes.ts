@@ -57,6 +57,26 @@ export interface UccBuyersFiltersType {
   state:    string|null,
   industry: string|null,
 }
+export interface UccBuyersType {
+  id: number | null;
+  partner_id: string | null;
+  buyer_company: string | null;
+  buyer_adress1: string | null;
+  buyer_adress2: string | null;
+  buyer_city: string | null;
+  buyer_state: string | null;
+  buyer_zip: string | null;
+  buyer_phone: string | null;
+  buyer_website: string | null;
+  buyer_fax: string | null;
+  buyer_fips: string | null;
+  buyer_county: string | null;
+  buyer_sic: string | null;
+  buyer_sic_desc: string | null;
+  buyer_duns: string | null;
+  created_at: string | null;
+  updated_at: string | null;
+}
 
 /**
  * TYPES FOR GLOBAL STATE
