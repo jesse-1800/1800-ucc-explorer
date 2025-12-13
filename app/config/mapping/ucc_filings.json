@@ -140,6 +140,16 @@
     "preselect": ["BUYPHONE"]
   },
   {
+    "column": "buyer_website",
+    "label": "Buyer Website",
+    "description": "Primary website for the buyer.",
+    "table": "ucc_filings",
+    "mapped_to": "",
+    "display": true,
+    "category": "Buyers",
+    "preselect": []
+  },
+  {
     "column": "buyer_fax",
     "label": "Buyer Fax",
     "description": "Fax number for the buyer.",
