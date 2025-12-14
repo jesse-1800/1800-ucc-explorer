@@ -108,4 +108,34 @@ class BuyersController
                 ->get()
         );
     }
+
+    public function pabbly_enrichment()
+    {
+        $data = $_POST;
+
+        // Update buyer first
+        $buyer = UccBuyers::where('id',$data['buyer_id']);
+        if ($buyer && !empty($data['buyer_website'])) {
+            $buyer->buyer_website = $data['buyer_website'];
+            $buyer->save();
+        }
+
+        // Update primary email
+        if (!empty($data['primary_contact_id']) && !empty($data['primary_contact_email'])) {
+            $primary = UccContacts::find($data['primary_contact_id']);
+            if ($primary) {
+                $primary->email = $data['primary_contact_email'];
+                $primary->save();
+            }
+        }
+
+        // Update primary email
+        if (!empty($data['secondary_contact_id']) && !empty($data['secondary_contact_email'])) {
+            $secondary = UccContacts::find($data['secondary_contact_id']);
+            if ($secondary) {
+                $secondary->email = $data['secondary_contact_email'];
+                $secondary->save();
+            }
+        }
+    }
 }
