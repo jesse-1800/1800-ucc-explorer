@@ -20,8 +20,6 @@ declare module 'vue' {
     ConfirmDialog: typeof import('./components/misc/ConfirmDialog.vue')['default']
     ContactForm: typeof import('./components/shared/contacts/ContactForm.vue')['default']
     ContactsTable: typeof import('./components/shared/shared-forms/ContactsTable.vue')['default']
-    ContactTable: typeof import('./components/shared/shared-forms/ContactTable.vue')['default']
-    ContactTableForm: typeof import('./components/shared/shared-forms/ContactTableForm.vue')['default']
     EditProfile: typeof import('./components/shared/settings/EditProfile.vue')['default']
     EquipmentsTable: typeof import('./components/shared/equipments/EquipmentsTable.vue')['default']
     Filler: typeof import('./components/misc/Filler.vue')['default']
@@ -59,7 +57,6 @@ declare module 'vue' {
     UccFilingsViewer: typeof import('./components/shared/ucc-filings/UccFilingsViewer.vue')['default']
     UccFilingsViewModal: typeof import('./components/shared/ucc-filings/UccFilingsViewModal.vue')['default']
     UccFilingTable: typeof import('./components/shared/shared-forms/UccFilingTable.vue')['default']
-    UccForm: typeof import('./components/shared/shared-forms/UccForm.vue')['default']
     UsersSettings: typeof import('./components/shared/settings/UsersSettings.vue')['default']
   }
 }
