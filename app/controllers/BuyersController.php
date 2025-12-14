@@ -118,7 +118,7 @@ class BuyersController
         file_put_contents($path,var_export($_POST,true),FILE_APPEND);
 
         // Update buyer first
-        $buyer = UccBuyers::where('id',$data['buyer_id']);
+        $buyer = UccBuyers::where('id',$data['buyer_id'])->first();
         if ($buyer && !empty($data['buyer_website'])) {
             $buyer->buyer_website = $data['buyer_website'];
             $buyer->save();
