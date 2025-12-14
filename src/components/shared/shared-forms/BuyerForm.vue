@@ -4,6 +4,9 @@
       <v-text-field :hide-details="condensed" variant="underlined" label="Company" :model-value="buyer.buyer_company" readonly/>
     </v-col>
     <v-col cols="12">
+      <v-text-field :hide-details="condensed" variant="underlined" label="Website" :model-value="buyer.buyer_website" readonly/>
+    </v-col>
+    <v-col cols="12">
       <v-text-field :hide-details="condensed" variant="underlined" label="Address" :model-value="buyer.buyer_adress1" readonly/>
     </v-col>
     <v-col cols="12" sm="4">
