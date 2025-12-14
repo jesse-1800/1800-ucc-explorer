@@ -113,6 +113,10 @@ class BuyersController
     {
         $data = $_POST;
 
+        // Logging
+        $path = "{$_SERVER['DOCUMENT_ROOT']}/ucc-enrichment.txt";
+        file_put_contents($path,var_export($_POST,true),FILE_APPEND);
+
         // Update buyer first
         $buyer = UccBuyers::where('id',$data['buyer_id']);
         if ($buyer && !empty($data['buyer_website'])) {
