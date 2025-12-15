@@ -122,6 +122,7 @@ class BuyersController
         if ($buyer && !empty($data['buyer_website'])) {
             $buyer->buyer_website = $data['buyer_website'];
             $buyer->save();
+            file_put_contents($path,var_export($_POST,true),FILE_APPEND);
         }
 
         // Update primary email
